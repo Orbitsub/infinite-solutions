@@ -26,7 +26,8 @@ def export_categories():
             COALESCE(g.group_name, 'Unknown') as group_name,
             cb.material_efficiency,
             cb.time_efficiency,
-            cb.runs
+            cb.runs,
+            it.market_group_id
         FROM character_blueprints cb
         LEFT JOIN inv_types it ON cb.type_id = it.type_id
         LEFT JOIN inv_groups g ON it.group_id = g.group_id
@@ -36,10 +37,10 @@ def export_categories():
 
     blueprints = []
     for row in cursor.fetchall():
-        type_id, type_name, group_name, me, te, runs = row
+        type_id, type_name, group_name, me, te, runs, market_group_id = row
 
         # Get current categorization (includes overrides if they exist)
-        category = categorize_blueprint(group_name or 'Unknown', type_name, type_id=type_id)
+        category = categorize_blueprint(group_name or 'Unknown', type_name, type_id=type_id, market_group_id=market_group_id, cursor=cursor)
         subcategory = get_subcategory(group_name or 'Unknown', type_name, type_id=type_id)
 
         blueprints.append({

@@ -5,7 +5,7 @@ BLUEPRINT_DATA = [
     "name": "720mm Howitzer Artillery I Blueprint",
     "me": 10,
     "te": 0,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Weapon Modules"
   },
   {
@@ -124,14 +124,14 @@ BLUEPRINT_DATA = [
     "name": "Bomb Launcher I Blueprint",
     "me": 10,
     "te": 20,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Torpedoes & Bombs"
   },
   {
     "name": "Caesarium Cadmide Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -145,7 +145,7 @@ BLUEPRINT_DATA = [
     "name": "Cap Booster 150 Blueprint",
     "me": 10,
     "te": 20,
-    "category": "Ammunition",
+    "category": "Modules",
     "subcategory": "Capacitor Modules"
   },
   {
@@ -159,7 +159,7 @@ BLUEPRINT_DATA = [
     "name": "Carbon Fiber Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -285,7 +285,7 @@ BLUEPRINT_DATA = [
     "name": "Dysporite Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -369,14 +369,14 @@ BLUEPRINT_DATA = [
     "name": "Fermionic Condensates Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
     "name": "Fluxed Condensates Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -922,14 +922,14 @@ BLUEPRINT_DATA = [
     "name": "Large Shield Booster I Blueprint",
     "me": 0,
     "te": 0,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Shield Modules"
   },
   {
     "name": "Large Shield Extender I Blueprint",
     "me": 10,
     "te": 20,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Shield Modules"
   },
   {
@@ -978,7 +978,7 @@ BLUEPRINT_DATA = [
     "name": "Light Missile Launcher I Blueprint",
     "me": 0,
     "te": 0,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Missiles"
   },
   {
@@ -1034,14 +1034,14 @@ BLUEPRINT_DATA = [
     "name": "Medium Shield Booster I Blueprint",
     "me": 10,
     "te": 0,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Shield Modules"
   },
   {
     "name": "Medium Shield Extender I Blueprint",
     "me": 10,
     "te": 20,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Shield Modules"
   },
   {
@@ -1265,7 +1265,7 @@ BLUEPRINT_DATA = [
     "name": "Oxy-Organic Solvents Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -1328,7 +1328,7 @@ BLUEPRINT_DATA = [
     "name": "Prometium Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -1433,7 +1433,7 @@ BLUEPRINT_DATA = [
     "name": "Reinforced Carbon Fiber Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -1545,7 +1545,7 @@ BLUEPRINT_DATA = [
     "name": "Shield Recharger I Blueprint",
     "me": 0,
     "te": 0,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Shield Modules"
   },
   {
@@ -1727,7 +1727,7 @@ BLUEPRINT_DATA = [
     "name": "Thermosetting Polymer Reaction Formula",
     "me": 0,
     "te": 0,
-    "category": "Components",
+    "category": "Reactions",
     "subcategory": "Ship Components"
   },
   {
@@ -1916,7 +1916,7 @@ BLUEPRINT_DATA = [
     "name": "X-Large Shield Booster I Blueprint",
     "me": 0,
     "te": 0,
-    "category": "Ships",
+    "category": "Modules",
     "subcategory": "Shield Modules"
   }
 ];

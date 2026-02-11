@@ -86,6 +86,53 @@ def get_market_group_path(cursor, market_group_id):
 
     return path
 
+def get_blueprint_category_by_market_group(cursor, market_group_id):
+    """
+    Get blueprint category using market group hierarchy.
+    Returns category based on top-level market group under 'Blueprints & Reactions'.
+    This is more reliable than string matching.
+    """
+    if not market_group_id:
+        return None
+
+    # Market group ID mappings for top-level blueprint categories
+    # (Direct children of market_group_id 2: 'Blueprints & Reactions')
+    MARKET_GROUP_CATEGORIES = {
+        204: 'Ships',                    # Ships
+        209: 'Modules',                  # Ship Equipment
+        943: 'Rigs',                     # Ship Modifications
+        211: 'Ammunition',               # Ammunition & Charges
+        357: 'Drones',                   # Drones
+        1338: 'Structures',              # Structures
+        2158: 'Modules',                 # Structure Equipment (structure modules)
+        2157: 'Rigs',                    # Structure Modifications (structure rigs)
+        1849: 'Reactions',               # Reaction Formulas
+        1041: 'Components',              # Manufacture & Research (components)
+        # Special cases (sub-categories that need different classification)
+        339: 'Modules',                  # Cap Booster Charges (are capacitor modules, not ammo)
+    }
+
+    # Walk up the market group hierarchy to find the top-level category
+    current_id = market_group_id
+    for _ in range(10):  # Prevent infinite loops
+        # Check if this is a known top-level category
+        if current_id in MARKET_GROUP_CATEGORIES:
+            return MARKET_GROUP_CATEGORIES[current_id]
+
+        # Get parent
+        cursor.execute(
+            'SELECT parent_group_id FROM inv_market_groups WHERE market_group_id = ?',
+            (current_id,)
+        )
+        result = cursor.fetchone()
+
+        if not result or not result[0]:
+            break
+
+        current_id = result[0]
+
+    return None
+
 def get_blueprints_with_metadata():
     """Get all BPOs with proper categorization using market groups.
     Deduplicates: keeps best ME/TE version (prefer 10/20, else highest ME)."""
@@ -123,8 +170,8 @@ def get_blueprints_with_metadata():
         # Get market group hierarchy
         market_path = get_market_group_path(cursor, market_group_id)
 
-        # Categorize using both group name and market path (now with override support)
-        category = categorize_blueprint(group_name, bp_name, market_path, type_id)
+        # Categorize using market group ID (most reliable), with override support
+        category = categorize_blueprint(group_name, bp_name, market_path, type_id, market_group_id, cursor)
         subcategory = get_subcategory(group_name, bp_name, market_path, type_id)
 
         # Check if we already have this blueprint
@@ -163,10 +210,11 @@ def get_category_override(type_id):
         return result[0], result[1]  # (category, subcategory)
     return None
 
-def categorize_blueprint(group_name, bp_name, market_path=None, type_id=None):
+def categorize_blueprint(group_name, bp_name, market_path=None, type_id=None, market_group_id=None, cursor=None):
     """
-    Categorize blueprint using group name and market path.
+    Categorize blueprint using market group hierarchy, group name, and market path.
     Checks manual overrides first if type_id provided.
+    Uses market group ID for most accurate categorization.
     """
     # Check for manual override first
     if type_id:
@@ -174,15 +222,26 @@ def categorize_blueprint(group_name, bp_name, market_path=None, type_id=None):
         if override:
             return override[0]  # Just return category, subcategory handled separately
 
+    # Try market group ID based categorization first (most reliable)
+    if market_group_id and cursor:
+        category = get_blueprint_category_by_market_group(cursor, market_group_id)
+        if category:
+            return category
+
+    # Fallback to string matching if market group didn't work
     group_lower = group_name.lower()
     name_lower = bp_name.lower()
     market_str = ' '.join(market_path).lower() if market_path else ''
 
     # Use market groups for better categorization
     if market_path:
-        # Ships
-        if any(x in market_str for x in ['ship', 'frigate', 'destroyer', 'cruiser', 'battleship', 'carrier', 'dreadnought', 'titan', 'supercarrier', 'industrial']):
+        # Ships (but exclude "ship equipment" which is modules)
+        if 'ship equipment' not in market_str and any(x in market_str for x in ['ship', 'frigate', 'destroyer', 'cruiser', 'battleship', 'carrier', 'dreadnought', 'titan', 'supercarrier', 'industrial']):
             return 'Ships'
+
+        # Cap Boosters are modules, not ammunition
+        if 'cap booster' in market_str:
+            return 'Modules'
 
         # Ammunition (check market path first)
         if 'ammunition' in market_str or 'charges' in market_str:
