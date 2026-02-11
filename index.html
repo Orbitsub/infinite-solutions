@@ -1,36 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Infinite Solutions - Market Inventory
-  </title>
-  <style>
-   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
-
-        /* ============================================
-           INTERACTIVE INVENTORY DISPLAY
-           - Shows thumbnail by default
-           - Click to expand to full inventory
-           - Click "Back" to return to thumbnail
-           ============================================ */
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Solutions - Market Inventory & Blueprints</title>
+    <script src="bpc_pricing_data.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
 
         body {
             margin: 0;
-            padding: 20px;
+            padding: 2vh 2vw;
             background: #0a0a0a;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             font-family: 'Rajdhani', sans-serif;
         }
 
-        /* Container that switches between views */
         .container {
             position: relative;
             transition: all 0.3s ease;
+            max-width: none;
+            margin: auto 0 2vh 0;
+        }
+
+        .container.expanded {
+            margin: 0 0 2vh 0;
         }
 
         /* ============================================
@@ -38,6 +35,7 @@
            ============================================ */
 
         .thumbnail-view {
+            display: none; /* Disabled - skip landing page */
             width: 400px;
             height: 225px;
             background: linear-gradient(135deg, #001a2e 0%, #002040 50%, #001530 100%);
@@ -150,7 +148,7 @@
         }
 
         .thumbnail-view .info-item {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             color: #99e6ff;
             text-transform: uppercase;
@@ -167,7 +165,7 @@
             top: 10px;
             right: 15px;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 9px;
+            font-size: 14px;
             color: #66d9ff;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -182,12 +180,13 @@
         }
 
         /* ============================================
-           FULL INVENTORY VIEW (Hidden by default)
+           FULL INVENTORY VIEW - WITH TABS
            ============================================ */
 
         .inventory-view {
-            display: none;
-            width: 900px;
+            display: block; /* Default view - landing page disabled */
+            width: 96vw;
+            max-width: none;
             background: linear-gradient(135deg, #0a1929 0%, #1a2332 50%, #0d1b2a 100%);
             position: relative;
             overflow: hidden;
@@ -233,67 +232,188 @@
             background-size: 50px 50px;
         }
 
-        .inventory-view .content {
+        /* Back button */
+        .back-button {
+            display: none; /* Disabled - skip landing page */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background: rgba(0, 217, 255, 0.2);
+            border: 2px solid #00d9ff;
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 33px;
+            font-weight: 700;
+            padding: 12px 24px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 217, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+            transform: translateX(-2px);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #001a2e 0%, #002040 50%, #001530 100%);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 3px solid #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
             position: relative;
             z-index: 10;
-            padding: 35px 40px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
-        }
-
-        .title {
+        .header h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
+            font-size: 72px;
             font-weight: 900;
-            color: #00d9ff;
+            color: #00ffff;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow:
+                0 0 20px rgba(0, 255, 255, 1),
+                0 0 40px rgba(0, 255, 255, 0.6),
+                0 0 60px rgba(0, 255, 255, 0.4);
+        }
+
+        .header .tagline {
+            font-size: 30px;
+            color: #66d9ff;
             text-transform: uppercase;
             letter-spacing: 3px;
-            text-shadow:
-                0 0 20px rgba(0, 217, 255, 0.8),
-                0 0 40px rgba(0, 217, 255, 0.4);
-            margin: 0 0 8px 0;
+            font-weight: 600;
         }
 
-        .subtitle {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
-            font-weight: 400;
-            color: #88e0ff;
+        /* ===== MAIN TAB NAVIGATION ===== */
+        .main-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            background: #0d1117;
+            border-bottom: 2px solid #1a2332;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-tab {
+            padding: 20px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 27px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin: 0;
+            background: transparent;
+            color: #66d9ff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+
+        .main-tab:hover {
+            color: #00ffff;
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .main-tab.active {
+            color: #00ffff;
+            border-bottom: 3px solid #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        /* ===== SUB TAB NAVIGATION ===== */
+        .sub-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: #161b22;
+            padding: 15px 20px;
+            border-bottom: 1px solid #1a2332;
+            position: relative;
+            z-index: 10;
+        }
+
+        .sub-tab {
+            padding: 12px 30px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0, 150, 200, 0.1);
+            color: #99e6ff;
+            border: 2px solid #1a4e66;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sub-tab:hover {
+            background: rgba(0, 255, 255, 0.15);
+            border-color: #00aacc;
+            color: #00ffff;
+        }
+
+        .sub-tab.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        /* ===== CONTENT CONTAINER ===== */
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 45px 50px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .section-header {
             font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
+            font-size: 45px;
             font-weight: 700;
+            line-height: 1.2;
             color: #00d9ff;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin: 25px 0 15px 0;
-            padding: 10px 15px;
+            margin: 30px 0 20px 0;
+            padding: 12px 18px;
             background: rgba(0, 217, 255, 0.1);
             border-left: 4px solid #00d9ff;
             text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
         }
 
+        /* ===== INVENTORY GRID (4-column for materials) ===== */
         .item-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
         }
 
-        /* Subtle visual grouping for moon materials */
         .moon-material-group {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
             border-bottom: 1px solid rgba(0, 217, 255, 0.15);
         }
 
@@ -306,27 +426,29 @@
             background: rgba(0, 50, 80, 0.3);
             border: 1px solid rgba(0, 217, 255, 0.3);
             border-radius: 6px;
-            padding: 12px 15px;
+            padding: 20px 22px;
             box-shadow: inset 0 0 15px rgba(0, 217, 255, 0.05);
         }
 
         .item-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
+            font-size: 39px;
             font-weight: 600;
+            line-height: 1.3;
             color: #ffffff;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .item-details {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 4px;
         }
 
         .detail-row {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 14px;
+            font-size: 30px;
+            line-height: 1.5;
             color: #88d0e8;
             display: flex;
             justify-content: space-between;
@@ -345,23 +467,282 @@
             color: #ff6666 !important;
         }
 
+        /* ===== BLUEPRINT TABLE SECTION ===== */
+        .blueprint-section {
+            margin-top: 40px;
+            padding-top: 30px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 33px;
+            color: #88e0ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 33px;
+            padding: 12px 16px;
+            background: #0a3040;
+            color: #00ffff;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #00d9ff;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Currently Researching Section */
+        .research-section {
+            margin-bottom: 30px;
+            background: rgba(0, 100, 150, 0.1);
+            border: 2px solid rgba(0, 217, 255, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .research-header {
+            background: linear-gradient(135deg, #003050 0%, #004060 100%);
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+            transition: background 0.2s ease;
+        }
+
+        .research-header:hover {
+            background: linear-gradient(135deg, #004060 0%, #005070 100%);
+        }
+
+        .research-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 39px;
+            color: #00ffff;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        .research-toggle {
+            font-size: 36px;
+            color: #00ffff;
+            transition: transform 0.3s ease;
+        }
+
+        .research-section.collapsed .research-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .research-content {
+            padding: 20px 30px;
+            max-height: 500px;
+            overflow-y: auto;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .research-section.collapsed .research-content {
+            max-height: 0;
+            padding: 0 30px;
+            overflow: hidden;
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .research-job {
+            background: rgba(0, 50, 80, 0.3);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 6px;
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .research-job:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .research-job-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 33px;
+            font-weight: 700;
+            color: #00ffff;
+            margin-bottom: 12px;
+        }
+
+        .research-job-detail {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 27px;
+            color: #88e0ff;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .research-job-detail .label {
+            color: #66b3cc;
+        }
+
+        .research-job-detail .value {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .research-countdown {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 30px;
+            color: #ffaa00;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .no-research-jobs {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 30px;
+            color: #66b3cc;
+            text-align: center;
+            padding: 40px;
+            font-style: italic;
+        }
+
+        .blueprint-table-container {
+            overflow-x: visible;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .blueprint-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Rajdhani', sans-serif;
+            table-layout: fixed;
+        }
+
+        /* Column widths for better distribution (8 columns) */
+        .blueprint-table th:nth-child(1),
+        .blueprint-table td:nth-child(1) {
+            width: 28%; /* Blueprint Name */
+        }
+
+        .blueprint-table th:nth-child(2),
+        .blueprint-table td:nth-child(2) {
+            width: 13%; /* Category */
+        }
+
+        .blueprint-table th:nth-child(3),
+        .blueprint-table td:nth-child(3) {
+            width: 13%; /* Sub-Category */
+        }
+
+        .blueprint-table th:nth-child(4),
+        .blueprint-table td:nth-child(4) {
+            width: 7%; /* ME */
+        }
+
+        .blueprint-table th:nth-child(5),
+        .blueprint-table td:nth-child(5) {
+            width: 7%; /* TE */
+        }
+
+        .blueprint-table th:nth-child(6),
+        .blueprint-table td:nth-child(6) {
+            width: 9%; /* Quality */
+        }
+
+        .blueprint-table th:nth-child(7),
+        .blueprint-table td:nth-child(7) {
+            width: 12%; /* Price */
+        }
+
+        .blueprint-table th:nth-child(8),
+        .blueprint-table td:nth-child(8) {
+            width: 11%; /* Calculator */
+            text-align: center;
+        }
+
+        .blueprint-table thead {
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .blueprint-table th {
+            font-size: 33px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #00d9ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 18px 8px;
+            text-align: left;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .blueprint-table th:hover {
+            background: rgba(0, 217, 255, 0.15);
+        }
+
+        .blueprint-table td {
+            font-size: 30px;
+            line-height: 1.5;
+            color: #ffffff;
+            padding: 16px 8px;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .blueprint-table tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
         .footer {
-            margin-top: 25px;
-            padding-top: 20px;
+            margin-top: 30px;
+            padding-top: 25px;
             border-top: 2px solid rgba(0, 217, 255, 0.3);
             text-align: center;
+            position: relative;
         }
 
         .footer-text {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 15px;
+            font-size: 30px;
+            line-height: 1.5;
             color: #88e0ff;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .contact {
             font-family: 'Orbitron', sans-serif;
-            font-size: 16px;
+            font-size: 32px;
             color: #00d9ff;
             font-weight: 600;
             text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
@@ -369,38 +750,21 @@
 
         .disclaimer {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 12px;
+            font-size: 24px;
             color: #6fb3d0;
             font-style: italic;
-            margin-top: 8px;
+            margin-top: 10px;
             opacity: 0.8;
         }
 
-        /* Back button */
-        .back-button {
+        .last-updated {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 100;
-            background: rgba(0, 217, 255, 0.2);
-            border: 2px solid #00d9ff;
-            color: #00ffff;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 6px 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 3px;
-            box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
-            transition: all 0.2s ease;
-        }
-
-        .back-button:hover {
-            background: rgba(0, 217, 255, 0.3);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
-            transform: translateX(-2px);
+            bottom: 25px;
+            left: 50px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 30px;
+            color: #6fb3d0;
+            font-style: italic;
         }
 
         /* Show/hide logic */
@@ -413,15 +777,34 @@
         }
 
         /* ============================================
-           MOBILE RESPONSIVE
+           RESPONSIVE DESIGN
            ============================================ */
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 1600px) {
+            .inventory-view {
+                max-width: 1500px;
+            }
+
+            .item-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 1366px) {
+            .inventory-view {
+                max-width: 1300px;
+            }
+
+            .inventory-view .content {
+                padding: 35px 40px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
             body {
                 padding: 10px;
             }
 
-            /* Thumbnail view mobile */
             .thumbnail-view {
                 width: 100%;
                 max-width: 400px;
@@ -429,48 +812,6 @@
                 min-height: 225px;
             }
 
-            .thumbnail-view .content {
-                padding: 20px 15px;
-            }
-
-            .thumbnail-view .company-name {
-                font-size: 28px;
-                letter-spacing: 2px;
-            }
-
-            .thumbnail-view .tagline {
-                font-size: 13px;
-                letter-spacing: 2px;
-            }
-
-            .thumbnail-view .status-bar {
-                padding: 6px 12px;
-            }
-
-            .thumbnail-view .status-text {
-                font-size: 16px;
-            }
-
-            .thumbnail-view .info-row {
-                gap: 15px;
-                flex-wrap: wrap;
-            }
-
-            .thumbnail-view .info-item {
-                font-size: 12px;
-            }
-
-            .thumbnail-view .info-value {
-                font-size: 14px;
-            }
-
-            .click-hint {
-                font-size: 8px;
-                top: 8px;
-                right: 10px;
-            }
-
-            /* Inventory view mobile */
             .inventory-view {
                 width: 100%;
                 max-width: 100%;
@@ -480,979 +821,2689 @@
                 padding: 50px 15px 20px 15px;
             }
 
-            .title {
-                font-size: 20px;
-                letter-spacing: 1px;
+            .header h1 {
+                font-size: 32px;
             }
 
-            .subtitle {
-                font-size: 12px;
-                letter-spacing: 1px;
+            .main-tab {
+                padding: 15px 20px;
+                font-size: 14px;
             }
 
-            .section-header {
-                font-size: 16px;
-                letter-spacing: 1px;
-                padding: 8px 12px;
-                margin: 20px 0 12px 0;
+            .sub-tab {
+                padding: 10px 20px;
+                font-size: 14px;
             }
 
-            /* Single column layout on mobile */
             .item-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
 
-            .item {
-                padding: 10px 12px;
+            .last-updated {
+                position: static;
+                margin-top: 15px;
+            }
+        }
+
+        /* BPC Calculator Styles */
+        .calc-btn {
+            background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+            color: #0a0f1a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 217, 255, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a2332 100%);
+            margin: 5% auto;
+            padding: 0;
+            border: 2px solid #00d9ff;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 217, 255, 0.3);
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #00d9ff;
+            font-size: 36px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .modal-close {
+            color: #00d9ff;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #ff6b6b;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .calc-info {
+            background: rgba(0, 100, 150, 0.2);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .calc-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .calc-label {
+            color: #00d9ff;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .calc-value {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 26px;
+        }
+
+        .calc-inputs {
+            margin-bottom: 25px;
+        }
+
+        .calc-input-group {
+            margin-bottom: 15px;
+        }
+
+        .calc-input-group label {
+            display: block;
+            color: #00d9ff;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .calc-input-group input {
+            width: calc(100% - 36px);
+            padding: 16px;
+            background: rgba(0, 100, 150, 0.2);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 600;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .calc-input-group input:focus {
+            outline: none;
+            border-color: #00d9ff;
+            background: rgba(0, 100, 150, 0.3);
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 100, 150, 0.1) 100%);
+            border: 2px solid #00d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .calc-result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .calc-result-row:last-child {
+            border-bottom: none;
+        }
+
+        .calc-result-row.total-price {
+            padding-top: 15px;
+            margin-top: 10px;
+            border-top: 2px solid #00d9ff;
+        }
+
+        .calc-result-label {
+            color: #00d9ff;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .calc-result-value {
+            color: #00ff88;
+            font-weight: 700;
+            font-size: 30px;
+        }
+
+        .total-price .calc-result-value {
+            font-size: 42px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .calc-note {
+            color: #ffaa00;
+            font-size: 18px;
+            font-style: italic;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 170, 0, 0.1);
+            border-radius: 6px;
+        }
+
+        /* ============================================
+           MOBILE RESPONSIVENESS
+           ============================================ */
+
+        /* Tablets and smaller (max-width: 1024px) */
+        @media (max-width: 1024px) {
+            .blueprint-table th {
+                font-size: 20px;
+                padding: 12px 6px;
             }
 
-            .item-name {
+            .blueprint-table td {
+                font-size: 18px;
+                padding: 10px 6px;
+            }
+
+            .calc-btn {
+                font-size: 16px;
+                padding: 10px 16px;
+            }
+
+            /* Make research cards stack on tablets */
+            .research-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        /* Mobile phones (max-width: 768px) */
+        @media (max-width: 768px) {
+            body {
+                padding: 1vh 1vw;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .tagline {
+                font-size: 18px;
+            }
+
+            /* Tabs */
+            .main-tab {
+                font-size: 18px;
+                padding: 15px 20px;
+            }
+
+            .sub-tab {
+                font-size: 16px;
+                padding: 12px 16px;
+            }
+
+            /* Blueprint table - smaller fonts */
+            .blueprint-table th {
+                font-size: 16px;
+                padding: 10px 4px;
+                letter-spacing: 0px;
+            }
+
+            .blueprint-table td {
+                font-size: 14px;
+                padding: 8px 4px;
+            }
+
+            /* Make table scrollable horizontally */
+            .blueprint-table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Adjust column widths for mobile */
+            .blueprint-table th:nth-child(1),
+            .blueprint-table td:nth-child(1) {
+                min-width: 200px;
+            }
+
+            .blueprint-table th:nth-child(2),
+            .blueprint-table td:nth-child(2),
+            .blueprint-table th:nth-child(3),
+            .blueprint-table td:nth-child(3) {
+                min-width: 120px;
+            }
+
+            /* Calculate button */
+            .calc-btn {
+                font-size: 14px;
+                padding: 8px 12px;
+                white-space: nowrap;
+            }
+
+            /* Modal - make it nearly full screen on mobile */
+            .modal-content {
+                width: 95%;
+                margin: 10px auto;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .modal-header h2 {
+                font-size: 28px;
+            }
+
+            .modal-close {
+                font-size: 36px;
+            }
+
+            .calc-label,
+            .calc-input-group label {
+                font-size: 20px;
+            }
+
+            .calc-value {
+                font-size: 22px;
+            }
+
+            .calc-input-group input {
+                font-size: 24px;
+                padding: 14px;
+            }
+
+            .calc-result-label {
+                font-size: 20px;
+            }
+
+            .calc-result-value {
+                font-size: 24px;
+            }
+
+            .total-price .calc-result-value {
+                font-size: 32px;
+            }
+
+            /* Research section */
+            .research-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .research-header h3 {
+                font-size: 28px;
+            }
+
+            /* Item grids */
+            .item-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Footer */
+            .last-updated {
                 font-size: 16px;
             }
 
-            .detail-row {
-                font-size: 13px;
-            }
-
             .footer-text {
-                font-size: 13px;
+                font-size: 14px;
+            }
+        }
+
+        /* Small phones (max-width: 480px) */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 36px;
             }
 
-            .contact {
+            .tagline {
                 font-size: 14px;
             }
 
-            .disclaimer {
-                font-size: 11px;
+            .main-tab {
+                font-size: 16px;
+                padding: 12px 15px;
             }
 
-            .back-button {
-                font-size: 10px;
-                padding: 5px 10px;
-                top: 8px;
-                left: 8px;
+            .sub-tab {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            .blueprint-table th {
+                font-size: 14px;
+                padding: 8px 3px;
+            }
+
+            .blueprint-table td {
+                font-size: 12px;
+                padding: 6px 3px;
+            }
+
+            .calc-btn {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .modal-header h2 {
+                font-size: 24px;
+            }
+
+            .calc-label,
+            .calc-input-group label {
+                font-size: 18px;
+            }
+
+            .calc-value {
+                font-size: 20px;
+            }
+
+            .calc-input-group input {
+                font-size: 20px;
+                padding: 12px;
+            }
+
+            .calc-result-label {
+                font-size: 18px;
+            }
+
+            .calc-result-value {
+                font-size: 20px;
+            }
+
+            .total-price .calc-result-value {
+                font-size: 28px;
+            }
+
+            .calc-note {
+                font-size: 14px;
+            }
+
+            /* Make research countdown smaller */
+            .research-countdown {
+                font-size: 24px;
             }
         }
-  </style>
- </head>
- <body>
-  <div class="container" id="container">
-   <!-- THUMBNAIL VIEW -->
-   <div class="thumbnail-view" onclick="expandInventory()">
-    <div class="stars">
+
+        /* Landscape phones */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .modal-content {
+                max-height: 95vh;
+                overflow-y: auto;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            /* Increase touch targets */
+            .calc-btn {
+                min-height: 44px;
+                min-width: 100px;
+            }
+
+            .blueprint-table th,
+            .blueprint-table td {
+                padding: 12px 6px;
+            }
+
+            /* Make close button easier to tap */
+            .modal-close {
+                padding: 10px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <!-- THUMBNAIL VIEW -->
+        <div class="thumbnail-view" onclick="expandInventory()">
+            <div class="stars"></div>
+            <div class="glow"></div>
+            <div class="content">
+                <h1 class="company-name">INFINITE<br/>SOLUTIONS</h1>
+                <div class="tagline">Materials and Resources</div>
+                <div class="status-bar">
+                    <div class="status-text">MARKET OPEN</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><span class="info-value">97-98%</span> JBV</div>
+                    <div class="info-item"><span class="info-value">35</span> Items</div>
+                    <div class="info-item">LX-ZOJ</div>
+                </div>
+            </div>
+            <div class="click-hint">Click for details</div>
+        </div>
+
+        <!-- FULL INVENTORY VIEW WITH TABS -->
+        <div class="inventory-view">
+            <button class="back-button" onclick="collapseInventory()">← Back</button>
+            <div class="stars"></div>
+            <div class="nebula"></div>
+            <div class="grid"></div>
+
+            <!-- HEADER -->
+            <div class="header">
+                <h1>INFINITE SOLUTIONS</h1>
+                <div class="tagline">Materials, Resources & Manufacturing</div>
+            </div>
+
+            <!-- MAIN TAB NAVIGATION -->
+            <div class="main-tabs">
+                <button class="main-tab active" onclick="showMainTab('market')">Materials & Resources Market</button>
+                <button class="main-tab" onclick="showMainTab('blueprints')">Blueprint Library</button>
+            </div>
+
+            <!-- ========================================
+                 MARKET TAB CONTENT
+                 ======================================== -->
+            <div id="market-tab" class="tab-content active">
+                <!-- SUB TABS -->
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="showSubTab('minerals')">Minerals</button>
+                    <button class="sub-tab" onclick="showSubTab('ice')">Ice Products</button>
+                    <button class="sub-tab" onclick="showSubTab('moon')">Moon Materials</button>
+                </div>
+
+                <div class="content">
+                    <!-- MINERALS SUB-CONTENT -->
+                    <div id="minerals-content" class="tab-content active">
+                        <div class="item-grid" id="minerals-grid"></div>
+                    </div>
+
+                    <!-- ICE PRODUCTS SUB-CONTENT -->
+                    <div id="ice-content" class="tab-content">
+                        <div class="item-grid" id="ice-grid"></div>
+                    </div>
+
+                    <!-- MOON MATERIALS SUB-CONTENT -->
+                    <div id="moon-content" class="tab-content">
+                        <div id="moon-materials"></div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="last-updated" id="lastUpdated">Loading...</div>
+                        <div class="footer-text">DM <span class="contact">@Hamektok</span> for bulk contracts</div>
+                        <div class="disclaimer">All mineral estimates are subject to change</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 BLUEPRINT LIBRARY TAB CONTENT
+                 ======================================== -->
+            <div id="blueprints-tab" class="tab-content">
+                <div class="content">
+                    <!-- CURRENTLY RESEARCHING SECTION -->
+                    <div class="research-section" id="researchSection" style="display: none;">
+                        <div class="research-header" onclick="toggleResearchSection()">
+                            <h3>Currently Researching</h3>
+                            <span class="research-toggle">▼</span>
+                        </div>
+                        <div class="research-content">
+                            <div class="research-grid" id="researchGrid">
+                                <!-- Research jobs will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEARCH AND FILTER CONTROLS -->
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label>Search:</label>
+                            <input type="text" id="searchFilter" placeholder="Blueprint name...">
+                        </div>
+                        <div class="filter-group">
+                            <label>Category:</label>
+                            <select id="categoryFilter">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Sub-Category:</label>
+                            <select id="subcategoryFilter">
+                                <option value="">All Sub-Categories</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Research Status:</label>
+                            <select id="researchFilter">
+                                <option value="">All</option>
+                                <option value="perfect">Perfect (ME10/TE20)</option>
+                                <option value="partial">Partial</option>
+                                <option value="none">No Research</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- BLUEPRINT TABLE -->
+                    <div class="blueprint-table-container">
+                        <table class="blueprint-table" id="blueprintTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0)">Blueprint Name</th>
+                                    <th onclick="sortTable(1)">Category</th>
+                                    <th onclick="sortTable(2)">Sub-Category</th>
+                                    <th onclick="sortTable(3)">ME</th>
+                                    <th onclick="sortTable(4)">TE</th>
+                                    <th onclick="sortTable(5)">Quality</th>
+                                    <th onclick="sortTable(6)">Price (10 runs)</th>
+                                    <th>Calculator</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blueprintTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="footer">
+                        <div class="last-updated" id="lastUpdated2">Loading...</div>
+                        <div class="footer-text">DM <span class="contact">@Hamektok</span> for bulk contracts</div>
+                        <div class="disclaimer">All mineral estimates are subject to change</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BPC CALCULATOR MODAL -->
+        <div id="bpcCalculatorModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="calcModalTitle">BPC Cost Calculator</h2>
+                    <span class="modal-close" onclick="closeCalculator()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="calc-info">
+                        <div class="calc-info-row">
+                            <span class="calc-label">Quality:</span>
+                            <span class="calc-value" id="calcQuality">-</span>
+                        </div>
+                        <div class="calc-info-row">
+                            <span class="calc-label">Jita Sell Price:</span>
+                            <span class="calc-value" id="calcJitaPrice">-</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-inputs">
+                        <div class="calc-input-group">
+                            <label for="calcRuns">Runs per Copy:</label>
+                            <input type="number" id="calcRuns" value="10" min="1" max="300" onchange="calculatePrice()">
+                        </div>
+                        <div class="calc-input-group">
+                            <label for="calcCopies">Number of Copies:</label>
+                            <input type="number" id="calcCopies" value="1" min="1" max="100" onchange="calculatePrice()">
+                        </div>
+                    </div>
+
+                    <div class="calc-result">
+                        <div class="calc-result-row">
+                            <span class="calc-result-label">Total Runs:</span>
+                            <span class="calc-result-value" id="calcTotalRuns">10</span>
+                        </div>
+                        <div class="calc-result-row total-price">
+                            <span class="calc-result-label">Total Price:</span>
+                            <span class="calc-result-value" id="calcTotalPrice">-</span>
+                        </div>
+                        <div class="calc-result-row">
+                            <span class="calc-result-label">Price per Run:</span>
+                            <span class="calc-result-value" id="calcPricePerRun">-</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-note">
+                        <strong>Note:</strong> Prices include facility bonuses (Azbel in LX-ZOJ) and quality adjustment based on ME/TE levels.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="glow">
-    </div>
-    <div class="content">
-     <h1 class="company-name">
-      INFINITE
-      <br/>
-      SOLUTIONS
-     </h1>
-     <div class="tagline">
-      Materials and Resources
-     </div>
-     <div class="status-bar">
-      <div class="status-text">
-       MARKET OPEN
-      </div>
-     </div>
-     <div class="info-row">
-      <div class="info-item">
-       <span class="info-value">
-        97-98%
-       </span>
-       JBV
-      </div>
-      <div class="info-item">
-       <span class="info-value">
-        35+
-       </span>
-       Items
-      </div>
-      <div class="info-item">
-       LX-ZOJ
-      </div>
-     </div>
-    </div>
-    <div class="click-hint">
-     Click for details
-    </div>
-   </div>
-   <!-- FULL INVENTORY VIEW -->
-   <div class="inventory-view">
-    <button class="back-button" onclick="collapseInventory()">
-     ← Back
-    </button>
-    <div class="stars">
-    </div>
-    <div class="nebula">
-    </div>
-    <div class="grid">
-    </div>
-    <div class="content">
-     <div class="header">
-      <h1 class="title">
-       MATERIALS &amp; RESOURCES MARKET
-      </h1>
-      <h2 class="subtitle">
-       INFINITE SOLUTIONS
-      </h2>
-      <div class="subtitle">
-       LX-ZOJ (Tatara - T2 Reactions)
-      </div>
-     </div>
-     <div class="section-header">
-      MINERALS
-     </div>
-     <div class="item-grid">
-      <div class="item">
-       <div class="item-name">
-        Tritanium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          175,094,603 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          97% JBV (3% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Pyerite
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          75,755,224 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Isogen
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          2,602,425 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Mexallon
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          4,059,780 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Nocxium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Zydrine
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          593,202 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Megacyte
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          31,814 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Morphite
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          133 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (2% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="section-header">
-      ICE PRODUCTS
-     </div>
-     <div class="item-grid">
-      <div class="item">
-       <div class="item-name">
-        Heavy Water
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          285,227 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Liquid Ozone
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          971,085 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Strontium Clathrates
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Oxygen Isotopes
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          187,600 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          97% JBV (5% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Hydrogen Isotopes
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          225,120 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          97% JBV (5% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Helium Isotopes
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          137,600 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          97% JBV (5% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Nitrogen Isotopes
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value">
-          218,866 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          97% JBV (5% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="section-header">
-      RAW MOON MATERIALS
-     </div>
-     <!-- Group 1: Basic Moon Materials -->
-     <div class="item-grid moon-material-group">
-      <div class="item">
-       <div class="item-name">
-        Atmospheric Gases
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Evaporite Deposits
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Hydrocarbons
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Silicates
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <!-- Group 2: Common Metals -->
-     <div class="item-grid moon-material-group">
-      <div class="item">
-       <div class="item-name">
-        Cobalt
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Scandium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Tungsten
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Titanium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <!-- Group 3: Transition Metals -->
-     <div class="item-grid moon-material-group">
-      <div class="item">
-       <div class="item-name">
-        Chromium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Cadmium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Platinum
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Vanadium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <!-- Group 4: Rare Metals -->
-     <div class="item-grid moon-material-group">
-      <div class="item">
-       <div class="item-name">
-        Technetium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Mercury
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Caesium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Hafnium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <!-- Group 5: Rare Earth Elements -->
-     <div class="item-grid moon-material-group">
-      <div class="item">
-       <div class="item-name">
-        Promethium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Neodymium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Dysprosium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-      <div class="item">
-       <div class="item-name">
-        Thulium
-       </div>
-       <div class="item-details">
-        <div class="detail-row">
-         <span class="detail-label">
-          Stock:
-         </span>
-         <span class="detail-value out-of-stock">
-          0 units
-         </span>
-        </div>
-        <div class="detail-row">
-         <span class="detail-label">
-          Price:
-         </span>
-         <span class="detail-value">
-          98% JBV (4% below alliance)
-         </span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="footer">
-      <div class="footer-text">
-       DM
-       <span class="contact">
-        @Hamektok
-       </span>
-       for bulk contracts
-      </div>
-      <div class="disclaimer">
-       All mineral estimates are subject to change
-      </div>
-     </div>
-    </div>
-   </div>
-  </div>
-  <script>
-   function expandInventory() {
+
+    <script>
+        // ============================================
+        // EMBEDDED DATA
+        // ============================================
+        const EMBEDDED_DATA = {
+            "inventory": {
+                        "Tritanium": 175094603,
+                        "Pyerite": 75755224,
+                        "Isogen": 2602425,
+                        "Mexallon": 4059780,
+                        "Nocxium": 0,
+                        "Zydrine": 593202,
+                        "Megacyte": 31814,
+                        "Morphite": 133,
+                        "Heavy Water": 285227,
+                        "Liquid Ozone": 971085,
+                        "Strontium Clathrates": 0,
+                        "Oxygen Isotopes": 187600,
+                        "Hydrogen Isotopes": 225120,
+                        "Helium Isotopes": 137600,
+                        "Nitrogen Isotopes": 218866,
+                        "Atmospheric Gases": 0,
+                        "Evaporite Deposits": 0,
+                        "Hydrocarbons": 0,
+                        "Silicates": 0,
+                        "Cobalt": 0,
+                        "Scandium": 0,
+                        "Tungsten": 0,
+                        "Titanium": 0,
+                        "Chromium": 0,
+                        "Cadmium": 0,
+                        "Platinum": 0,
+                        "Vanadium": 0,
+                        "Technetium": 0,
+                        "Mercury": 0,
+                        "Caesium": 0,
+                        "Hafnium": 0,
+                        "Promethium": 0,
+                        "Neodymium": 0,
+                        "Dysprosium": 0,
+                        "Thulium": 0
+            },
+            "blueprintsLastUpdated": "Feb 11, 2026 07:11 EVE",
+            "inventoryLastUpdated": "Feb 11, 2026 06:08 EVE"
+};
+
+        let BLUEPRINT_DATA = [
+            {
+                        "name": "720mm Howitzer Artillery I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Modules",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Acolyte EV-300 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Acolyte I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Acolyte TD-300 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Active Shielding Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Algos Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Antimatter Charge L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Antimatter Charge S Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Antimatter Charge XL Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Antimatter Reactor Unit Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Arbitrator Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Armor Energizing Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Armor Reinforcement Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Augoror Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Berserker SW-900 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Berserker TP-900 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Blackbird Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Bomb Launcher I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Caesarium Cadmide Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Caldari Shuttle Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Cap Booster 150 Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Caracal Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Carbon Fiber Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Carbonized Lead L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Carbonized Lead M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Catalyst Blueprint",
+                        "me": 8,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Coercer Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Coherent Asteroid Mining Crystal Type A I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Combat Scanner Probe I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Complex Asteroid Mining Crystal Type A I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Core Probe Launcher I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Core Scanner Probe I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Cormorant Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Crucifier Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Damage Control I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Data Analyzer I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Depleted Uranium L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Depleted Uranium M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Drake Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Drone Damage Amplifier I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Dysporite Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "ECCM Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "EM Pulse Generator Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "EMP L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "EMP M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Einherji I Blueprint",
+                        "me": 10,
+                        "te": 14,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Electronic Hardening Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Electronic Superiority Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Epithal Blueprint",
+                        "me": 9,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Evasive Maneuvers Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Exequror Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Expanded Probe Launcher I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Fermionic Condensates Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Fluxed Condensates Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Fusion L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Fusion M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Fusion S Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Fusion Thruster Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Gallente Shuttle Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Gravimetric Sensor Cluster Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Graviton Reactor Unit Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Griffin Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Hammerhead SD-600 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Heavy Armor Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Heavy Hull Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Heavy Shield Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Helium Fuel Block Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Heron Blueprint",
+                        "me": 10,
+                        "te": 16,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Hobgoblin I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Hobgoblin SD-300 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Hornet EC-300 Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Hurricane Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Hydrogen Fuel Block Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Imicus Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Inferno Cruise Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Inferno Heavy Assault Missile Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Inferno Heavy Missile Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Inferno Light Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Inferno Rocket Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Inferno Torpedo Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Infiltrator EV-600 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Infiltrator I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Infiltrator TD-600 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Interdiction Maneuvers Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Iridium Charge L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Iridium Charge XL Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Iron Charge S Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Kestrel Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Algid Energy Administrations Unit I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Algid Hybrid Administrations Unit I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Ancillary Current Router I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Auxiliary Nano Pump I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Auxiliary Thrusters I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Bay Loading Accelerator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Capacitor Control Circuit I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Cargohold Optimization I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Core Defense Capacitor Safeguard I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Core Defense Charge Economizer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Core Defense Field Extender I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Core Defense Field Purger I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Core Defense Operational Solidifier I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Drone Control Range Augmentor I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Drone Durability Enhancer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Drone Mining Augmentor I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Drone Repair Augmentor I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Drone Scope Chip I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Drone Speed Augmentor I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Dynamic Fuel Valve I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large EM Armor Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large EM Shield Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Egress Port Maximizer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Emission Scope Sharpener I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Energy Ambit Extension I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Energy Burst Aerator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Energy Collision Accelerator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Energy Discharge Elutriation I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Energy Locus Coordinator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Energy Metastasis Adjuster I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Engine Thermal Shielding I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Explosive Armor Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Explosive Shield Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Gravity Capacitor Upgrade I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Higgs Anchor I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Hybrid Ambit Extension I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Hybrid Burst Aerator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Hybrid Collision Accelerator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Hybrid Discharge Elutriation I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Hybrid Locus Coordinator I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Kinetic Armor Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Kinetic Shield Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Salvage Tackle I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Shield Booster I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Modules",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Shield Extender I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Modules",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Thermal Armor Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Large Thermal Shield Reinforcer I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Laser Focusing Crystals Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Lead Charge S Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Light Armor Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Light Hull Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Light Missile Launcher I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Light Shield Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Linear Shield Emitter Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Magnate Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Magpulse Thruster Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Medium Armor Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Medium Hull Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Medium Processor Overclocking Unit I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Medium Shield Booster I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Modules",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Medium Shield Extender I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Modules",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Medium Shield Maintenance Bot I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mercoxit Asteroid Mining Crystal Type A I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Missile Precision Disruption Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Missile Precision Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Missile Range Disruption Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Missile Range Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mjolnir Cruise Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mjolnir Heavy Assault Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mjolnir Heavy Missile Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mjolnir Light Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mjolnir Rocket Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mjolnir Torpedo Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mobile Depot Blueprint",
+                        "me": 8,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Mobile Tractor Unit Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Myrmidon Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nanite Repair Paste Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nanoelectrical Microprocessor Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nova Cruise Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nova Heavy Assault Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nova Heavy Missile Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nova Light Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nova Rocket Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nova Torpedo Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nuclear L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nuclear M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Nuclear S Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Ogre I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Ogre SD-900 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Omen Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Optimal Range Disruption Script Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Optimal Range Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Oxy-Organic Solvents Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Oxygen Fuel Block Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Phased Plasma L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Phased Plasma M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Plutonium Charge L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Plutonium Charge XL Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Praetor EV-900 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Praetor TD-900 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Probe Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Prometium Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Proton L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Proton M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Proton S Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Ammunition Tech Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Armor/Hull Tech Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Electronics Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Energy Tech Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Robotics Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Shield Tech Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Starship Tech Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "R.A.M.- Weapon Tech Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Radar Sensor Cluster Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Rapid Deployment Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Rapid Repair Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Reinforced Carbon Fiber Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Relic Analyzer I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scalar Capacitor Unit Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scan Resolution Dampening Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scan Resolution Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scourge Cruise Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scourge Heavy Assault Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scourge Heavy Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scourge Light Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scourge Rocket Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scourge Torpedo Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Scythe Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Sensor Optimization Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Shield Extension Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Shield Harmonizing Charge Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Shield Power Relay I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Shield Recharger I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Sigil Blueprint",
+                        "me": 5,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Simple Asteroid Mining Crystal Type A I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Dynamic Fuel Valve I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small EM Shield Reinforcer I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Gravity Capacitor Upgrade I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Hydraulic Bay Thrusters I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Kinetic Shield Reinforcer I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Low Friction Nozzle Joints I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Warhead Calefaction Catalyst I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Warhead Flare Catalyst I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Small Warhead Rigor Catalyst I Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Rigs",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Standard M Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Standup Cruise Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Standup Heavy Guided Bomb Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Standup Heavy Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Standup Light Guided Bomb Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Standup Light Missile Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Station Container Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Station Warehouse Container Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Synth Crash Booster Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Reactions",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Synth Exile Booster Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Reactions",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Talwar Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Targeting Range Dampening Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Targeting Range Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Tesseract Capacitor Unit Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Thermosetting Polymer Reaction Formula",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Thorax Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Thorium Charge L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Thorium Charge M Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Thorium Charge XL Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ammunition",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Thrasher Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Titanium Diborite Armor Plate Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Titanium Sabot L Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Titanium Sabot M Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Titanium Sabot S Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Tracking Speed Disruption Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Tracking Speed Script Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Tristan Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Tungsten Carbide Armor Plate Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Components",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Valkyrie I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Valkyrie SW-600 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Valkyrie TP-600 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Variegated Asteroid Mining Crystal Type A I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Venture Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Vespa EC-600 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Vespa I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Vexor Blueprint",
+                        "me": 7,
+                        "te": 14,
+                        "category": "Ships",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Warp Disrupt Probe Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Warrior I Blueprint",
+                        "me": 10,
+                        "te": 20,
+                        "category": "Drones",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Warrior SW-300 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Warrior TP-300 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "Wasp EC-900 Blueprint",
+                        "me": 10,
+                        "te": 0,
+                        "category": "Other",
+                        "race": "Unspecified"
+            },
+            {
+                        "name": "X-Large Shield Booster I Blueprint",
+                        "me": 0,
+                        "te": 0,
+                        "category": "Modules",
+                        "race": "Unspecified"
+            }
+];
+
+        // ============================================
+        // DATA CONFIGURATION
+        // ============================================
+
+        const MINERALS = [
+            'Tritanium', 'Pyerite', 'Isogen', 'Mexallon',
+            'Nocxium', 'Zydrine', 'Megacyte', 'Morphite'
+        ];
+
+        const ICE_PRODUCTS = [
+            'Heavy Water', 'Liquid Ozone', 'Strontium Clathrates',
+            'Oxygen Isotopes', 'Hydrogen Isotopes', 'Helium Isotopes', 'Nitrogen Isotopes'
+        ];
+
+        const MOON_MATERIALS = {
+            'R4 - Ubiquitous': ['Atmospheric Gases', 'Evaporite Deposits', 'Hydrocarbons', 'Silicates'],
+            'R8 - Common': ['Cobalt', 'Scandium', 'Tungsten', 'Titanium'],
+            'R16 - Uncommon': ['Chromium', 'Cadmium', 'Platinum', 'Vanadium'],
+            'R32 - Rare': ['Technetium', 'Mercury', 'Caesium', 'Hafnium'],
+            'R64 - Exceptional': ['Promethium', 'Neodymium', 'Dysprosium', 'Thulium']
+        };
+
+        let allBlueprints = [];
+        let filteredBlueprints = [];
+
+        // ============================================
+        // VIEW TOGGLE FUNCTIONS
+        // ============================================
+
+        function expandInventory() {
             document.getElementById('container').classList.add('expanded');
         }
 
@@ -1460,12 +3511,654 @@
             document.getElementById('container').classList.remove('expanded');
         }
 
-        // Optional: Press Escape to go back
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 collapseInventory();
             }
         });
-  </script>
- </body>
+
+        // ============================================
+        // TAB SWITCHING FUNCTIONS
+        // ============================================
+
+        function showMainTab(tabName) {
+            // Hide all main tabs
+            document.querySelectorAll('#market-tab, #blueprints-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all main tab buttons
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        function showSubTab(subTabName) {
+            // Hide all sub-content
+            document.querySelectorAll('#minerals-content, #ice-content, #moon-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all sub-tab buttons
+            document.querySelectorAll('.sub-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected sub-content
+            document.getElementById(subTabName + '-content').classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        // ============================================
+        // DATA LOADING AND RENDERING
+        // ============================================
+
+        async function loadInventoryData() {
+            const inventory = EMBEDDED_DATA.inventory;
+            renderMinerals(inventory);
+            renderIceProducts(inventory);
+            renderMoonMaterials(inventory);
+        }
+
+        // ============================================
+        // RESEARCH JOBS FUNCTIONS
+        // ============================================
+
+        let RESEARCH_JOBS = [];
+        let researchTimerInterval = null;
+
+        function toggleResearchSection() {
+            const section = document.getElementById('researchSection');
+            section.classList.toggle('collapsed');
+        }
+
+        async function loadResearchJobs() {
+            try {
+                const response = await fetch('research_jobs.js');
+                const text = await response.text();
+                const jsonMatch = text.match(/RESEARCH_JOBS\s*=\s*(\[[\s\S]*\]);/);
+                if (jsonMatch) {
+                    RESEARCH_JOBS = JSON.parse(jsonMatch[1]);
+                    renderResearchJobs();
+                }
+            } catch (error) {
+                console.log('Research jobs file not found');
+                RESEARCH_JOBS = [];
+                hideResearchSection();
+            }
+        }
+
+        function renderResearchJobs() {
+            const section = document.getElementById('researchSection');
+            const grid = document.getElementById('researchGrid');
+
+            if (!RESEARCH_JOBS || RESEARCH_JOBS.length === 0) {
+                hideResearchSection();
+                return;
+            }
+
+            // Show the section
+            section.style.display = 'block';
+
+            // Clear existing content
+            grid.innerHTML = '';
+
+            // Render each job
+            RESEARCH_JOBS.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'research-job';
+                jobCard.dataset.endDate = job.end_date;
+
+                jobCard.innerHTML = `
+                    <div class="research-job-name">${job.name}</div>
+                    <div class="research-job-detail">
+                        <span class="label">Research Type:</span>
+                        <span class="value">${job.research_type} (${job.current_level} → ${job.target_level})</span>
+                    </div>
+                    <div class="research-countdown" data-end="${job.end_date}">
+                        Calculating...
+                    </div>
+                `;
+
+                grid.appendChild(jobCard);
+            });
+
+            // Start countdown timers
+            startResearchTimers();
+        }
+
+        function hideResearchSection() {
+            const section = document.getElementById('researchSection');
+            section.style.display = 'none';
+
+            if (researchTimerInterval) {
+                clearInterval(researchTimerInterval);
+                researchTimerInterval = null;
+            }
+        }
+
+        function startResearchTimers() {
+            // Clear existing interval if any
+            if (researchTimerInterval) {
+                clearInterval(researchTimerInterval);
+            }
+
+            // Update timers immediately
+            updateResearchTimers();
+
+            // Update every second
+            researchTimerInterval = setInterval(updateResearchTimers, 1000);
+        }
+
+        function updateResearchTimers() {
+            const countdowns = document.querySelectorAll('.research-countdown');
+            const now = new Date();
+
+            countdowns.forEach(countdown => {
+                const endDate = new Date(countdown.dataset.end);
+                const diff = endDate - now;
+
+                if (diff <= 0) {
+                    countdown.textContent = 'Complete!';
+                    countdown.style.color = '#00ff88';
+                } else {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    let timeStr = '';
+                    if (days > 0) {
+                        timeStr = `${days}d ${hours}h ${minutes}m`;
+                    } else if (hours > 0) {
+                        timeStr = `${hours}h ${minutes}m ${seconds}s`;
+                    } else if (minutes > 0) {
+                        timeStr = `${minutes}m ${seconds}s`;
+                    } else {
+                        timeStr = `${seconds}s`;
+                    }
+
+                    countdown.textContent = timeStr;
+                }
+            });
+        }
+
+        let bpcPricingData = [];
+
+        async function loadBPCPricingData() {
+            // BPC pricing data is loaded via script tag in head
+            if (typeof BPC_PRICING_DATA !== 'undefined') {
+                bpcPricingData = BPC_PRICING_DATA;
+                console.log(`✓ Loaded ${bpcPricingData.length} blueprint pricing entries`);
+
+                if (typeof calculateBPCPrice === 'function') {
+                    console.log(`✓ Price calculator function loaded`);
+                }
+            } else {
+                console.error('❌ BPC_PRICING_DATA not found - bpc_pricing_data.js may not be loaded');
+                bpcPricingData = [];
+            }
+        }
+
+        async function loadBlueprintData() {
+            try {
+                const response = await fetch('blueprint_data.js');
+                const text = await response.text();
+                const jsonMatch = text.match(/BLUEPRINT_DATA\s*=\s*(\[[\s\S]*\]);/);
+                if (jsonMatch) {
+                    allBlueprints = JSON.parse(jsonMatch[1]);
+                }
+            } catch (error) {
+                console.log('Blueprint data file not found, using empty list');
+                allBlueprints = [];
+            }
+
+            // Load pricing data
+            await loadBPCPricingData();
+
+            if (allBlueprints.length > 0) {
+                populateFilters();
+                filteredBlueprints = [...allBlueprints];
+                renderBlueprints();
+            }
+        }
+
+        async function loadLastUpdated() {
+            // Market tab shows inventory timestamp
+            document.getElementById('lastUpdated').textContent = `Last updated: ${EMBEDDED_DATA.inventoryLastUpdated}`;
+            // Blueprint tab shows blueprint timestamp
+            document.getElementById('lastUpdated2').textContent = `Last updated: ${EMBEDDED_DATA.blueprintsLastUpdated}`;
+        }
+
+        function renderMinerals(inventory) {
+            const grid = document.getElementById('minerals-grid');
+            grid.innerHTML = '';
+
+            MINERALS.forEach(mineral => {
+                const quantity = inventory[mineral] || 0;
+                const item = createItemCard(mineral, quantity, '98% JBV (2% below alliance)');
+                grid.appendChild(item);
+            });
+        }
+
+        function renderIceProducts(inventory) {
+            const grid = document.getElementById('ice-grid');
+            grid.innerHTML = '';
+
+            ICE_PRODUCTS.forEach(product => {
+                const quantity = inventory[product] || 0;
+                const priceText = product.includes('Isotopes') ? '97% JBV (5% below alliance)' : '98% JBV (4% below alliance)';
+                const item = createItemCard(product, quantity, priceText);
+                grid.appendChild(item);
+            });
+        }
+
+        function renderMoonMaterials(inventory) {
+            const container = document.getElementById('moon-materials');
+            container.innerHTML = '';
+
+            Object.entries(MOON_MATERIALS).forEach(([group, materials]) => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'item-grid moon-material-group';
+
+                materials.forEach(material => {
+                    const quantity = inventory[material] || 0;
+                    const item = createItemCard(material, quantity, '98% JBV (4% below alliance)');
+                    groupDiv.appendChild(item);
+                });
+
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function createItemCard(name, quantity, price) {
+            const item = document.createElement('div');
+            item.className = 'item';
+
+            const formattedQty = quantity.toLocaleString();
+            const qtyClass = quantity === 0 ? 'detail-value out-of-stock' : 'detail-value';
+
+            item.innerHTML = `
+                <div class="item-name">${name}</div>
+                <div class="item-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Stock:</span>
+                        <span class="${qtyClass}">${formattedQty} units</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Price:</span>
+                        <span class="detail-value">${price}</span>
+                    </div>
+                </div>
+            `;
+
+            return item;
+        }
+
+        // ============================================
+        // BLUEPRINT TABLE FUNCTIONS
+        // ============================================
+
+        function populateFilters() {
+            const categories = [...new Set(allBlueprints.map(bp => bp.category))].sort();
+
+            const categoryFilter = document.getElementById('categoryFilter');
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                categoryFilter.appendChild(option);
+            });
+
+            // Initially populate subcategory with all options
+            updateSubcategoryFilter();
+            updateResearchFilter();
+
+            document.getElementById('searchFilter').addEventListener('input', applyFilters);
+            categoryFilter.addEventListener('change', function() {
+                updateSubcategoryFilter();
+                updateResearchFilter();
+                applyFilters();
+            });
+            document.getElementById('subcategoryFilter').addEventListener('change', function() {
+                updateResearchFilter();
+                applyFilters();
+            });
+            document.getElementById('researchFilter').addEventListener('change', applyFilters);
+        }
+
+        function updateSubcategoryFilter() {
+            const category = document.getElementById('categoryFilter').value;
+            const subcategoryFilter = document.getElementById('subcategoryFilter');
+
+            // Get current selection
+            const currentSelection = subcategoryFilter.value;
+
+            // Clear existing options except the first "All" option
+            subcategoryFilter.innerHTML = '<option value="">All Sub-Categories</option>';
+
+            // Get relevant subcategories based on selected category
+            let relevantBlueprints = allBlueprints;
+            if (category) {
+                relevantBlueprints = allBlueprints.filter(bp => bp.category === category);
+            }
+
+            const subcategories = [...new Set(relevantBlueprints.map(bp => bp.subcategory))].sort();
+
+            subcategories.forEach(subcat => {
+                const option = document.createElement('option');
+                option.value = subcat;
+                option.textContent = subcat;
+                subcategoryFilter.appendChild(option);
+            });
+
+            // Restore selection if still valid
+            if (currentSelection && subcategories.includes(currentSelection)) {
+                subcategoryFilter.value = currentSelection;
+            }
+        }
+
+        function updateResearchFilter() {
+            const category = document.getElementById('categoryFilter').value;
+            const subcategory = document.getElementById('subcategoryFilter').value;
+            const researchFilter = document.getElementById('researchFilter');
+
+            // Get current selection
+            const currentSelection = researchFilter.value;
+
+            // Get relevant blueprints based on current filters
+            let relevantBlueprints = allBlueprints;
+            if (category) {
+                relevantBlueprints = relevantBlueprints.filter(bp => bp.category === category);
+            }
+            if (subcategory) {
+                relevantBlueprints = relevantBlueprints.filter(bp => bp.subcategory === subcategory);
+            }
+
+            // Check which research statuses exist in filtered blueprints
+            const hasPerfect = relevantBlueprints.some(bp => bp.me === 10 && bp.te === 20);
+            const hasPartial = relevantBlueprints.some(bp => (bp.me > 0 || bp.te > 0) && !(bp.me === 10 && bp.te === 20));
+            const hasNone = relevantBlueprints.some(bp => bp.me === 0 && bp.te === 0);
+
+            // Clear and rebuild options
+            researchFilter.innerHTML = '<option value="">All</option>';
+
+            if (hasPerfect) {
+                const option = document.createElement('option');
+                option.value = 'perfect';
+                option.textContent = 'Perfect (ME10/TE20)';
+                researchFilter.appendChild(option);
+            }
+
+            if (hasPartial) {
+                const option = document.createElement('option');
+                option.value = 'partial';
+                option.textContent = 'Partial';
+                researchFilter.appendChild(option);
+            }
+
+            if (hasNone) {
+                const option = document.createElement('option');
+                option.value = 'none';
+                option.textContent = 'No Research';
+                researchFilter.appendChild(option);
+            }
+
+            // Restore selection if still valid
+            const validValues = Array.from(researchFilter.options).map(opt => opt.value);
+            if (currentSelection && validValues.includes(currentSelection)) {
+                researchFilter.value = currentSelection;
+            }
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchFilter').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const subcategory = document.getElementById('subcategoryFilter').value;
+            const research = document.getElementById('researchFilter').value;
+
+            filteredBlueprints = allBlueprints.filter(bp => {
+                if (searchTerm && !bp.name.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+
+                if (category && bp.category !== category) {
+                    return false;
+                }
+
+                if (subcategory && bp.subcategory !== subcategory) {
+                    return false;
+                }
+
+                if (research) {
+                    const isPerfect = bp.me === 10 && bp.te === 20;
+                    const isPartial = (bp.me > 0 || bp.te > 0) && !isPerfect;
+                    const isNone = bp.me === 0 && bp.te === 0;
+
+                    if (research === 'perfect' && !isPerfect) return false;
+                    if (research === 'partial' && !isPartial) return false;
+                    if (research === 'none' && !isNone) return false;
+                }
+
+                return true;
+            });
+
+            renderBlueprints();
+        }
+
+        function renderBlueprints() {
+            const tbody = document.getElementById('blueprintTableBody');
+            tbody.innerHTML = '';
+
+            filteredBlueprints.forEach(bp => {
+                const row = document.createElement('tr');
+
+                // Find pricing data for this blueprint
+                const pricing = bpcPricingData.find(p => p.blueprintName === bp.name);
+
+                let qualityCell = '<td style="color: #888;">-</td>';
+                let priceCell = '<td style="color: #888;">-</td>';
+                let calculatorCell = '<td></td>';
+
+                if (pricing) {
+                    // Quality percentage with color coding
+                    let qualityColor = '#00d9ff';  // Cyan for perfect
+                    if (pricing.qualityPercent < 85) qualityColor = '#ffaa00';  // Orange
+                    if (pricing.qualityPercent < 60) qualityColor = '#ff6b6b';  // Red
+
+                    qualityCell = `<td style="color: ${qualityColor}; font-weight: bold;">${pricing.qualityPercent}%</td>`;
+
+                    // Format price
+                    const priceFormatted = pricing.price10Runs >= 1_000_000
+                        ? `${(pricing.price10Runs / 1_000_000).toFixed(2)}M`
+                        : `${(pricing.price10Runs / 1_000).toFixed(1)}k`;
+
+                    priceCell = `<td style="color: #00ff88;">${priceFormatted} ISK</td>`;
+
+                    // Calculator button
+                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculator('${bp.name}', ${pricing.blueprintTypeId})">Calculate</button></td>`;
+                }
+
+                row.innerHTML = `
+                    <td>${bp.name}</td>
+                    <td>${bp.category}</td>
+                    <td>${bp.subcategory}</td>
+                    <td>${bp.me}</td>
+                    <td>${bp.te}</td>
+                    ${qualityCell}
+                    ${priceCell}
+                    ${calculatorCell}
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        let sortDirection = {};
+
+        function sortTable(columnIndex) {
+            const direction = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+            sortDirection[columnIndex] = direction;
+
+            filteredBlueprints.sort((a, b) => {
+                let aVal, bVal;
+
+                switch(columnIndex) {
+                    case 0: // Name
+                        aVal = a.name;
+                        bVal = b.name;
+                        break;
+                    case 1: // Category
+                        aVal = a.category;
+                        bVal = b.category;
+                        break;
+                    case 2: // Sub-Category
+                        aVal = a.subcategory;
+                        bVal = b.subcategory;
+                        break;
+                    case 3: // ME
+                        aVal = a.me;
+                        bVal = b.me;
+                        break;
+                    case 4: // TE
+                        aVal = a.te;
+                        bVal = b.te;
+                        break;
+                    case 5: // Quality
+                        const pricingA = bpcPricingData.find(p => p.blueprintName === a.name);
+                        const pricingB = bpcPricingData.find(p => p.blueprintName === b.name);
+                        aVal = pricingA ? pricingA.qualityPercent : 0;
+                        bVal = pricingB ? pricingB.qualityPercent : 0;
+                        break;
+                    case 6: // Price
+                        const priceA = bpcPricingData.find(p => p.blueprintName === a.name);
+                        const priceB = bpcPricingData.find(p => p.blueprintName === b.name);
+                        aVal = priceA ? priceA.price10Runs : 0;
+                        bVal = priceB ? priceB.price10Runs : 0;
+                        break;
+                }
+
+                if (typeof aVal === 'string') {
+                    return direction === 'asc'
+                        ? aVal.localeCompare(bVal)
+                        : bVal.localeCompare(aVal);
+                } else {
+                    return direction === 'asc'
+                        ? aVal - bVal
+                        : bVal - aVal;
+                }
+            });
+
+            renderBlueprints();
+        }
+
+        // ============================================
+        // BPC CALCULATOR FUNCTIONS
+        // ============================================
+
+        let currentBlueprintTypeId = null;
+
+        function openCalculator(blueprintName, blueprintTypeId) {
+            currentBlueprintTypeId = blueprintTypeId;
+            const pricing = bpcPricingData.find(p => p.blueprintTypeId === blueprintTypeId);
+
+            if (!pricing) {
+                alert('Pricing data not available for this blueprint');
+                return;
+            }
+
+            // Set modal title
+            document.getElementById('calcModalTitle').textContent = blueprintName.replace(' Blueprint', '');
+
+            // Set blueprint info
+            document.getElementById('calcQuality').textContent = `${pricing.qualityPercent}% (ME ${pricing.me} / TE ${pricing.te})`;
+            document.getElementById('calcJitaPrice').textContent = formatISK(pricing.jitaSellPrice);
+
+            // Reset inputs
+            document.getElementById('calcRuns').value = 10;
+            document.getElementById('calcCopies').value = 1;
+
+            // Calculate initial price
+            calculatePrice();
+
+            // Show modal
+            document.getElementById('bpcCalculatorModal').style.display = 'block';
+        }
+
+        function closeCalculator() {
+            document.getElementById('bpcCalculatorModal').style.display = 'none';
+        }
+
+        function calculatePrice() {
+            if (!currentBlueprintTypeId) return;
+
+            const pricing = bpcPricingData.find(p => p.blueprintTypeId === currentBlueprintTypeId);
+            if (!pricing) return;
+
+            const runs = parseInt(document.getElementById('calcRuns').value) || 1;
+            const copies = parseInt(document.getElementById('calcCopies').value) || 1;
+
+            // Calculate total price using the helper function from bpc_pricing_data.js
+            if (typeof calculateBPCPrice === 'function') {
+                const result = calculateBPCPrice(currentBlueprintTypeId, runs, copies);
+
+                if (result) {
+                    document.getElementById('calcTotalRuns').textContent = result.totalRuns;
+                    document.getElementById('calcTotalPrice').textContent = formatISK(result.totalPrice);
+                    document.getElementById('calcPricePerRun').textContent = formatISK(result.pricePerRun);
+                }
+            } else {
+                // Fallback calculation
+                const totalRuns = runs * copies;
+                const totalPrice = pricing.pricePerRun * totalRuns;
+
+                document.getElementById('calcTotalRuns').textContent = totalRuns;
+                document.getElementById('calcTotalPrice').textContent = formatISK(totalPrice);
+                document.getElementById('calcPricePerRun').textContent = formatISK(pricing.pricePerRun);
+            }
+        }
+
+        function formatISK(amount) {
+            if (amount >= 1_000_000_000) {
+                return `${(amount / 1_000_000_000).toFixed(2)}B ISK`;
+            } else if (amount >= 1_000_000) {
+                return `${(amount / 1_000_000).toFixed(2)}M ISK`;
+            } else if (amount >= 1_000) {
+                return `${(amount / 1_000).toFixed(1)}k ISK`;
+            } else {
+                return `${amount.toFixed(0)} ISK`;
+            }
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('bpcCalculatorModal');
+            if (event.target === modal) {
+                closeCalculator();
+            }
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInventoryData();
+            loadBlueprintData();
+            loadResearchJobs();
+            loadLastUpdated();
+
+            // Auto-expand inventory on page load (skip landing page)
+            expandInventory();
+        });
+    </script>
+</body>
 </html>
