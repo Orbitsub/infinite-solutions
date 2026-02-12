@@ -3862,7 +3862,9 @@
 
             MINERALS.forEach(mineral => {
                 const quantity = inventory[mineral] || 0;
-                const item = createItemCard(mineral, quantity, '98% JBV (2% below alliance)');
+                // Tritanium has special pricing
+                const priceText = mineral === 'Tritanium' ? '97% JBV (3% below alliance)' : '98% JBV (2% below alliance)';
+                const item = createItemCard(mineral, quantity, priceText);
                 grid.appendChild(item);
             });
         }
