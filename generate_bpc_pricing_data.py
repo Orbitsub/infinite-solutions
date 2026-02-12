@@ -32,10 +32,11 @@ def get_all_blueprints_with_pricing():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    # Get all unique blueprints (both BPOs and BPCs)
+    # For BPCs, group by type_id, ME, TE to get unique combinations
     cursor.execute("""
-        SELECT type_id, type_name, material_efficiency, time_efficiency
+        SELECT DISTINCT type_id, type_name, material_efficiency, time_efficiency
         FROM character_blueprints
-        WHERE runs = -1
         ORDER BY type_name
     """)
 

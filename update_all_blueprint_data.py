@@ -2,9 +2,11 @@
 Master script to update all blueprint-related data.
 Runs:
 1. Fetch latest blueprints from ESI
-2. Update blueprint_data.js (deduplicated)
-3. Update research_jobs.js (active research)
-4. Update index_final.html (embedded data)
+2. Update blueprint_data.js (deduplicated BPOs)
+3. Update bpc_data.js (BPCs with quantity aggregation)
+4. Update research_jobs.js (active research)
+5. Update BPC pricing data
+6. Update index_final.html (embedded data)
 
 Run this script daily via Windows Task Scheduler.
 """
@@ -61,25 +63,29 @@ def main():
     log("="*70)
 
     success_count = 0
-    total_steps = 5
+    total_steps = 6
 
     # Step 1: Fetch blueprints from ESI
     if run_script('update_hamektok_blueprints.py', 'Fetch blueprints from ESI'):
         success_count += 1
 
-    # Step 2: Update blueprint_data.js (deduplicated blueprints)
+    # Step 2: Update blueprint_data.js (deduplicated BPOs)
     if run_script('update_blueprint_data_js.py', 'Update blueprint_data.js'):
         success_count += 1
 
-    # Step 3: Update research_jobs.js (active research)
+    # Step 3: Update bpc_data.js (BPCs with quantity aggregation)
+    if run_script('update_bpc_data_js.py', 'Update bpc_data.js'):
+        success_count += 1
+
+    # Step 4: Update research_jobs.js (active research)
     if run_script('update_research_jobs.py', 'Update research_jobs.js'):
         success_count += 1
 
-    # Step 4: Update BPC pricing data (quality-based pricing)
+    # Step 5: Update BPC pricing data (quality-based pricing)
     if run_script('generate_bpc_pricing_data.py', 'Update BPC pricing data'):
         success_count += 1
 
-    # Step 5: Update index_final.html (embedded data)
+    # Step 6: Update index_final.html (embedded data)
     if run_script('update_html_data.py', 'Update index_final.html'):
         success_count += 1
 

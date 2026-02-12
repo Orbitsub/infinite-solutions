@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Solutions - Market Inventory & Blueprints</title>
     <script src="bpc_pricing_data.js"></script>
+    <script src="bpc_data.js"></script>
+    <script src="research_jobs.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
 
@@ -641,6 +643,49 @@
             width: 100%;
         }
 
+        /* Sub-tab navigation within Blueprint Library */
+        .blueprint-subtabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .blueprint-subtab {
+            background: transparent;
+            border: none;
+            color: #66d9ff;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .blueprint-subtab:hover {
+            color: #00ffff;
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .blueprint-subtab.active {
+            color: #00ffff;
+            border-bottom-color: #00d9ff;
+            box-shadow: 0 2px 8px rgba(0, 217, 255, 0.3);
+        }
+
+        .blueprint-tab-content {
+            display: none;
+        }
+
+        .blueprint-tab-content.active {
+            display: block;
+        }
+
         .blueprint-table {
             width: 100%;
             border-collapse: collapse;
@@ -689,6 +734,18 @@
             width: 11%; /* Calculator */
             text-align: center;
         }
+
+        /* BPC table column widths (10 columns - includes Runs and Qty) */
+        #bpcTable th:nth-child(1), #bpcTable td:nth-child(1) { width: 24%; /* Name */ }
+        #bpcTable th:nth-child(2), #bpcTable td:nth-child(2) { width: 11%; /* Category */ }
+        #bpcTable th:nth-child(3), #bpcTable td:nth-child(3) { width: 11%; /* Sub-Category */ }
+        #bpcTable th:nth-child(4), #bpcTable td:nth-child(4) { width: 6%;  /* ME */ }
+        #bpcTable th:nth-child(5), #bpcTable td:nth-child(5) { width: 6%;  /* TE */ }
+        #bpcTable th:nth-child(6), #bpcTable td:nth-child(6) { width: 7%;  /* Runs */ }
+        #bpcTable th:nth-child(7), #bpcTable td:nth-child(7) { width: 6%;  /* Qty */ }
+        #bpcTable th:nth-child(8), #bpcTable td:nth-child(8) { width: 8%;  /* Quality */ }
+        #bpcTable th:nth-child(9), #bpcTable td:nth-child(9) { width: 10%; /* Price */ }
+        #bpcTable th:nth-child(10) { width: 11%; /* Calculator */ text-align: center; }
 
         .blueprint-table thead {
             background: rgba(0, 217, 255, 0.1);
@@ -1397,8 +1454,20 @@
                         </div>
                     </div>
 
-                    <!-- SEARCH AND FILTER CONTROLS -->
-                    <div class="filter-controls">
+                    <!-- BPO/BPC SUB-TABS -->
+                    <div class="blueprint-subtabs">
+                        <button class="blueprint-subtab active" onclick="showBlueprintTab('bpo')">
+                            Blueprint Originals (BPOs)
+                        </button>
+                        <button class="blueprint-subtab" onclick="showBlueprintTab('bpc')">
+                            Blueprint Copies (BPCs)
+                        </button>
+                    </div>
+
+                    <!-- BPO TAB CONTENT -->
+                    <div id="bpo-tab-content" class="blueprint-tab-content active">
+                        <!-- SEARCH AND FILTER CONTROLS -->
+                        <div class="filter-controls">
                         <div class="filter-group">
                             <label>Search:</label>
                             <input type="text" id="searchFilter" placeholder="Blueprint name...">
@@ -1444,6 +1513,63 @@
                             <tbody id="blueprintTableBody"></tbody>
                         </table>
                     </div>
+                    </div><!-- End BPO tab content -->
+
+                    <!-- BPC TAB CONTENT -->
+                    <div id="bpc-tab-content" class="blueprint-tab-content" style="display: none;">
+                        <!-- BPC SEARCH AND FILTER CONTROLS -->
+                        <div class="filter-controls">
+                            <div class="filter-group">
+                                <label>Search:</label>
+                                <input type="text" id="searchFilterBPC" placeholder="Blueprint name..." oninput="applyBPCFilters()">
+                            </div>
+                            <div class="filter-group">
+                                <label>Category:</label>
+                                <select id="categoryFilterBPC" onchange="applyBPCFilters()">
+                                    <option value="">All Categories</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Sub-Category:</label>
+                                <select id="subcategoryFilterBPC" onchange="applyBPCFilters()">
+                                    <option value="">All Sub-Categories</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Runs:</label>
+                                <select id="runsFilterBPC" onchange="applyBPCFilters()">
+                                    <option value="">All Runs</option>
+                                    <option value="1-10">1-10 runs</option>
+                                    <option value="11-50">11-50 runs</option>
+                                    <option value="51-100">51-100 runs</option>
+                                    <option value="101+">101+ runs</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- BPC TABLE -->
+                        <div class="blueprint-table-container">
+                            <table class="blueprint-table" id="bpcTable">
+                                <thead>
+                                    <tr>
+                                        <th onclick="sortBPCTable(0)">Blueprint Name</th>
+                                        <th onclick="sortBPCTable(1)">Category</th>
+                                        <th onclick="sortBPCTable(2)">Sub-Category</th>
+                                        <th onclick="sortBPCTable(3)">ME</th>
+                                        <th onclick="sortBPCTable(4)">TE</th>
+                                        <th onclick="sortBPCTable(5)">Runs</th>
+                                        <th onclick="sortBPCTable(6)">Qty</th>
+                                        <th onclick="sortBPCTable(7)">Quality</th>
+                                        <th onclick="sortBPCTable(8)">Price</th>
+                                        <th>Calculator</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bpcTableBody">
+                                    <!-- BPC rows will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- End BPC tab content -->
 
                     <div class="footer">
                         <div class="last-updated" id="lastUpdated2">Loading...</div>
@@ -1550,7 +1676,7 @@
                         "Thulium": 0
             },
             "blueprintsLastUpdated": "Feb 11, 2026 08:00 EVE",
-            "inventoryLastUpdated": "Feb 12, 2026 03:19 EVE"
+            "inventoryLastUpdated": "Feb 12, 2026 03:28 EVE"
 };
 
         let BLUEPRINT_DATA = [
@@ -3572,7 +3698,8 @@
         // RESEARCH JOBS FUNCTIONS
         // ============================================
 
-        let RESEARCH_JOBS = [];
+        // RESEARCH_JOBS is loaded from external script (research_jobs.js)
+        // No need to declare it here - just reference the global variable
         let researchTimerInterval = null;
 
         function toggleResearchSection() {
@@ -3580,18 +3707,13 @@
             section.classList.toggle('collapsed');
         }
 
-        async function loadResearchJobs() {
-            try {
-                const response = await fetch('research_jobs.js');
-                const text = await response.text();
-                const jsonMatch = text.match(/RESEARCH_JOBS\s*=\s*(\[[\s\S]*\]);/);
-                if (jsonMatch) {
-                    RESEARCH_JOBS = JSON.parse(jsonMatch[1]);
-                    renderResearchJobs();
-                }
-            } catch (error) {
-                console.log('Research jobs file not found');
-                RESEARCH_JOBS = [];
+        function loadResearchJobs() {
+            // RESEARCH_JOBS is loaded from research_jobs.js script tag
+            if (typeof RESEARCH_JOBS !== 'undefined' && RESEARCH_JOBS && RESEARCH_JOBS.length > 0) {
+                console.log(`✓ Loaded ${RESEARCH_JOBS.length} research jobs`);
+                renderResearchJobs();
+            } else {
+                console.log('No research jobs data found');
                 hideResearchSection();
             }
         }
@@ -3709,15 +3831,11 @@
         }
 
         async function loadBlueprintData() {
-            try {
-                const response = await fetch('blueprint_data.js');
-                const text = await response.text();
-                const jsonMatch = text.match(/BLUEPRINT_DATA\s*=\s*(\[[\s\S]*\]);/);
-                if (jsonMatch) {
-                    allBlueprints = JSON.parse(jsonMatch[1]);
-                }
-            } catch (error) {
-                console.log('Blueprint data file not found, using empty list');
+            // BLUEPRINT_DATA is embedded in the HTML (updated by update_html_data.py)
+            if (typeof BLUEPRINT_DATA !== 'undefined' && BLUEPRINT_DATA && BLUEPRINT_DATA.length > 0) {
+                allBlueprints = BLUEPRINT_DATA;
+            } else {
+                console.warn('BLUEPRINT_DATA not found or empty');
                 allBlueprints = [];
             }
 
@@ -4082,9 +4200,11 @@
             document.getElementById('calcQuality').textContent = `${pricing.qualityPercent}% (ME ${pricing.me} / TE ${pricing.te})`;
             document.getElementById('calcJitaPrice').textContent = formatISK(pricing.jitaSellPrice);
 
-            // Reset inputs
+            // Reset inputs and unlock for BPOs
             document.getElementById('calcRuns').value = 10;
+            document.getElementById('calcRuns').disabled = false;  // Unlock runs for BPOs
             document.getElementById('calcCopies').value = 1;
+            document.getElementById('calcCopies').disabled = false;
 
             // Calculate initial price
             calculatePrice();
@@ -4095,6 +4215,295 @@
 
         function closeCalculator() {
             document.getElementById('bpcCalculatorModal').style.display = 'none';
+        }
+
+        // =================================================================
+        // BPC TAB FUNCTIONS
+        // =================================================================
+
+        let allBPCs = [];
+        let filteredBPCs = [];
+        let bpcSortDirection = {};
+
+        // Tab switching function
+        function showBlueprintTab(tabType) {
+            // Hide all blueprint sub-tabs
+            document.querySelectorAll('.blueprint-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.display = 'none';
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.blueprint-subtab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            const tabContent = document.getElementById(tabType + '-tab-content');
+            if (tabContent) {
+                tabContent.classList.add('active');
+                tabContent.style.display = 'block';
+            }
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        // Load BPC data from bpc_data.js
+        async function loadBPCData() {
+            try {
+                // Ensure pricing data is loaded first
+                if (bpcPricingData.length === 0) {
+                    await loadBPCPricingData();
+                }
+
+                // BPC_DATA is loaded from bpc_data.js script tag
+                if (typeof BPC_DATA !== 'undefined' && BPC_DATA) {
+                    allBPCs = BPC_DATA;
+                    filteredBPCs = [...allBPCs];
+
+                    // Populate filter dropdowns
+                    populateBPCFilters();
+
+                    // Render table
+                    renderBPCs();
+                } else {
+                    console.warn('BPC_DATA not found - bpc_data.js may not be loaded');
+                }
+            } catch (error) {
+                console.error('Error loading BPC data:', error);
+            }
+        }
+
+        // Populate BPC filter dropdowns
+        function populateBPCFilters() {
+            const categories = [...new Set(allBPCs.map(bpc => bpc.category))].sort();
+            const subcategories = [...new Set(allBPCs.map(bpc => bpc.subcategory))].sort();
+
+            const categorySelect = document.getElementById('categoryFilterBPC');
+            const subcategorySelect = document.getElementById('subcategoryFilterBPC');
+
+            // Clear existing options (except "All")
+            categorySelect.innerHTML = '<option value="">All Categories</option>';
+            subcategorySelect.innerHTML = '<option value="">All Sub-Categories</option>';
+
+            // Add category options
+            categories.forEach(cat => {
+                if (cat) {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categorySelect.appendChild(option);
+                }
+            });
+
+            // Add subcategory options
+            subcategories.forEach(subcat => {
+                if (subcat) {
+                    const option = document.createElement('option');
+                    option.value = subcat;
+                    option.textContent = subcat;
+                    subcategorySelect.appendChild(option);
+                }
+            });
+        }
+
+        // Apply BPC filters
+        function applyBPCFilters() {
+            const searchTerm = document.getElementById('searchFilterBPC').value.toLowerCase();
+            const category = document.getElementById('categoryFilterBPC').value;
+            const subcategory = document.getElementById('subcategoryFilterBPC').value;
+            const runsFilter = document.getElementById('runsFilterBPC').value;
+
+            filteredBPCs = allBPCs.filter(bpc => {
+                // Search filter
+                if (searchTerm && !bpc.name.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+
+                // Category filter
+                if (category && bpc.category !== category) {
+                    return false;
+                }
+
+                // Subcategory filter
+                if (subcategory && bpc.subcategory !== subcategory) {
+                    return false;
+                }
+
+                // Runs filter
+                if (runsFilter) {
+                    if (runsFilter === '1-10' && (bpc.runs < 1 || bpc.runs > 10)) return false;
+                    if (runsFilter === '11-50' && (bpc.runs < 11 || bpc.runs > 50)) return false;
+                    if (runsFilter === '51-100' && (bpc.runs < 51 || bpc.runs > 100)) return false;
+                    if (runsFilter === '101+' && bpc.runs < 101) return false;
+                }
+
+                return true;
+            });
+
+            renderBPCs();
+        }
+
+        // Render BPC table
+        function renderBPCs() {
+            const tbody = document.getElementById('bpcTableBody');
+            tbody.innerHTML = '';
+
+            filteredBPCs.forEach(bpc => {
+                const row = document.createElement('tr');
+
+                // Find pricing data (match by typeId, ME, and TE)
+                const pricing = bpcPricingData.find(p =>
+                    p.blueprintTypeId === bpc.typeId &&
+                    p.me === bpc.me &&
+                    p.te === bpc.te
+                );
+
+                let qualityCell = '<td style="color: #888;">-</td>';
+                let priceCell = '<td style="color: #888;">-</td>';
+                let calculatorCell = '<td></td>';
+
+                if (pricing) {
+                    // Quality with color coding
+                    let qualityColor = '#00d9ff';  // Cyan for perfect
+                    if (pricing.qualityPercent < 85) qualityColor = '#ffaa00';  // Orange
+                    if (pricing.qualityPercent < 60) qualityColor = '#ff6b6b';  // Red
+
+                    qualityCell = `<td style="color: ${qualityColor}; font-weight: bold;">${pricing.qualityPercent}%</td>`;
+
+                    // Calculate price for this specific runs (1 copy)
+                    if (typeof calculateBPCPrice === 'function') {
+                        const bpcPrice = calculateBPCPrice(bpc.typeId, bpc.runs, 1);
+                        if (bpcPrice) {
+                            const priceFormatted = bpcPrice.totalPrice >= 1_000_000
+                                ? `${(bpcPrice.totalPrice / 1_000_000).toFixed(2)}M`
+                                : `${(bpcPrice.totalPrice / 1_000).toFixed(1)}k`;
+
+                            priceCell = `<td style="color: #00ff88;">${priceFormatted} ISK</td>`;
+                        }
+                    }
+
+                    // Calculator button (pre-fill with BPC runs)
+                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name}', ${bpc.typeId}, ${bpc.runs}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
+                }
+
+                row.innerHTML = `
+                    <td>${bpc.name}</td>
+                    <td>${bpc.category}</td>
+                    <td>${bpc.subcategory}</td>
+                    <td>${bpc.me}</td>
+                    <td>${bpc.te}</td>
+                    <td style="color: #00d9ff;">${bpc.runs}</td>
+                    <td style="color: #00ff88; font-weight: bold;">${bpc.quantity}x</td>
+                    ${qualityCell}
+                    ${priceCell}
+                    ${calculatorCell}
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        // Sort BPC table
+        function sortBPCTable(columnIndex) {
+            const direction = bpcSortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+            bpcSortDirection[columnIndex] = direction;
+
+            filteredBPCs.sort((a, b) => {
+                let aVal, bVal;
+
+                switch(columnIndex) {
+                    case 0: // Name
+                        aVal = a.name;
+                        bVal = b.name;
+                        break;
+                    case 1: // Category
+                        aVal = a.category;
+                        bVal = b.category;
+                        break;
+                    case 2: // Sub-Category
+                        aVal = a.subcategory;
+                        bVal = b.subcategory;
+                        break;
+                    case 3: // ME
+                        aVal = a.me;
+                        bVal = b.me;
+                        break;
+                    case 4: // TE
+                        aVal = a.te;
+                        bVal = b.te;
+                        break;
+                    case 5: // Runs
+                        aVal = a.runs;
+                        bVal = b.runs;
+                        break;
+                    case 6: // Quantity
+                        aVal = a.quantity;
+                        bVal = b.quantity;
+                        break;
+                    case 7: // Quality
+                        const pricingA = bpcPricingData.find(p => p.blueprintTypeId === a.typeId);
+                        const pricingB = bpcPricingData.find(p => p.blueprintTypeId === b.typeId);
+                        aVal = pricingA ? pricingA.qualityPercent : 0;
+                        bVal = pricingB ? pricingB.qualityPercent : 0;
+                        break;
+                    case 8: // Price
+                        const priceA = calculateBPCPrice(a.typeId, a.runs, 1);
+                        const priceB = calculateBPCPrice(b.typeId, b.runs, 1);
+                        aVal = priceA ? priceA.final_price : 0;
+                        bVal = priceB ? priceB.final_price : 0;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (typeof aVal === 'string') {
+                    return direction === 'asc'
+                        ? aVal.localeCompare(bVal)
+                        : bVal.localeCompare(aVal);
+                } else {
+                    return direction === 'asc'
+                        ? aVal - bVal
+                        : bVal - aVal;
+                }
+            });
+
+            renderBPCs();
+        }
+
+        // Open calculator for BPCs
+        function openCalculatorForBPC(blueprintName, blueprintTypeId, bpcRuns, me, te) {
+            currentBlueprintTypeId = blueprintTypeId;
+            const pricing = bpcPricingData.find(p =>
+                p.blueprintTypeId === blueprintTypeId &&
+                p.me === me &&
+                p.te === te
+            );
+
+            if (!pricing) {
+                alert('Pricing data not available for this blueprint');
+                return;
+            }
+
+            // Set modal title
+            document.getElementById('calcModalTitle').textContent = blueprintName.replace(' Blueprint', '');
+
+            // Set blueprint info
+            document.getElementById('calcQuality').textContent = `${pricing.qualityPercent}% (ME ${pricing.me} / TE ${pricing.te})`;
+            document.getElementById('calcJitaPrice').textContent = formatISK(pricing.jitaSellPrice);
+
+            // Pre-fill with BPC runs (locked since it's a BPC)
+            document.getElementById('calcRuns').value = bpcRuns;
+            document.getElementById('calcRuns').disabled = true;  // Lock runs for BPCs
+            document.getElementById('calcCopies').value = 1;
+            document.getElementById('calcCopies').disabled = false;
+
+            // Calculate initial price
+            calculatePrice();
+
+            // Show modal
+            document.getElementById('bpcCalculatorModal').style.display = 'block';
         }
 
         function calculatePrice() {
@@ -4153,6 +4562,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadInventoryData();
             loadBlueprintData();
+            loadBPCData();  // Load BPC data for BPC tab
             loadResearchJobs();
             loadLastUpdated();
 
