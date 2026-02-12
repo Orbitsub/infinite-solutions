@@ -1676,7 +1676,7 @@
                         "Thulium": 0
             },
             "blueprintsLastUpdated": "Feb 11, 2026 08:00 EVE",
-            "inventoryLastUpdated": "Feb 12, 2026 03:28 EVE"
+            "inventoryLastUpdated": "Feb 12, 2026 04:08 EVE"
 };
 
         let BLUEPRINT_DATA = [
@@ -4419,8 +4419,8 @@
                         }
                     }
 
-                    // Calculator button (pre-fill with BPC runs)
-                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name}', ${bpc.typeId}, ${bpc.runs}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
+                    // Calculator button (pre-fill with BPC runs and quantity)
+                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name}', ${bpc.typeId}, ${bpc.runs}, ${bpc.quantity}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
                 }
 
                 row.innerHTML = `
@@ -4508,7 +4508,7 @@
         }
 
         // Open calculator for BPCs
-        function openCalculatorForBPC(blueprintName, blueprintTypeId, bpcRuns, me, te) {
+        function openCalculatorForBPC(blueprintName, blueprintTypeId, bpcRuns, bpcQuantity, me, te) {
             currentBlueprintTypeId = blueprintTypeId;
             const pricing = bpcPricingData.find(p =>
                 p.blueprintTypeId === blueprintTypeId &&
@@ -4528,11 +4528,11 @@
             document.getElementById('calcQuality').textContent = `${pricing.qualityPercent}% (ME ${pricing.me} / TE ${pricing.te})`;
             document.getElementById('calcJitaPrice').textContent = formatISK(pricing.jitaSellPrice);
 
-            // Pre-fill with BPC runs (locked since it's a BPC)
+            // Pre-fill with BPC runs and quantity (both locked since it's a BPC)
             document.getElementById('calcRuns').value = bpcRuns;
             document.getElementById('calcRuns').disabled = true;  // Lock runs for BPCs
-            document.getElementById('calcCopies').value = 1;
-            document.getElementById('calcCopies').disabled = false;
+            document.getElementById('calcCopies').value = bpcQuantity;
+            document.getElementById('calcCopies').disabled = true;  // Lock quantity for BPCs
 
             // Calculate initial price
             calculatePrice();

@@ -1639,25 +1639,25 @@
         // ============================================
         const EMBEDDED_DATA = {
             "inventory": {
-                        "Tritanium": 175094603,
-                        "Pyerite": 75755224,
+                        "Tritanium": 203161026,
+                        "Pyerite": 117608521,
                         "Isogen": 2602425,
-                        "Mexallon": 4059780,
-                        "Nocxium": 0,
+                        "Mexallon": 6594504,
+                        "Nocxium": 211256,
                         "Zydrine": 593202,
-                        "Megacyte": 31814,
+                        "Megacyte": 61589,
                         "Morphite": 133,
                         "Heavy Water": 285227,
                         "Liquid Ozone": 971085,
                         "Strontium Clathrates": 0,
                         "Oxygen Isotopes": 187600,
                         "Hydrogen Isotopes": 225120,
-                        "Helium Isotopes": 137600,
+                        "Helium Isotopes": 37600,
                         "Nitrogen Isotopes": 218866,
-                        "Atmospheric Gases": 0,
-                        "Evaporite Deposits": 0,
-                        "Hydrocarbons": 0,
-                        "Silicates": 0,
+                        "Atmospheric Gases": 98258,
+                        "Evaporite Deposits": 108753,
+                        "Hydrocarbons": 108753,
+                        "Silicates": 97039,
                         "Cobalt": 0,
                         "Scandium": 0,
                         "Tungsten": 0,
@@ -1676,7 +1676,7 @@
                         "Thulium": 0
             },
             "blueprintsLastUpdated": "Feb 11, 2026 08:00 EVE",
-            "inventoryLastUpdated": "Feb 11, 2026 16:08 EVE"
+            "inventoryLastUpdated": "Feb 12, 2026 04:08 EVE"
 };
 
         let BLUEPRINT_DATA = [
@@ -4419,8 +4419,8 @@
                         }
                     }
 
-                    // Calculator button (pre-fill with BPC runs)
-                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name}', ${bpc.typeId}, ${bpc.runs}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
+                    // Calculator button (pre-fill with BPC runs and quantity)
+                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name}', ${bpc.typeId}, ${bpc.runs}, ${bpc.quantity}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
                 }
 
                 row.innerHTML = `
@@ -4508,7 +4508,7 @@
         }
 
         // Open calculator for BPCs
-        function openCalculatorForBPC(blueprintName, blueprintTypeId, bpcRuns, me, te) {
+        function openCalculatorForBPC(blueprintName, blueprintTypeId, bpcRuns, bpcQuantity, me, te) {
             currentBlueprintTypeId = blueprintTypeId;
             const pricing = bpcPricingData.find(p =>
                 p.blueprintTypeId === blueprintTypeId &&
@@ -4528,11 +4528,11 @@
             document.getElementById('calcQuality').textContent = `${pricing.qualityPercent}% (ME ${pricing.me} / TE ${pricing.te})`;
             document.getElementById('calcJitaPrice').textContent = formatISK(pricing.jitaSellPrice);
 
-            // Pre-fill with BPC runs (locked since it's a BPC)
+            // Pre-fill with BPC runs and quantity (both locked since it's a BPC)
             document.getElementById('calcRuns').value = bpcRuns;
             document.getElementById('calcRuns').disabled = true;  // Lock runs for BPCs
-            document.getElementById('calcCopies').value = 1;
-            document.getElementById('calcCopies').disabled = false;
+            document.getElementById('calcCopies').value = bpcQuantity;
+            document.getElementById('calcCopies').disabled = true;  // Lock quantity for BPCs
 
             // Calculate initial price
             calculatePrice();
