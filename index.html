@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Solutions - Market Inventory & Blueprints</title>
-    <script src="bpc_pricing_data.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Infinite Solutions - Market Inventory &amp; Blueprints
+  </title>
+  <script src="bpc_pricing_data.js">
+  </script>
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
 
         body {
             margin: 0;
@@ -1302,213 +1305,334 @@
                 justify-content: center;
             }
         }
-    </style>
-</head>
-<body>
-    <div class="container" id="container">
-        <!-- THUMBNAIL VIEW -->
-        <div class="thumbnail-view" onclick="expandInventory()">
-            <div class="stars"></div>
-            <div class="glow"></div>
-            <div class="content">
-                <h1 class="company-name">INFINITE<br/>SOLUTIONS</h1>
-                <div class="tagline">Materials and Resources</div>
-                <div class="status-bar">
-                    <div class="status-text">MARKET OPEN</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-item"><span class="info-value">97-98%</span> JBV</div>
-                    <div class="info-item"><span class="info-value">35</span> Items</div>
-                    <div class="info-item">LX-ZOJ</div>
-                </div>
-            </div>
-            <div class="click-hint">Click for details</div>
-        </div>
-
-        <!-- FULL INVENTORY VIEW WITH TABS -->
-        <div class="inventory-view">
-            <button class="back-button" onclick="collapseInventory()">← Back</button>
-            <div class="stars"></div>
-            <div class="nebula"></div>
-            <div class="grid"></div>
-
-            <!-- HEADER -->
-            <div class="header">
-                <h1>INFINITE SOLUTIONS</h1>
-                <div class="tagline">Materials, Resources & Manufacturing</div>
-            </div>
-
-            <!-- MAIN TAB NAVIGATION -->
-            <div class="main-tabs">
-                <button class="main-tab active" onclick="showMainTab('market')">Materials & Resources Market</button>
-                <button class="main-tab" onclick="showMainTab('blueprints')">Blueprint Library</button>
-            </div>
-
-            <!-- ========================================
+  </style>
+ </head>
+ <body>
+  <div class="container" id="container">
+   <!-- THUMBNAIL VIEW -->
+   <div class="thumbnail-view" onclick="expandInventory()">
+    <div class="stars">
+    </div>
+    <div class="glow">
+    </div>
+    <div class="content">
+     <h1 class="company-name">
+      INFINITE
+      <br/>
+      SOLUTIONS
+     </h1>
+     <div class="tagline">
+      Materials and Resources
+     </div>
+     <div class="status-bar">
+      <div class="status-text">
+       MARKET OPEN
+      </div>
+     </div>
+     <div class="info-row">
+      <div class="info-item">
+       <span class="info-value">
+        97-98%
+       </span>
+       JBV
+      </div>
+      <div class="info-item">
+       <span class="info-value">
+        35
+       </span>
+       Items
+      </div>
+      <div class="info-item">
+       LX-ZOJ
+      </div>
+     </div>
+    </div>
+    <div class="click-hint">
+     Click for details
+    </div>
+   </div>
+   <!-- FULL INVENTORY VIEW WITH TABS -->
+   <div class="inventory-view">
+    <button class="back-button" onclick="collapseInventory()">
+     ← Back
+    </button>
+    <div class="stars">
+    </div>
+    <div class="nebula">
+    </div>
+    <div class="grid">
+    </div>
+    <!-- HEADER -->
+    <div class="header">
+     <h1>
+      INFINITE SOLUTIONS
+     </h1>
+     <div class="tagline">
+      Materials, Resources &amp; Manufacturing
+     </div>
+    </div>
+    <!-- MAIN TAB NAVIGATION -->
+    <div class="main-tabs">
+     <button class="main-tab active" onclick="showMainTab('market')">
+      Materials &amp; Resources Market
+     </button>
+     <button class="main-tab" onclick="showMainTab('blueprints')">
+      Blueprint Library
+     </button>
+    </div>
+    <!-- ========================================
                  MARKET TAB CONTENT
                  ======================================== -->
-            <div id="market-tab" class="tab-content active">
-                <!-- SUB TABS -->
-                <div class="sub-tabs">
-                    <button class="sub-tab active" onclick="showSubTab('minerals')">Minerals</button>
-                    <button class="sub-tab" onclick="showSubTab('ice')">Ice Products</button>
-                    <button class="sub-tab" onclick="showSubTab('moon')">Moon Materials</button>
-                </div>
-
-                <div class="content">
-                    <!-- MINERALS SUB-CONTENT -->
-                    <div id="minerals-content" class="tab-content active">
-                        <div class="item-grid" id="minerals-grid"></div>
-                    </div>
-
-                    <!-- ICE PRODUCTS SUB-CONTENT -->
-                    <div id="ice-content" class="tab-content">
-                        <div class="item-grid" id="ice-grid"></div>
-                    </div>
-
-                    <!-- MOON MATERIALS SUB-CONTENT -->
-                    <div id="moon-content" class="tab-content">
-                        <div id="moon-materials"></div>
-                    </div>
-
-                    <div class="footer">
-                        <div class="last-updated" id="lastUpdated">Loading...</div>
-                        <div class="footer-text">DM <span class="contact">@Hamektok</span> for bulk contracts</div>
-                        <div class="disclaimer">All mineral estimates are subject to change</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ========================================
+    <div class="tab-content active" id="market-tab">
+     <!-- SUB TABS -->
+     <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubTab('minerals')">
+       Minerals
+      </button>
+      <button class="sub-tab" onclick="showSubTab('ice')">
+       Ice Products
+      </button>
+      <button class="sub-tab" onclick="showSubTab('moon')">
+       Moon Materials
+      </button>
+     </div>
+     <div class="content">
+      <!-- MINERALS SUB-CONTENT -->
+      <div class="tab-content active" id="minerals-content">
+       <div class="item-grid" id="minerals-grid">
+       </div>
+      </div>
+      <!-- ICE PRODUCTS SUB-CONTENT -->
+      <div class="tab-content" id="ice-content">
+       <div class="item-grid" id="ice-grid">
+       </div>
+      </div>
+      <!-- MOON MATERIALS SUB-CONTENT -->
+      <div class="tab-content" id="moon-content">
+       <div id="moon-materials">
+       </div>
+      </div>
+      <div class="footer">
+       <div class="last-updated" id="lastUpdated">
+        Loading...
+       </div>
+       <div class="footer-text">
+        DM
+        <span class="contact">
+         @Hamektok
+        </span>
+        for bulk contracts
+       </div>
+       <div class="disclaimer">
+        All mineral estimates are subject to change
+       </div>
+      </div>
+     </div>
+    </div>
+    <!-- ========================================
                  BLUEPRINT LIBRARY TAB CONTENT
                  ======================================== -->
-            <div id="blueprints-tab" class="tab-content">
-                <div class="content">
-                    <!-- CURRENTLY RESEARCHING SECTION -->
-                    <div class="research-section" id="researchSection" style="display: none;">
-                        <div class="research-header" onclick="toggleResearchSection()">
-                            <h3>Currently Researching</h3>
-                            <span class="research-toggle">▼</span>
-                        </div>
-                        <div class="research-content">
-                            <div class="research-grid" id="researchGrid">
-                                <!-- Research jobs will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEARCH AND FILTER CONTROLS -->
-                    <div class="filter-controls">
-                        <div class="filter-group">
-                            <label>Search:</label>
-                            <input type="text" id="searchFilter" placeholder="Blueprint name...">
-                        </div>
-                        <div class="filter-group">
-                            <label>Category:</label>
-                            <select id="categoryFilter">
-                                <option value="">All Categories</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label>Sub-Category:</label>
-                            <select id="subcategoryFilter">
-                                <option value="">All Sub-Categories</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label>Research Status:</label>
-                            <select id="researchFilter">
-                                <option value="">All</option>
-                                <option value="perfect">Perfect (ME10/TE20)</option>
-                                <option value="partial">Partial</option>
-                                <option value="none">No Research</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- BLUEPRINT TABLE -->
-                    <div class="blueprint-table-container">
-                        <table class="blueprint-table" id="blueprintTable">
-                            <thead>
-                                <tr>
-                                    <th onclick="sortTable(0)">Blueprint Name</th>
-                                    <th onclick="sortTable(1)">Category</th>
-                                    <th onclick="sortTable(2)">Sub-Category</th>
-                                    <th onclick="sortTable(3)">ME</th>
-                                    <th onclick="sortTable(4)">TE</th>
-                                    <th onclick="sortTable(5)">Quality</th>
-                                    <th onclick="sortTable(6)">Price (10 runs)</th>
-                                    <th>Calculator</th>
-                                </tr>
-                            </thead>
-                            <tbody id="blueprintTableBody"></tbody>
-                        </table>
-                    </div>
-
-                    <div class="footer">
-                        <div class="last-updated" id="lastUpdated2">Loading...</div>
-                        <div class="footer-text">DM <span class="contact">@Hamektok</span> for bulk contracts</div>
-                        <div class="disclaimer">All mineral estimates are subject to change</div>
-                    </div>
-                </div>
-            </div>
+    <div class="tab-content" id="blueprints-tab">
+     <div class="content">
+      <!-- CURRENTLY RESEARCHING SECTION -->
+      <div class="research-section" id="researchSection" style="display: none;">
+       <div class="research-header" onclick="toggleResearchSection()">
+        <h3>
+         Currently Researching
+        </h3>
+        <span class="research-toggle">
+         ▼
+        </span>
+       </div>
+       <div class="research-content">
+        <div class="research-grid" id="researchGrid">
+         <!-- Research jobs will be populated here -->
         </div>
-
-        <!-- BPC CALCULATOR MODAL -->
-        <div id="bpcCalculatorModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="calcModalTitle">BPC Cost Calculator</h2>
-                    <span class="modal-close" onclick="closeCalculator()">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <div class="calc-info">
-                        <div class="calc-info-row">
-                            <span class="calc-label">Quality:</span>
-                            <span class="calc-value" id="calcQuality">-</span>
-                        </div>
-                        <div class="calc-info-row">
-                            <span class="calc-label">Jita Sell Price:</span>
-                            <span class="calc-value" id="calcJitaPrice">-</span>
-                        </div>
-                    </div>
-
-                    <div class="calc-inputs">
-                        <div class="calc-input-group">
-                            <label for="calcRuns">Runs per Copy:</label>
-                            <input type="number" id="calcRuns" value="10" min="1" max="300" onchange="calculatePrice()">
-                        </div>
-                        <div class="calc-input-group">
-                            <label for="calcCopies">Number of Copies:</label>
-                            <input type="number" id="calcCopies" value="1" min="1" max="100" onchange="calculatePrice()">
-                        </div>
-                    </div>
-
-                    <div class="calc-result">
-                        <div class="calc-result-row">
-                            <span class="calc-result-label">Total Runs:</span>
-                            <span class="calc-result-value" id="calcTotalRuns">10</span>
-                        </div>
-                        <div class="calc-result-row total-price">
-                            <span class="calc-result-label">Total Price:</span>
-                            <span class="calc-result-value" id="calcTotalPrice">-</span>
-                        </div>
-                        <div class="calc-result-row">
-                            <span class="calc-result-label">Price per Run:</span>
-                            <span class="calc-result-value" id="calcPricePerRun">-</span>
-                        </div>
-                    </div>
-
-                    <div class="calc-note">
-                        <strong>Note:</strong> Prices include facility bonuses (Azbel in LX-ZOJ) and quality adjustment based on ME/TE levels.
-                    </div>
-                </div>
-            </div>
-        </div>
+       </div>
+      </div>
+      <!-- SEARCH AND FILTER CONTROLS -->
+      <div class="filter-controls">
+       <div class="filter-group">
+        <label>
+         Search:
+        </label>
+        <input id="searchFilter" placeholder="Blueprint name..." type="text"/>
+       </div>
+       <div class="filter-group">
+        <label>
+         Category:
+        </label>
+        <select id="categoryFilter">
+         <option value="">
+          All Categories
+         </option>
+        </select>
+       </div>
+       <div class="filter-group">
+        <label>
+         Sub-Category:
+        </label>
+        <select id="subcategoryFilter">
+         <option value="">
+          All Sub-Categories
+         </option>
+        </select>
+       </div>
+       <div class="filter-group">
+        <label>
+         Research Status:
+        </label>
+        <select id="researchFilter">
+         <option value="">
+          All
+         </option>
+         <option value="perfect">
+          Perfect (ME10/TE20)
+         </option>
+         <option value="partial">
+          Partial
+         </option>
+         <option value="none">
+          No Research
+         </option>
+        </select>
+       </div>
+      </div>
+      <!-- BLUEPRINT TABLE -->
+      <div class="blueprint-table-container">
+       <table class="blueprint-table" id="blueprintTable">
+        <thead>
+         <tr>
+          <th onclick="sortTable(0)">
+           Blueprint Name
+          </th>
+          <th onclick="sortTable(1)">
+           Category
+          </th>
+          <th onclick="sortTable(2)">
+           Sub-Category
+          </th>
+          <th onclick="sortTable(3)">
+           ME
+          </th>
+          <th onclick="sortTable(4)">
+           TE
+          </th>
+          <th onclick="sortTable(5)">
+           Quality
+          </th>
+          <th onclick="sortTable(6)">
+           Price (10 runs)
+          </th>
+          <th>
+           Calculator
+          </th>
+         </tr>
+        </thead>
+        <tbody id="blueprintTableBody">
+        </tbody>
+       </table>
+      </div>
+      <div class="footer">
+       <div class="last-updated" id="lastUpdated2">
+        Loading...
+       </div>
+       <div class="footer-text">
+        DM
+        <span class="contact">
+         @Hamektok
+        </span>
+        for bulk contracts
+       </div>
+       <div class="disclaimer">
+        All mineral estimates are subject to change
+       </div>
+      </div>
+     </div>
     </div>
-
-    <script>
-        // ============================================
+   </div>
+   <!-- BPC CALCULATOR MODAL -->
+   <div class="modal" id="bpcCalculatorModal">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h2 id="calcModalTitle">
+       BPC Cost Calculator
+      </h2>
+      <span class="modal-close" onclick="closeCalculator()">
+       ×
+      </span>
+     </div>
+     <div class="modal-body">
+      <div class="calc-info">
+       <div class="calc-info-row">
+        <span class="calc-label">
+         Quality:
+        </span>
+        <span class="calc-value" id="calcQuality">
+         -
+        </span>
+       </div>
+       <div class="calc-info-row">
+        <span class="calc-label">
+         Jita Sell Price:
+        </span>
+        <span class="calc-value" id="calcJitaPrice">
+         -
+        </span>
+       </div>
+      </div>
+      <div class="calc-inputs">
+       <div class="calc-input-group">
+        <label for="calcRuns">
+         Runs per Copy:
+        </label>
+        <input id="calcRuns" max="300" min="1" onchange="calculatePrice()" type="number" value="10"/>
+       </div>
+       <div class="calc-input-group">
+        <label for="calcCopies">
+         Number of Copies:
+        </label>
+        <input id="calcCopies" max="100" min="1" onchange="calculatePrice()" type="number" value="1"/>
+       </div>
+      </div>
+      <div class="calc-result">
+       <div class="calc-result-row">
+        <span class="calc-result-label">
+         Total Runs:
+        </span>
+        <span class="calc-result-value" id="calcTotalRuns">
+         10
+        </span>
+       </div>
+       <div class="calc-result-row total-price">
+        <span class="calc-result-label">
+         Total Price:
+        </span>
+        <span class="calc-result-value" id="calcTotalPrice">
+         -
+        </span>
+       </div>
+       <div class="calc-result-row">
+        <span class="calc-result-label">
+         Price per Run:
+        </span>
+        <span class="calc-result-value" id="calcPricePerRun">
+         -
+        </span>
+       </div>
+      </div>
+      <div class="calc-note">
+       <strong>
+        Note:
+       </strong>
+       Prices include facility bonuses (Azbel in LX-ZOJ) and quality adjustment based on ME/TE levels.
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+   // ============================================
         // EMBEDDED DATA
         // ============================================
         const EMBEDDED_DATA = {
@@ -4159,6 +4283,6 @@
             // Auto-expand inventory on page load (skip landing page)
             expandInventory();
         });
-    </script>
-</body>
+  </script>
+ </body>
 </html>
