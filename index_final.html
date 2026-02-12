@@ -4420,7 +4420,7 @@
                     }
 
                     // Calculator button (pre-fill with BPC runs and quantity)
-                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name}', ${bpc.typeId}, ${bpc.runs}, ${bpc.quantity}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
+                    calculatorCell = `<td><button class="calc-btn" onclick="openCalculatorForBPC('${bpc.name.replace(/'/g, "\\'")}', ${bpc.typeId}, ${bpc.runs}, ${bpc.quantity}, ${bpc.me}, ${bpc.te})">Calculate</button></td>`;
                 }
 
                 row.innerHTML = `
