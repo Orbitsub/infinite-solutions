@@ -3,7 +3,7 @@ Blueprint Copy Service Pricing Calculator
 Using Quality-Based Pricing Formula
 
 Pricing Formula:
-- Base Price = Job Cost + (Runs × Jita Daily Avg Sell × 1%)
+- Base Price = Job Cost + (Runs × Jita Daily Avg Sell × 2%)
 - Quality Multiplier = 0.25 + (ME/10 × 0.60) + (TE/20 × 0.15)
 - Final Price = Base Price × Quality Multiplier
 
@@ -23,7 +23,7 @@ JITA_STATION_ID = 60003760  # Jita IV - Moon 4 - Caldari Navy Assembly Plant
 LX_ZOJ_SYSTEM_ID = 30002458
 FACILITY_COST_REDUCTION = 0.21  # 21% cost reduction from rig
 FACILITY_TAX = 0.05  # 5% facility tax
-BASE_PERCENTAGE = 0.01  # 1% of Jita sell value
+BASE_PERCENTAGE = 0.02  # 2% of Jita sell value
 
 # ESI endpoints
 ADJUSTED_PRICES_URL = "https://esi.evetech.net/latest/markets/prices/"
@@ -148,7 +148,7 @@ def calculate_bpc_price(blueprint_type_id, product_type_id, me, te, runs, copies
     quality = calculate_quality_multiplier(me, te)
 
     # Calculate base price (before quality adjustment)
-    # Base = Job Cost + (Runs × Copies × Jita Sell × 1%)
+    # Base = Job Cost + (Runs × Copies × Jita Sell × 2%)
     value_component = runs * copies * jita_sell_price * BASE_PERCENTAGE
     base_price = job_cost + value_component
 
@@ -271,7 +271,7 @@ def main():
         print()
         print("Cost Breakdown:")
         print(f"  1. Job Cost (EVE + facility):      {format_isk(p['job_cost'])}")
-        print(f"  2. Value Component (10 × 1%):      {format_isk(p['value_component'])}")
+        print(f"  2. Value Component (10 × 2%):      {format_isk(p['value_component'])}")
         print(f"  3. Base Price (1 + 2):             {format_isk(p['base_price'])}")
         print(f"  4. Quality Multiplier:             ×{p['quality_multiplier']:.3f}")
         print(f"  5. FINAL CUSTOMER PRICE:           {format_isk(p['final_price'])}")

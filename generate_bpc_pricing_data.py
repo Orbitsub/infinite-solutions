@@ -102,7 +102,7 @@ def write_pricing_js(blueprints_data):
         f.write('    facility: "Azbel in LX-ZOJ (Geminate)",\n')
         f.write('    rigBonus: { cost: 0.21, time: 0.42 },\n')
         f.write('    tax: 0.05,\n')
-        f.write('    basePercentage: 0.01,  // 1% of Jita sell\n')
+        f.write('    basePercentage: 0.02,  // 2% of Jita sell\n')
         f.write('    qualityFormula: "0.25 + (ME/10 × 0.60) + (TE/20 × 0.15)"\n')
         f.write('};\n')
         f.write('\n')
