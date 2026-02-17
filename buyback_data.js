@@ -1,5 +1,5 @@
 // Auto-generated buyback program data
-// Generated: 2026-02-17 01:34 UTC
+// Generated: 2026-02-17 07:05 UTC
 const BUYBACK_DATA = {
   "items": [
     {
@@ -8,9 +8,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 107.2
+      "avgJitaBuy": 107.27
     },
     {
       "typeId": 16273,
@@ -18,19 +18,19 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 94.47
+      "avgJitaBuy": 94.71
     },
     {
       "typeId": 16275,
       "name": "Strontium Clathrates",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 3531.53
+      "quota": 100000,
+      "avgJitaBuy": 3532.79
     },
     {
       "typeId": 17887,
@@ -38,9 +38,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 781.75
+      "avgJitaBuy": 780.86
     },
     {
       "typeId": 17889,
@@ -48,9 +48,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 586.62
+      "avgJitaBuy": 586.46
     },
     {
       "typeId": 16274,
@@ -58,28 +58,28 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 834.59
+      "avgJitaBuy": 834.12
     },
     {
       "typeId": 17888,
       "name": "Nitrogen Isotopes",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 749.69
+      "quota": 100000,
+      "avgJitaBuy": 748.45
     },
     {
       "typeId": 34,
       "name": "Tritanium",
       "category": "minerals",
       "displayCategory": "Minerals",
-      "rate": 97,
-      "accepted": true,
-      "quota": 0,
+      "rate": 95,
+      "accepted": false,
+      "quota": 100000000,
       "avgJitaBuy": 3.99
     },
     {
@@ -87,10 +87,10 @@ const BUYBACK_DATA = {
       "name": "Pyerite",
       "category": "minerals",
       "displayCategory": "Minerals",
-      "rate": 98,
-      "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 18.36
+      "rate": 95,
+      "accepted": false,
+      "quota": 20000000,
+      "avgJitaBuy": 18.29
     },
     {
       "typeId": 37,
@@ -98,9 +98,9 @@ const BUYBACK_DATA = {
       "category": "minerals",
       "displayCategory": "Minerals",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 176.36
+      "avgJitaBuy": 176.16
     },
     {
       "typeId": 36,
@@ -108,19 +108,19 @@ const BUYBACK_DATA = {
       "category": "minerals",
       "displayCategory": "Minerals",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 63.81
+      "avgJitaBuy": 63.86
     },
     {
       "typeId": 38,
       "name": "Nocxium",
       "category": "minerals",
       "displayCategory": "Minerals",
-      "rate": 98,
+      "rate": 95,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 663.24
+      "quota": 100000,
+      "avgJitaBuy": 661.67
     },
     {
       "typeId": 39,
@@ -128,9 +128,9 @@ const BUYBACK_DATA = {
       "category": "minerals",
       "displayCategory": "Minerals",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 946.35
+      "avgJitaBuy": 942.96
     },
     {
       "typeId": 40,
@@ -138,9 +138,9 @@ const BUYBACK_DATA = {
       "category": "minerals",
       "displayCategory": "Minerals",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 2496.71
+      "avgJitaBuy": 2489.63
     },
     {
       "typeId": 11399,
@@ -148,7 +148,7 @@ const BUYBACK_DATA = {
       "category": "minerals",
       "displayCategory": "Minerals",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
       "avgJitaBuy": 19964.21
     },
@@ -158,9 +158,9 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 246.96
+      "avgJitaBuy": 247.09
     },
     {
       "typeId": 16635,
@@ -168,19 +168,19 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 287.34
+      "avgJitaBuy": 285.92
     },
     {
       "typeId": 16633,
       "name": "Hydrocarbons",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 591.66
+      "quota": 100000,
+      "avgJitaBuy": 591.27
     },
     {
       "typeId": 16636,
@@ -188,159 +188,159 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 353.94
+      "avgJitaBuy": 351.94
     },
     {
       "typeId": 16640,
       "name": "Cobalt",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 731.14
+      "quota": 50000,
+      "avgJitaBuy": 730.5
     },
     {
       "typeId": 16639,
       "name": "Scandium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 534.82
+      "quota": 50000,
+      "avgJitaBuy": 532.43
     },
     {
       "typeId": 16637,
       "name": "Tungsten",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 1307.34
+      "quota": 50000,
+      "avgJitaBuy": 1305.18
     },
     {
       "typeId": 16638,
       "name": "Titanium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 839.58
+      "quota": 50000,
+      "avgJitaBuy": 838.62
     },
     {
       "typeId": 16641,
       "name": "Chromium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 6099.55
+      "quota": 25000,
+      "avgJitaBuy": 6089.87
     },
     {
       "typeId": 16643,
       "name": "Cadmium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 4969.34
+      "quota": 25000,
+      "avgJitaBuy": 4961.84
     },
     {
       "typeId": 16644,
       "name": "Platinum",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 7785.18
+      "quota": 25000,
+      "avgJitaBuy": 7785.47
     },
     {
       "typeId": 16642,
       "name": "Vanadium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 2419.89
+      "quota": 25000,
+      "avgJitaBuy": 2416.79
     },
     {
       "typeId": 16649,
       "name": "Technetium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 19989.47
+      "quota": 12500,
+      "avgJitaBuy": 20060.26
     },
     {
       "typeId": 16646,
       "name": "Mercury",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 3885.45
+      "quota": 12500,
+      "avgJitaBuy": 3894.13
     },
     {
       "typeId": 16647,
       "name": "Caesium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 5669.39
+      "quota": 12500,
+      "avgJitaBuy": 5670.26
     },
     {
       "typeId": 16648,
       "name": "Hafnium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 9622.66
+      "quota": 12500,
+      "avgJitaBuy": 9610.0
     },
     {
       "typeId": 16652,
       "name": "Promethium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 61049.74
+      "quota": 6250,
+      "avgJitaBuy": 61026.05
     },
     {
       "typeId": 16651,
       "name": "Neodymium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
-      "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 65374.21
+      "rate": 96,
+      "accepted": false,
+      "quota": 1000,
+      "avgJitaBuy": 65281.84
     },
     {
       "typeId": 16650,
       "name": "Dysprosium",
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
-      "rate": 98,
+      "rate": 96,
       "accepted": true,
-      "quota": 0,
-      "avgJitaBuy": 57139.47
+      "quota": 6250,
+      "avgJitaBuy": 57075.79
     },
     {
       "typeId": 16653,
@@ -348,9 +348,9 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 98,
-      "accepted": true,
+      "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 39686.05
+      "avgJitaBuy": 39463.42
     }
   ],
   "categories": {
@@ -367,5 +367,5 @@ const BUYBACK_DATA = {
       "visible": true
     }
   },
-  "generated": "2026-02-17 01:34 UTC"
+  "generated": "2026-02-17 07:05 UTC"
 };
