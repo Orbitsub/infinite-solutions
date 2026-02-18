@@ -7,12 +7,14 @@ Runs:
 4. Update research_jobs.js (active research)
 5. Update BPC pricing data
 6. Update index_final.html (embedded data)
+7. Copy index_final.html -> index.html, commit & push to GitHub
 
 Run this script daily via Windows Task Scheduler.
 """
 import subprocess
 import sys
 import os
+import shutil
 from datetime import datetime
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -89,14 +91,62 @@ def main():
     if run_script('update_html_data.py', 'Update index_final.html'):
         success_count += 1
 
+    # Step 7: Copy index_final.html -> index.html and push to GitHub
+    if success_count >= 4:  # Only push if most steps succeeded
+        try:
+            log("Copying index_final.html -> index.html...")
+            shutil.copy2(
+                os.path.join(SCRIPT_DIR, 'index_final.html'),
+                os.path.join(SCRIPT_DIR, 'index.html')
+            )
+
+            log("Committing and pushing to GitHub...")
+            files_to_add = [
+                'index.html', 'index_final.html',
+                'blueprint_data.js', 'bpc_data.js',
+                'bpc_pricing_data.js', 'research_jobs.js'
+            ]
+            subprocess.run(
+                ['git', 'add'] + files_to_add,
+                cwd=SCRIPT_DIR, check=True, capture_output=True
+            )
+
+            # Check if there are actually changes to commit
+            diff_result = subprocess.run(
+                ['git', 'diff', '--cached', '--quiet'],
+                cwd=SCRIPT_DIR, capture_output=True
+            )
+            if diff_result.returncode == 0:
+                log("  [OK] No changes to commit (data unchanged)")
+            else:
+                commit_msg = f"Auto-update blueprint data - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+                subprocess.run(
+                    ['git', 'commit', '-m', commit_msg],
+                    cwd=SCRIPT_DIR, check=True, capture_output=True
+                )
+                subprocess.run(
+                    ['git', 'push'],
+                    cwd=SCRIPT_DIR, check=True, capture_output=True
+                )
+                log(f"  [OK] Pushed to GitHub: {commit_msg}")
+                success_count += 1
+                total_steps += 1
+
+        except subprocess.CalledProcessError as e:
+            log(f"  [ERROR] Git operation failed: {e}")
+        except Exception as e:
+            log(f"  [ERROR] Deploy step failed: {e}")
+    else:
+        log("Skipping deploy — too many update steps failed")
+
     log("="*70)
-    if success_count == total_steps:
+    if success_count >= total_steps:
         log(f"UPDATE COMPLETED SUCCESSFULLY ({success_count}/{total_steps} steps)")
     else:
         log(f"UPDATE COMPLETED WITH ERRORS ({success_count}/{total_steps} steps succeeded)")
     log("="*70)
 
-    return 0 if success_count == total_steps else 1
+    return 0 if success_count >= total_steps else 1
 
 if __name__ == '__main__':
     sys.exit(main())
