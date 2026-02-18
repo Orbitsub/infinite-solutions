@@ -1,5 +1,5 @@
 // Auto-generated buyback program data
-// Generated: 2026-02-17 07:05 UTC
+// Generated: 2026-02-18 02:29 UTC
 const BUYBACK_DATA = {
   "items": [
     {
@@ -10,67 +10,67 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 107.27
+      "avgJitaBuy": 107.41
     },
     {
       "typeId": 16273,
       "name": "Liquid Ozone",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 98,
-      "accepted": false,
-      "quota": 0,
-      "avgJitaBuy": 94.71
+      "rate": 95,
+      "accepted": true,
+      "quota": 100000,
+      "avgJitaBuy": 95.61
     },
     {
       "typeId": 16275,
       "name": "Strontium Clathrates",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 96,
+      "rate": 95,
       "accepted": true,
       "quota": 100000,
-      "avgJitaBuy": 3532.79
+      "avgJitaBuy": 3508.08
     },
     {
       "typeId": 17887,
       "name": "Oxygen Isotopes",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 98,
-      "accepted": false,
-      "quota": 0,
-      "avgJitaBuy": 780.86
+      "rate": 95,
+      "accepted": true,
+      "quota": 150000,
+      "avgJitaBuy": 778.93
     },
     {
       "typeId": 17889,
       "name": "Hydrogen Isotopes",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 98,
-      "accepted": false,
-      "quota": 0,
-      "avgJitaBuy": 586.46
+      "rate": 95,
+      "accepted": true,
+      "quota": 150000,
+      "avgJitaBuy": 585.53
     },
     {
       "typeId": 16274,
       "name": "Helium Isotopes",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 98,
-      "accepted": false,
-      "quota": 0,
-      "avgJitaBuy": 834.12
+      "rate": 95,
+      "accepted": true,
+      "quota": 150000,
+      "avgJitaBuy": 832.31
     },
     {
       "typeId": 17888,
       "name": "Nitrogen Isotopes",
       "category": "ice_products",
       "displayCategory": "Ice Products",
-      "rate": 96,
+      "rate": 95,
       "accepted": true,
-      "quota": 100000,
-      "avgJitaBuy": 748.45
+      "quota": 150000,
+      "avgJitaBuy": 743.86
     },
     {
       "typeId": 34,
@@ -80,7 +80,7 @@ const BUYBACK_DATA = {
       "rate": 95,
       "accepted": false,
       "quota": 100000000,
-      "avgJitaBuy": 3.99
+      "avgJitaBuy": 4.0
     },
     {
       "typeId": 35,
@@ -90,7 +90,7 @@ const BUYBACK_DATA = {
       "rate": 95,
       "accepted": false,
       "quota": 20000000,
-      "avgJitaBuy": 18.29
+      "avgJitaBuy": 18.15
     },
     {
       "typeId": 37,
@@ -100,7 +100,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 176.16
+      "avgJitaBuy": 175.57
     },
     {
       "typeId": 36,
@@ -110,7 +110,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 63.86
+      "avgJitaBuy": 64.45
     },
     {
       "typeId": 38,
@@ -120,7 +120,7 @@ const BUYBACK_DATA = {
       "rate": 95,
       "accepted": true,
       "quota": 100000,
-      "avgJitaBuy": 661.67
+      "avgJitaBuy": 659.83
     },
     {
       "typeId": 39,
@@ -130,7 +130,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 942.96
+      "avgJitaBuy": 931.13
     },
     {
       "typeId": 40,
@@ -140,7 +140,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 2489.63
+      "avgJitaBuy": 2464.71
     },
     {
       "typeId": 11399,
@@ -150,7 +150,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 19964.21
+      "avgJitaBuy": 19929.74
     },
     {
       "typeId": 16634,
@@ -160,7 +160,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 247.09
+      "avgJitaBuy": 255.2
     },
     {
       "typeId": 16635,
@@ -170,7 +170,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 285.92
+      "avgJitaBuy": 288.69
     },
     {
       "typeId": 16633,
@@ -180,7 +180,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 100000,
-      "avgJitaBuy": 591.27
+      "avgJitaBuy": 598.49
     },
     {
       "typeId": 16636,
@@ -190,7 +190,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 351.94
+      "avgJitaBuy": 350.22
     },
     {
       "typeId": 16640,
@@ -200,7 +200,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 50000,
-      "avgJitaBuy": 730.5
+      "avgJitaBuy": 730.54
     },
     {
       "typeId": 16639,
@@ -208,9 +208,9 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 96,
-      "accepted": true,
+      "accepted": false,
       "quota": 50000,
-      "avgJitaBuy": 532.43
+      "avgJitaBuy": 521.89
     },
     {
       "typeId": 16637,
@@ -220,7 +220,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 50000,
-      "avgJitaBuy": 1305.18
+      "avgJitaBuy": 1300.79
     },
     {
       "typeId": 16638,
@@ -230,7 +230,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 50000,
-      "avgJitaBuy": 838.62
+      "avgJitaBuy": 833.57
     },
     {
       "typeId": 16641,
@@ -240,7 +240,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 6089.87
+      "avgJitaBuy": 6068.92
     },
     {
       "typeId": 16643,
@@ -250,7 +250,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 4961.84
+      "avgJitaBuy": 4919.92
     },
     {
       "typeId": 16644,
@@ -260,7 +260,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 7785.47
+      "avgJitaBuy": 7785.87
     },
     {
       "typeId": 16642,
@@ -270,7 +270,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 2416.79
+      "avgJitaBuy": 2375.39
     },
     {
       "typeId": 16649,
@@ -278,9 +278,9 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 96,
-      "accepted": true,
+      "accepted": false,
       "quota": 12500,
-      "avgJitaBuy": 20060.26
+      "avgJitaBuy": 20178.16
     },
     {
       "typeId": 16646,
@@ -290,7 +290,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 12500,
-      "avgJitaBuy": 3894.13
+      "avgJitaBuy": 3925.61
     },
     {
       "typeId": 16647,
@@ -300,7 +300,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 12500,
-      "avgJitaBuy": 5670.26
+      "avgJitaBuy": 5649.82
     },
     {
       "typeId": 16648,
@@ -310,7 +310,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 12500,
-      "avgJitaBuy": 9610.0
+      "avgJitaBuy": 9519.39
     },
     {
       "typeId": 16652,
@@ -318,9 +318,9 @@ const BUYBACK_DATA = {
       "category": "moon_materials",
       "displayCategory": "Reaction Materials",
       "rate": 96,
-      "accepted": true,
+      "accepted": false,
       "quota": 6250,
-      "avgJitaBuy": 61026.05
+      "avgJitaBuy": 61047.37
     },
     {
       "typeId": 16651,
@@ -330,7 +330,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": false,
       "quota": 1000,
-      "avgJitaBuy": 65281.84
+      "avgJitaBuy": 64848.68
     },
     {
       "typeId": 16650,
@@ -340,7 +340,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 6250,
-      "avgJitaBuy": 57075.79
+      "avgJitaBuy": 57040.53
     },
     {
       "typeId": 16653,
@@ -350,7 +350,513 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 39463.42
+      "avgJitaBuy": 38737.37
+    },
+    {
+      "typeId": 25588,
+      "name": "Scorched Telemetry Processor",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25589,
+      "name": "Malfunctioning Shield Emitter",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25593,
+      "name": "Smashed Trigger Unit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25595,
+      "name": "Alloyed Tritanium Bar",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25596,
+      "name": "Broken Drone Transceiver",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25597,
+      "name": "Damaged Artificial Neural Network",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25598,
+      "name": "Tripped Power Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25599,
+      "name": "Charred Micro Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 5000,
+      "avgJitaBuy": 0,
+      "tier": "Common"
+    },
+    {
+      "typeId": 25590,
+      "name": "Contaminated Nanite Compound",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25591,
+      "name": "Contaminated Lorentz Fluid",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25592,
+      "name": "Defective Current Pump",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25594,
+      "name": "Tangled Power Conduit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25600,
+      "name": "Burned Logic Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25601,
+      "name": "Fried Interface Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25602,
+      "name": "Thruster Console",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25603,
+      "name": "Melted Capacitor Console",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25604,
+      "name": "Conductive Polymer",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25605,
+      "name": "Armor Plates",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25606,
+      "name": "Ward Console",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 1000,
+      "avgJitaBuy": 0,
+      "tier": "Uncommon"
+    },
+    {
+      "typeId": 25607,
+      "name": "Telemetry Processor",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25611,
+      "name": "Current Pump",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25613,
+      "name": "Power Conduit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25614,
+      "name": "Single-crystal Superalloy I-beam",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25615,
+      "name": "Drone Transceiver",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25616,
+      "name": "Artificial Neural Network",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25618,
+      "name": "Micro Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25620,
+      "name": "Interface Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25621,
+      "name": "Impetus Console",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25623,
+      "name": "Conductive Thermoplastic",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 500,
+      "avgJitaBuy": 0,
+      "tier": "Rare"
+    },
+    {
+      "typeId": 25608,
+      "name": "Intact Shield Emitter",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25609,
+      "name": "Nanite Compound",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25610,
+      "name": "Lorentz Fluid",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25612,
+      "name": "Trigger Unit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25617,
+      "name": "Power Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25619,
+      "name": "Logic Circuit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25622,
+      "name": "Capacitor Console",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25624,
+      "name": "Intact Armor Plates",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 25625,
+      "name": "Enhanced Ward Console",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 50,
+      "avgJitaBuy": 0,
+      "tier": "Very Rare"
+    },
+    {
+      "typeId": 28361,
+      "name": "Drone Synaptic Relay Wiring",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 28362,
+      "name": "Drone Capillary Fluid",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 28363,
+      "name": "Drone Cerebral Fragment",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 28364,
+      "name": "Drone Tactical Limb",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 28365,
+      "name": "Drone Epidermal Shielding Chunk",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 28366,
+      "name": "Drone Coronary Unit",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 21815,
+      "name": "Elite Drone AI",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
+    },
+    {
+      "typeId": 81945,
+      "name": "Drone Graviton Emitter",
+      "category": "salvaged_materials",
+      "displayCategory": "Salvaged Materials",
+      "rate": 97,
+      "accepted": true,
+      "quota": 250,
+      "avgJitaBuy": 0,
+      "tier": "Rogue Drone"
     }
   ],
   "categories": {
@@ -365,7 +871,11 @@ const BUYBACK_DATA = {
     "moon_materials": {
       "displayName": "Reaction Materials",
       "visible": true
+    },
+    "salvaged_materials": {
+      "displayName": "Salvaged Materials",
+      "visible": true
     }
   },
-  "generated": "2026-02-17 07:05 UTC"
+  "generated": "2026-02-18 02:29 UTC"
 };

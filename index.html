@@ -1452,6 +1452,23 @@
         .rate-card-items::-webkit-scrollbar-thumb { background: rgba(0, 217, 255, 0.3); border-radius: 3px; }
         .rate-card-items::-webkit-scrollbar-thumb:hover { background: rgba(0, 217, 255, 0.5); }
 
+        .rate-tier-header {
+            color: #00d9ff;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 0 4px 0;
+            margin-top: 4px;
+            border-top: 1px solid rgba(0, 217, 255, 0.15);
+        }
+
+        .rate-tier-header:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+
         .rate-item {
             padding: 8px 0;
             border-bottom: 1px solid rgba(0, 217, 255, 0.05);
@@ -1880,6 +1897,7 @@
                     <button class="sub-tab active" onclick="showSubTab('minerals')">Minerals</button>
                     <button class="sub-tab" onclick="showSubTab('ice')">Ice Products</button>
                     <button class="sub-tab" onclick="showSubTab('moon')">Moon Materials</button>
+                    <button class="sub-tab" onclick="showSubTab('salvage')" style="display:none;">Salvage</button>
                 </div>
 
                 <div class="content">
@@ -1896,6 +1914,11 @@
                     <!-- MOON MATERIALS SUB-CONTENT -->
                     <div id="moon-content" class="tab-content">
                         <div id="moon-materials"></div>
+                    </div>
+
+                    <!-- SALVAGE SUB-CONTENT (hidden initially) -->
+                    <div id="salvage-content" class="tab-content">
+                        <div class="item-grid" id="salvage-grid"></div>
                     </div>
 
                     <div class="footer">
@@ -2220,11 +2243,11 @@ Tip: Copy directly from EVE inventory window"></textarea>
                         "Megacyte": 72597,
                         "Morphite": 133,
                         "Heavy Water": 347760,
-                        "Liquid Ozone": 522804,
+                        "Liquid Ozone": 0,
                         "Strontium Clathrates": 906,
-                        "Oxygen Isotopes": 110777,
-                        "Hydrogen Isotopes": 148297,
-                        "Helium Isotopes": 375200,
+                        "Oxygen Isotopes": 0,
+                        "Hydrogen Isotopes": 0,
+                        "Helium Isotopes": 0,
                         "Nitrogen Isotopes": 0,
                         "Atmospheric Gases": 98258,
                         "Evaporite Deposits": 129928,
@@ -2236,19 +2259,19 @@ Tip: Copy directly from EVE inventory window"></textarea>
                         "Titanium": 5952,
                         "Chromium": 7223,
                         "Cadmium": 2419,
-                        "Platinum": 9,
+                        "Platinum": 0,
                         "Vanadium": 0,
                         "Technetium": 0,
                         "Mercury": 0,
                         "Caesium": 0,
-                        "Hafnium": 5509,
+                        "Hafnium": 0,
                         "Promethium": 19,
-                        "Neodymium": 15890,
+                        "Neodymium": 10890,
                         "Dysprosium": 0,
                         "Thulium": 5322
             },
-            "blueprintsLastUpdated": "Feb 17, 2026 07:05 EVE",
-            "inventoryLastUpdated": "Feb 17, 2026 06:08 EVE"
+            "blueprintsLastUpdated": "Feb 17, 2026 08:00 EVE",
+            "inventoryLastUpdated": "Feb 18, 2026 02:08 EVE"
 };
 
         let BLUEPRINT_DATA = [
@@ -4239,7 +4262,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
         function showSubTab(subTabName) {
             // Hide all sub-content
-            document.querySelectorAll('#minerals-content, #ice-content, #moon-content').forEach(content => {
+            document.querySelectorAll('#minerals-content, #ice-content, #moon-content, #salvage-content').forEach(content => {
                 content.classList.remove('active');
             });
 
@@ -5190,7 +5213,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
             const defaultRate = Object.entries(rateCount).sort((a, b) => b[1] - a[1])[0][0];
 
             // Render each category card
-            const categoryOrder = ['minerals', 'ice_products', 'moon_materials'];
+            const categoryOrder = ['minerals', 'ice_products', 'moon_materials', 'salvaged_materials'];
             categoryOrder.forEach(catKey => {
                 const catConfig = BUYBACK_DATA.categories[catKey];
                 const items = categoryGroups[catKey];
@@ -5200,8 +5223,16 @@ Tip: Copy directly from EVE inventory window"></textarea>
                 card.className = 'rate-card' + (catConfig.visible ? '' : ' category-hidden');
 
                 let itemsHtml = '';
+                let currentTier = null;
+
                 items.forEach(item => {
                     if (!item.accepted) return;
+
+                    // Add tier sub-headers for salvaged materials
+                    if (catKey === 'salvaged_materials' && item.tier && item.tier !== currentTier) {
+                        currentTier = item.tier;
+                        itemsHtml += `<div class="rate-tier-header">${item.tier}</div>`;
+                    }
 
                     const isSpecial = String(item.rate) !== String(defaultRate);
                     const pctClass = isSpecial ? 'rate-item-pct special' : 'rate-item-pct';

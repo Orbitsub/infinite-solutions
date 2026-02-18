@@ -12,6 +12,16 @@ from datetime import datetime, timezone
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mydatabase.db')
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Map DB category names to display names (must match generate_buyback_data.py)
+CATEGORY_DISPLAY = {
+    'minerals': 'Minerals',
+    'ice_products': 'Ice Products',
+    'moon_materials': 'Reaction Materials',
+    'salvaged_materials': 'Salvaged Materials',
+}
+# Reverse lookup: display name -> DB category key
+CATEGORY_DB_KEY = {v: k for k, v in CATEGORY_DISPLAY.items()}
+
 
 class AdminDashboard:
     def __init__(self, root):
@@ -145,7 +155,7 @@ class AdminDashboard:
 
         columns = ('category', 'item', 'current_rate', 'new_rate', 'alliance_discount')
         self.rates_tree = ttk.Treeview(tree_frame, columns=columns, show='headings',
-                                        selectmode='browse')
+                                        selectmode='extended')
 
         self.rates_tree.heading('category', text='Category')
         self.rates_tree.heading('item', text='Item Name')
@@ -341,7 +351,7 @@ class AdminDashboard:
 
         columns = ('category', 'item', 'buyback_rate', 'new_rate', 'quota', 'accepted')
         self.bb_tree = ttk.Treeview(tree_frame, columns=columns, show='headings',
-                                     selectmode='browse')
+                                     selectmode='extended')
 
         self.bb_tree.heading('category', text='Category')
         self.bb_tree.heading('item', text='Item Name')
@@ -885,7 +895,7 @@ class AdminDashboard:
         accepted_count = 0
         total_count = 0
         for row_id, type_id, name, category, market_rate, bb_rate, accepted, quota in rows:
-            cat_display = category.replace('_', ' ').title()
+            cat_display = CATEGORY_DISPLAY.get(category, category.replace('_', ' ').title())
             accepted_text = "YES" if accepted else "NO"
             quota_display = f"{quota:,}" if quota > 0 else "No limit"
             iid = self.bb_tree.insert('', 'end', values=(
@@ -915,7 +925,7 @@ class AdminDashboard:
         cat_active_counts = {}
         cat_total_counts = {}
         for item in self.bb_items.values():
-            cat_display = item['category'].replace('_', ' ').title()
+            cat_display = CATEGORY_DISPLAY.get(item['category'], item['category'].replace('_', ' ').title())
             cat_active_counts[cat_display] = cat_active_counts.get(cat_display, 0) + (1 if item['accepted'] else 0)
             cat_total_counts[cat_display] = cat_total_counts.get(cat_display, 0) + 1
 
@@ -939,16 +949,18 @@ class AdminDashboard:
                     btn.configure(text=label, fg='#ff6666', bg='#1a1520')
 
     def on_bb_select(self, event):
-        """Handle buyback row selection."""
+        """Handle buyback row selection (single or multi)."""
         selection = self.bb_tree.selection()
         if not selection:
             return
-        iid = selection[0]
-        item = self.bb_items.get(iid)
-        if item:
-            self.bb_selected_label.configure(text=item['name'])
-            self.bb_rate_var.set(item['bb_rate'])
-            self.bb_quota_var.set(str(item['quota']))
+        if len(selection) == 1:
+            item = self.bb_items.get(selection[0])
+            if item:
+                self.bb_selected_label.configure(text=item['name'])
+                self.bb_rate_var.set(item['bb_rate'])
+                self.bb_quota_var.set(str(item['quota']))
+        else:
+            self.bb_selected_label.configure(text=f"{len(selection)} items selected")
 
     def quick_set_bb_rate(self, pct):
         """Set the buyback rate spinbox to a preset and apply."""
@@ -980,38 +992,35 @@ class AdminDashboard:
             quota_display += " *"
 
         tags = () if change['new_accepted'] else ('not_accepted',)
+        cat_display = CATEGORY_DISPLAY.get(item['category'], item['category'].replace('_', ' ').title())
         self.bb_tree.item(iid, values=(
-            item['category'].replace('_', ' ').title(),
+            cat_display,
             item['name'], f"{item['bb_rate']}%", rate_display, quota_display, accepted_text
         ), tags=tags)
 
     def apply_bb_rate_change(self):
-        """Apply a buyback rate change to the selected item."""
+        """Apply a buyback rate change to all selected items."""
         selection = self.bb_tree.selection()
         if not selection:
             messagebox.showinfo("No Selection", "Click on an item first.")
             return
 
-        iid = selection[0]
-        item = self.bb_items[iid]
         new_rate = self.bb_rate_var.get()
 
-        change = self._get_bb_change(iid, item)
-        change['new_rate'] = new_rate
-        self.unsaved_buyback_changes[iid] = change
-
-        self._update_bb_tree_display(iid, item, change)
-        self._check_bb_unsaved(iid, change, item)
+        for iid in selection:
+            item = self.bb_items[iid]
+            change = self._get_bb_change(iid, item)
+            change['new_rate'] = new_rate
+            self.unsaved_buyback_changes[iid] = change
+            self._update_bb_tree_display(iid, item, change)
+            self._check_bb_unsaved(iid, change, item)
 
     def apply_bb_quota_change(self):
-        """Apply a quota change to the selected item."""
+        """Apply a quota change to all selected items."""
         selection = self.bb_tree.selection()
         if not selection:
             messagebox.showinfo("No Selection", "Click on an item first.")
             return
-
-        iid = selection[0]
-        item = self.bb_items[iid]
 
         try:
             new_quota = int(self.bb_quota_var.get())
@@ -1022,29 +1031,28 @@ class AdminDashboard:
         if new_quota < 0:
             new_quota = 0
 
-        change = self._get_bb_change(iid, item)
-        change['new_quota'] = new_quota
-        self.unsaved_buyback_changes[iid] = change
-
-        self._update_bb_tree_display(iid, item, change)
-        self._check_bb_unsaved(iid, change, item)
+        for iid in selection:
+            item = self.bb_items[iid]
+            change = self._get_bb_change(iid, item)
+            change['new_quota'] = new_quota
+            self.unsaved_buyback_changes[iid] = change
+            self._update_bb_tree_display(iid, item, change)
+            self._check_bb_unsaved(iid, change, item)
 
     def toggle_bb_accepted(self):
-        """Toggle whether the selected item is accepted for buyback."""
+        """Toggle accepted status for all selected items."""
         selection = self.bb_tree.selection()
         if not selection:
             messagebox.showinfo("No Selection", "Click on an item first.")
             return
 
-        iid = selection[0]
-        item = self.bb_items[iid]
-
-        change = self._get_bb_change(iid, item)
-        change['new_accepted'] = 0 if change['new_accepted'] else 1
-        self.unsaved_buyback_changes[iid] = change
-
-        self._update_bb_tree_display(iid, item, change)
-        self._check_bb_unsaved(iid, change, item)
+        for iid in selection:
+            item = self.bb_items[iid]
+            change = self._get_bb_change(iid, item)
+            change['new_accepted'] = 0 if change['new_accepted'] else 1
+            self.unsaved_buyback_changes[iid] = change
+            self._update_bb_tree_display(iid, item, change)
+            self._check_bb_unsaved(iid, change, item)
 
     def _check_bb_unsaved(self, iid, change, item):
         """Check if a buyback change is actually different from the original."""
@@ -1418,16 +1426,18 @@ class AdminDashboard:
     # ===== RATE EDITING =====
 
     def on_rate_select(self, event):
-        """Handle rate row selection."""
+        """Handle rate row selection (single or multi)."""
         selection = self.rates_tree.selection()
         if not selection:
             return
-        iid = selection[0]
-        item = self.rate_items.get(iid)
-        if item:
-            self.selected_item_label.configure(text=item['name'])
-            self.rate_var.set(item['rate'])
-            self.discount_var.set(item['discount'])
+        if len(selection) == 1:
+            item = self.rate_items.get(selection[0])
+            if item:
+                self.selected_item_label.configure(text=item['name'])
+                self.rate_var.set(item['rate'])
+                self.discount_var.set(item['discount'])
+        else:
+            self.selected_item_label.configure(text=f"{len(selection)} items selected")
 
     def quick_set_rate(self, pct):
         """Set the spinbox to a preset value."""
@@ -1435,34 +1445,32 @@ class AdminDashboard:
         self.apply_rate_change()
 
     def apply_rate_change(self):
-        """Apply the rate change to the selected item."""
+        """Apply the rate change to all selected items."""
         selection = self.rates_tree.selection()
         if not selection:
             messagebox.showinfo("No Selection", "Click on an item first.")
             return
 
-        iid = selection[0]
-        item = self.rate_items[iid]
         new_rate = self.rate_var.get()
 
-        if new_rate == item['rate'] and iid not in self.unsaved_changes:
-            return
+        for iid in selection:
+            item = self.rate_items[iid]
 
-        # Update tree display
-        values = list(self.rates_tree.item(iid, 'values'))
-        values[3] = f"{new_rate}% *" if new_rate != item['rate'] else f"{new_rate}%"
-        self.rates_tree.item(iid, values=values)
+            # Update tree display
+            values = list(self.rates_tree.item(iid, 'values'))
+            values[3] = f"{new_rate}% *" if new_rate != item['rate'] else f"{new_rate}%"
+            self.rates_tree.item(iid, values=values)
 
-        # Track change (merge with existing discount change if any)
-        existing = self.unsaved_changes.get(iid, {})
-        if new_rate != item['rate'] or 'new_discount' in existing:
-            self.unsaved_changes[iid] = {'id': item['id'], 'name': item['name'],
-                                          'old': item['rate'], 'new': new_rate}
-            if 'new_discount' in existing:
-                self.unsaved_changes[iid]['old_discount'] = existing.get('old_discount', item['discount'])
-                self.unsaved_changes[iid]['new_discount'] = existing['new_discount']
-        elif iid in self.unsaved_changes:
-            del self.unsaved_changes[iid]
+            # Track change (merge with existing discount change if any)
+            existing = self.unsaved_changes.get(iid, {})
+            if new_rate != item['rate'] or 'new_discount' in existing:
+                self.unsaved_changes[iid] = {'id': item['id'], 'name': item['name'],
+                                              'old': item['rate'], 'new': new_rate}
+                if 'new_discount' in existing:
+                    self.unsaved_changes[iid]['old_discount'] = existing.get('old_discount', item['discount'])
+                    self.unsaved_changes[iid]['new_discount'] = existing['new_discount']
+            elif iid in self.unsaved_changes:
+                del self.unsaved_changes[iid]
 
         count = len(self.unsaved_changes)
         if count > 0:
@@ -1471,34 +1479,34 @@ class AdminDashboard:
             self.update_status("All saved")
 
     def apply_discount_change(self):
-        """Apply the alliance discount change to the selected item."""
+        """Apply the alliance discount change to all selected items."""
         selection = self.rates_tree.selection()
         if not selection:
             messagebox.showinfo("No Selection", "Click on an item first.")
             return
 
-        iid = selection[0]
-        item = self.rate_items[iid]
         new_discount = self.discount_var.get()
 
-        if new_discount == item['discount'] and iid not in self.unsaved_changes:
-            return
+        for iid in selection:
+            item = self.rate_items[iid]
 
-        # Update tree display
-        values = list(self.rates_tree.item(iid, 'values'))
-        values[4] = f"{new_discount}% *" if new_discount != item['discount'] else f"{new_discount}%"
-        self.rates_tree.item(iid, values=values)
+            # Update tree display
+            values = list(self.rates_tree.item(iid, 'values'))
+            values[4] = f"{new_discount}% *" if new_discount != item['discount'] else f"{new_discount}%"
+            self.rates_tree.item(iid, values=values)
 
-        # Track change (merge with existing rate change if any)
-        if iid in self.unsaved_changes:
-            self.unsaved_changes[iid]['new_discount'] = new_discount
-        elif new_discount != item['discount']:
-            self.unsaved_changes[iid] = {'id': item['id'], 'name': item['name'],
-                                          'old': item['rate'], 'new': item['rate'],
-                                          'old_discount': item['discount'],
-                                          'new_discount': new_discount}
-        elif iid in self.unsaved_changes:
-            del self.unsaved_changes[iid]
+            # Track change (merge with existing rate change if any)
+            if iid in self.unsaved_changes:
+                self.unsaved_changes[iid]['new_discount'] = new_discount
+                self.unsaved_changes[iid]['old_discount'] = self.unsaved_changes[iid].get('old_discount', item['discount'])
+            elif new_discount != item['discount']:
+                self.unsaved_changes[iid] = {'id': item['id'], 'name': item['name'],
+                                              'old': item['rate'], 'new': item['rate'],
+                                              'old_discount': item['discount'],
+                                              'new_discount': new_discount}
+            # Clean up if back to original with no rate change
+            elif iid in self.unsaved_changes and self.unsaved_changes[iid].get('new') == item['rate']:
+                del self.unsaved_changes[iid]
 
         count = len(self.unsaved_changes)
         if count > 0:
