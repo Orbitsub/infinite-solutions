@@ -5315,13 +5315,18 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                     let quotaHtml = '';
                     if (item.quota > 0) {
-                        const formatted = item.quota.toLocaleString();
+                        const currentStock = (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA.inventory)
+                            ? (EMBEDDED_DATA.inventory[item.name] || 0) : 0;
+                        const remaining = Math.max(0, item.quota - currentStock);
                         let quotaClass = 'rate-item-quota';
-                        if (item.quota <= 0) {
+                        if (remaining <= 0) {
                             quotaClass += ' full';
                             quotaHtml = `<div class="${quotaClass}">Quota Full</div>`;
+                        } else if (remaining <= item.quota * 0.2) {
+                            quotaClass += ' urgent';
+                            quotaHtml = `<div class="${quotaClass}">${remaining.toLocaleString()} remaining</div>`;
                         } else {
-                            quotaHtml = `<div class="${quotaClass}">${formatted} remaining</div>`;
+                            quotaHtml = `<div class="${quotaClass}">${remaining.toLocaleString()} remaining</div>`;
                         }
                     }
 
@@ -5418,10 +5423,15 @@ Tip: Copy directly from EVE inventory window"></textarea>
                 let overLimit = false;
                 let excessQty = 0;
 
-                // Check quota
-                if (buybackItem.quota > 0 && parsed.quantity > buybackItem.quota) {
-                    excessQty = parsed.quantity - buybackItem.quota;
-                    effectiveQty = buybackItem.quota;
+                // Check quota (dynamic: remaining = quota target - current inventory)
+                let quotaRemaining = buybackItem.quota;
+                if (buybackItem.quota > 0 && typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA.inventory) {
+                    const currentStock = EMBEDDED_DATA.inventory[buybackItem.name] || 0;
+                    quotaRemaining = Math.max(0, buybackItem.quota - currentStock);
+                }
+                if (buybackItem.quota > 0 && parsed.quantity > quotaRemaining) {
+                    excessQty = parsed.quantity - quotaRemaining;
+                    effectiveQty = quotaRemaining;
                     overLimit = true;
                     quotaWarnings++;
                 }
@@ -5444,7 +5454,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
                     status: overLimit ? 'PARTIAL' : 'ACCEPTED',
                     overLimit,
                     excessQty,
-                    quota: buybackItem.quota,
+                    quota: quotaRemaining,
                     typeId: buybackItem.typeId,
                 });
             });
