@@ -1,5 +1,5 @@
 // Auto-generated buyback program data
-// Generated: 2026-02-18 14:56 UTC
+// Generated: 2026-02-18 21:13 UTC
 const BUYBACK_DATA = {
   "items": [
     {
@@ -10,7 +10,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 107.42
+      "avgJitaBuy": 107.41
     },
     {
       "typeId": 16273,
@@ -19,8 +19,8 @@ const BUYBACK_DATA = {
       "displayCategory": "Ice Products",
       "rate": 95,
       "accepted": true,
-      "quota": 100000,
-      "avgJitaBuy": 95.97
+      "quota": 0,
+      "avgJitaBuy": 96.28
     },
     {
       "typeId": 16275,
@@ -29,8 +29,8 @@ const BUYBACK_DATA = {
       "displayCategory": "Ice Products",
       "rate": 95,
       "accepted": true,
-      "quota": 100000,
-      "avgJitaBuy": 3456.51
+      "quota": 0,
+      "avgJitaBuy": 3425.21
     },
     {
       "typeId": 17887,
@@ -38,9 +38,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 95,
-      "accepted": false,
-      "quota": 150000,
-      "avgJitaBuy": 778.15
+      "accepted": true,
+      "quota": 0,
+      "avgJitaBuy": 777.29
     },
     {
       "typeId": 17889,
@@ -48,9 +48,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 95,
-      "accepted": false,
-      "quota": 150000,
-      "avgJitaBuy": 584.92
+      "accepted": true,
+      "quota": 0,
+      "avgJitaBuy": 583.78
     },
     {
       "typeId": 16274,
@@ -58,9 +58,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 95,
-      "accepted": false,
-      "quota": 150000,
-      "avgJitaBuy": 833.02
+      "accepted": true,
+      "quota": 0,
+      "avgJitaBuy": 832.15
     },
     {
       "typeId": 17888,
@@ -68,9 +68,9 @@ const BUYBACK_DATA = {
       "category": "ice_products",
       "displayCategory": "Ice Products",
       "rate": 95,
-      "accepted": false,
-      "quota": 150000,
-      "avgJitaBuy": 741.05
+      "accepted": true,
+      "quota": 0,
+      "avgJitaBuy": 738.16
     },
     {
       "typeId": 34,
@@ -90,7 +90,7 @@ const BUYBACK_DATA = {
       "rate": 95,
       "accepted": false,
       "quota": 20000000,
-      "avgJitaBuy": 18.03
+      "avgJitaBuy": 17.96
     },
     {
       "typeId": 37,
@@ -100,7 +100,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 175.14
+      "avgJitaBuy": 174.89
     },
     {
       "typeId": 36,
@@ -110,7 +110,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 64.53
+      "avgJitaBuy": 64.71
     },
     {
       "typeId": 38,
@@ -120,7 +120,7 @@ const BUYBACK_DATA = {
       "rate": 95,
       "accepted": true,
       "quota": 100000,
-      "avgJitaBuy": 655.84
+      "avgJitaBuy": 653.27
     },
     {
       "typeId": 39,
@@ -130,7 +130,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 931.85
+      "avgJitaBuy": 932.82
     },
     {
       "typeId": 40,
@@ -140,7 +140,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 2459.9
+      "avgJitaBuy": 2460.21
     },
     {
       "typeId": 11399,
@@ -150,7 +150,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 19883.85
+      "avgJitaBuy": 19921.79
     },
     {
       "typeId": 16634,
@@ -160,7 +160,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 255.89
+      "avgJitaBuy": 255.94
     },
     {
       "typeId": 16635,
@@ -170,7 +170,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 287.95
+      "avgJitaBuy": 288.07
     },
     {
       "typeId": 16633,
@@ -180,7 +180,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 100000,
-      "avgJitaBuy": 602.43
+      "avgJitaBuy": 605.6
     },
     {
       "typeId": 16636,
@@ -190,7 +190,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 348.12
+      "avgJitaBuy": 348.22
     },
     {
       "typeId": 16640,
@@ -200,7 +200,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 50000,
-      "avgJitaBuy": 729.31
+      "avgJitaBuy": 728.06
     },
     {
       "typeId": 16639,
@@ -210,7 +210,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": false,
       "quota": 50000,
-      "avgJitaBuy": 515.49
+      "avgJitaBuy": 509.88
     },
     {
       "typeId": 16637,
@@ -220,7 +220,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 50000,
-      "avgJitaBuy": 1304.36
+      "avgJitaBuy": 1307.92
     },
     {
       "typeId": 16638,
@@ -230,7 +230,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 50000,
-      "avgJitaBuy": 829.9
+      "avgJitaBuy": 827.44
     },
     {
       "typeId": 16641,
@@ -240,7 +240,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 6037.9
+      "avgJitaBuy": 6020.87
     },
     {
       "typeId": 16643,
@@ -250,7 +250,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 4884.23
+      "avgJitaBuy": 4862.92
     },
     {
       "typeId": 16644,
@@ -260,7 +260,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 7771.0
+      "avgJitaBuy": 7774.05
     },
     {
       "typeId": 16642,
@@ -270,7 +270,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 25000,
-      "avgJitaBuy": 2341.31
+      "avgJitaBuy": 2317.77
     },
     {
       "typeId": 16649,
@@ -280,7 +280,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": false,
       "quota": 12500,
-      "avgJitaBuy": 20133.08
+      "avgJitaBuy": 20125.13
     },
     {
       "typeId": 16646,
@@ -290,7 +290,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 12500,
-      "avgJitaBuy": 3939.69
+      "avgJitaBuy": 3952.26
     },
     {
       "typeId": 16647,
@@ -300,7 +300,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 12500,
-      "avgJitaBuy": 5633.62
+      "avgJitaBuy": 5627.26
     },
     {
       "typeId": 16648,
@@ -310,7 +310,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 12500,
-      "avgJitaBuy": 9388.36
+      "avgJitaBuy": 9293.77
     },
     {
       "typeId": 16652,
@@ -320,7 +320,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": false,
       "quota": 6250,
-      "avgJitaBuy": 61047.95
+      "avgJitaBuy": 61100.51
     },
     {
       "typeId": 16651,
@@ -330,7 +330,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": false,
       "quota": 1000,
-      "avgJitaBuy": 64617.44
+      "avgJitaBuy": 64491.54
     },
     {
       "typeId": 16650,
@@ -340,7 +340,7 @@ const BUYBACK_DATA = {
       "rate": 96,
       "accepted": true,
       "quota": 6250,
-      "avgJitaBuy": 57055.9
+      "avgJitaBuy": 57110.0
     },
     {
       "typeId": 16653,
@@ -350,7 +350,7 @@ const BUYBACK_DATA = {
       "rate": 98,
       "accepted": false,
       "quota": 0,
-      "avgJitaBuy": 38466.67
+      "avgJitaBuy": 38252.56
     },
     {
       "typeId": 25588,
@@ -360,7 +360,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 2110.67,
+      "avgJitaBuy": 2112.0,
       "tier": "Common"
     },
     {
@@ -371,7 +371,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 346.17,
+      "avgJitaBuy": 346.96,
       "tier": "Common"
     },
     {
@@ -382,7 +382,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 9999.0,
+      "avgJitaBuy": 9408.8,
       "tier": "Common"
     },
     {
@@ -393,7 +393,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 2256.0,
+      "avgJitaBuy": 2258.0,
       "tier": "Common"
     },
     {
@@ -404,7 +404,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 3081.0,
+      "avgJitaBuy": 3081.2,
       "tier": "Common"
     },
     {
@@ -415,7 +415,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 210.07,
+      "avgJitaBuy": 210.28,
       "tier": "Common"
     },
     {
@@ -426,7 +426,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 2522.0,
+      "avgJitaBuy": 2516.4,
       "tier": "Common"
     },
     {
@@ -437,7 +437,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 5000,
-      "avgJitaBuy": 210.13,
+      "avgJitaBuy": 210.24,
       "tier": "Common"
     },
     {
@@ -448,7 +448,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 69640.0,
+      "avgJitaBuy": 69696.0,
       "tier": "Uncommon"
     },
     {
@@ -459,7 +459,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 97676.67,
+      "avgJitaBuy": 97882.0,
       "tier": "Uncommon"
     },
     {
@@ -470,7 +470,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 11946.67,
+      "avgJitaBuy": 11748.0,
       "tier": "Uncommon"
     },
     {
@@ -481,7 +481,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 109233.33,
+      "avgJitaBuy": 101944.0,
       "tier": "Uncommon"
     },
     {
@@ -492,7 +492,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 27396.67,
+      "avgJitaBuy": 27468.0,
       "tier": "Uncommon"
     },
     {
@@ -503,7 +503,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 2678.67,
+      "avgJitaBuy": 2656.6,
       "tier": "Uncommon"
     },
     {
@@ -514,7 +514,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 12870.0,
+      "avgJitaBuy": 12664.0,
       "tier": "Uncommon"
     },
     {
@@ -525,7 +525,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 4820.67,
+      "avgJitaBuy": 4825.4,
       "tier": "Uncommon"
     },
     {
@@ -536,7 +536,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 18373.33,
+      "avgJitaBuy": 18258.0,
       "tier": "Uncommon"
     },
     {
@@ -547,7 +547,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 24423.33,
+      "avgJitaBuy": 24454.0,
       "tier": "Uncommon"
     },
     {
@@ -558,7 +558,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 1000,
-      "avgJitaBuy": 15686.67,
+      "avgJitaBuy": 15612.0,
       "tier": "Uncommon"
     },
     {
@@ -569,7 +569,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 78230.0,
+      "avgJitaBuy": 78248.0,
       "tier": "Rare"
     },
     {
@@ -580,7 +580,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 49373.33,
+      "avgJitaBuy": 49520.0,
       "tier": "Rare"
     },
     {
@@ -591,7 +591,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 509200.0,
+      "avgJitaBuy": 506800.0,
       "tier": "Rare"
     },
     {
@@ -602,7 +602,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 119266.67,
+      "avgJitaBuy": 119240.0,
       "tier": "Rare"
     },
     {
@@ -613,7 +613,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 58850.0,
+      "avgJitaBuy": 59540.0,
       "tier": "Rare"
     },
     {
@@ -624,7 +624,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 1030.13,
+      "avgJitaBuy": 999.94,
       "tier": "Rare"
     },
     {
@@ -635,7 +635,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 3613.0,
+      "avgJitaBuy": 3614.2,
       "tier": "Rare"
     },
     {
@@ -646,7 +646,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 7999.67,
+      "avgJitaBuy": 8001.4,
       "tier": "Rare"
     },
     {
@@ -657,7 +657,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 94880.0,
+      "avgJitaBuy": 94438.0,
       "tier": "Rare"
     },
     {
@@ -668,7 +668,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 500,
-      "avgJitaBuy": 21736.67,
+      "avgJitaBuy": 21736.0,
       "tier": "Rare"
     },
     {
@@ -679,7 +679,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 460933.33,
+      "avgJitaBuy": 461560.0,
       "tier": "Very Rare"
     },
     {
@@ -690,7 +690,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 1484000.0,
+      "avgJitaBuy": 1453400.0,
       "tier": "Very Rare"
     },
     {
@@ -701,7 +701,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 807433.33,
+      "avgJitaBuy": 809200.0,
       "tier": "Very Rare"
     },
     {
@@ -712,7 +712,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 1187333.33,
+      "avgJitaBuy": 1179600.0,
       "tier": "Very Rare"
     },
     {
@@ -723,7 +723,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 248266.67,
+      "avgJitaBuy": 249080.0,
       "tier": "Very Rare"
     },
     {
@@ -734,7 +734,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 1884666.67,
+      "avgJitaBuy": 1887200.0,
       "tier": "Very Rare"
     },
     {
@@ -745,7 +745,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 230200.0,
+      "avgJitaBuy": 230160.0,
       "tier": "Very Rare"
     },
     {
@@ -756,7 +756,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 2138333.33,
+      "avgJitaBuy": 2126800.0,
       "tier": "Very Rare"
     },
     {
@@ -767,7 +767,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 50,
-      "avgJitaBuy": 1320666.67,
+      "avgJitaBuy": 1303200.0,
       "tier": "Very Rare"
     },
     {
@@ -778,7 +778,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 250,
-      "avgJitaBuy": 670.3,
+      "avgJitaBuy": 687.24,
       "tier": "Rogue Drone"
     },
     {
@@ -789,7 +789,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 250,
-      "avgJitaBuy": 3901.0,
+      "avgJitaBuy": 3901.2,
       "tier": "Rogue Drone"
     },
     {
@@ -800,7 +800,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 250,
-      "avgJitaBuy": 308166.67,
+      "avgJitaBuy": 307160.0,
       "tier": "Rogue Drone"
     },
     {
@@ -811,7 +811,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 250,
-      "avgJitaBuy": 3872.33,
+      "avgJitaBuy": 3907.0,
       "tier": "Rogue Drone"
     },
     {
@@ -833,7 +833,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 250,
-      "avgJitaBuy": 16833.33,
+      "avgJitaBuy": 17260.0,
       "tier": "Rogue Drone"
     },
     {
@@ -844,7 +844,7 @@ const BUYBACK_DATA = {
       "rate": 97,
       "accepted": true,
       "quota": 250,
-      "avgJitaBuy": 1967333.33,
+      "avgJitaBuy": 1974000.0,
       "tier": "Rogue Drone"
     },
     {
@@ -877,5 +877,5 @@ const BUYBACK_DATA = {
       "visible": true
     }
   },
-  "generated": "2026-02-18 14:56 UTC"
+  "generated": "2026-02-18 21:13 UTC"
 };
