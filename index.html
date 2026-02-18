@@ -425,6 +425,23 @@
             padding-bottom: 0;
         }
 
+        .salvage-tier-header {
+            color: #00d9ff;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 0 6px 0;
+            margin-top: 8px;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+            margin-bottom: 4px;
+        }
+
+        .salvage-tier-header:first-child {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
         .item {
             background: rgba(0, 50, 80, 0.3);
             border: 1px solid rgba(0, 217, 255, 0.3);
@@ -4217,6 +4234,39 @@ Tip: Copy directly from EVE inventory window"></textarea>
             'R64 - Exceptional': ['Promethium', 'Neodymium', 'Dysprosium', 'Thulium']
         };
 
+        const SALVAGE_MATERIALS = {
+            'Common': [
+                'Scorched Telemetry Processor', 'Malfunctioning Shield Emitter',
+                'Smashed Trigger Unit', 'Alloyed Tritanium Bar',
+                'Broken Drone Transceiver', 'Damaged Artificial Neural Network',
+                'Tripped Power Circuit', 'Charred Micro Circuit'
+            ],
+            'Uncommon': [
+                'Contaminated Nanite Compound', 'Contaminated Lorentz Fluid',
+                'Defective Current Pump', 'Tangled Power Conduit',
+                'Burned Logic Circuit', 'Fried Interface Circuit',
+                'Thruster Console', 'Melted Capacitor Console',
+                'Conductive Polymer', 'Armor Plates', 'Ward Console'
+            ],
+            'Rare': [
+                'Telemetry Processor', 'Current Pump', 'Power Conduit',
+                'Single-crystal Superalloy I-beam', 'Drone Transceiver',
+                'Artificial Neural Network', 'Micro Circuit',
+                'Interface Circuit', 'Impetus Console', 'Conductive Thermoplastic'
+            ],
+            'Very Rare': [
+                'Intact Shield Emitter', 'Nanite Compound', 'Lorentz Fluid',
+                'Trigger Unit', 'Power Circuit', 'Logic Circuit',
+                'Capacitor Console', 'Intact Armor Plates', 'Enhanced Ward Console'
+            ],
+            'Rogue Drone': [
+                'Drone Synaptic Relay Wiring', 'Drone Capillary Fluid',
+                'Drone Cerebral Fragment', 'Drone Tactical Limb',
+                'Drone Epidermal Shielding Chunk', 'Drone Coronary Unit',
+                'Elite Drone AI', 'Drone Graviton Emitter'
+            ]
+        };
+
         let allBlueprints = [];
         let filteredBlueprints = [];
 
@@ -4287,6 +4337,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
             renderMinerals(inventory);
             renderIceProducts(inventory);
             renderMoonMaterials(inventory);
+            renderSalvage(inventory);
         }
 
         // ============================================
@@ -4491,6 +4542,31 @@ Tip: Copy directly from EVE inventory window"></textarea>
                 });
 
                 container.appendChild(groupDiv);
+            });
+        }
+
+        function renderSalvage(inventory) {
+            const grid = document.getElementById('salvage-grid');
+            grid.innerHTML = '';
+
+            Object.entries(SALVAGE_MATERIALS).forEach(([tier, materials]) => {
+                // Tier header
+                const header = document.createElement('div');
+                header.className = 'salvage-tier-header';
+                header.textContent = tier;
+                grid.appendChild(header);
+
+                // Items in this tier
+                const tierGrid = document.createElement('div');
+                tierGrid.className = 'item-grid';
+
+                materials.forEach(material => {
+                    const quantity = inventory[material] || 0;
+                    const item = createItemCard(material, quantity, '97% JBV');
+                    tierGrid.appendChild(item);
+                });
+
+                grid.appendChild(tierGrid);
             });
         }
 

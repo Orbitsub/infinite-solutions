@@ -15,6 +15,23 @@ CATEGORY_DISPLAY = {
     'minerals': 'Minerals',
     'ice_products': 'Ice Products',
     'moon_materials': 'Reaction Materials',
+    'salvaged_materials': 'Salvaged Materials',
+}
+
+# Tier mapping for salvaged_materials based on display_order ranges
+SALVAGE_TIERS = {
+    range(1, 10): 'Common',
+    range(10, 22): 'Uncommon',
+    range(22, 33): 'Rare',
+    range(33, 43): 'Very Rare',
+    range(43, 100): 'Rogue Drone',
+}
+
+# Map config slug (from display name) to DB category key
+# Admin dashboard stores config as: buyback_category_{display_name_slug}
+# e.g. "Reaction Materials" -> buyback_category_reaction_materials
+CONFIG_TO_DB_CATEGORY = {
+    'reaction_materials': 'moon_materials',
 }
 
 
@@ -43,15 +60,20 @@ def get_buyback_data():
     avg_prices = {row[0]: round(row[1], 2) for row in cursor.fetchall() if row[1] is not None}
 
     # Get category visibility from site_config
+    # Admin stores keys like: buyback_category_minerals, buyback_category_reaction_materials
     cursor.execute("""
         SELECT key, value FROM site_config
-        WHERE key LIKE 'buyback_category_%_visible'
+        WHERE key LIKE 'buyback_category_%'
+          AND key NOT LIKE '%_visible'
+          AND key NOT LIKE 'buyback_category_%_pricing%'
     """)
     category_visibility = {}
     for key, value in cursor.fetchall():
-        # Extract category name from key like 'buyback_category_minerals_visible'
-        cat = key.replace('buyback_category_', '').replace('_visible', '')
-        category_visibility[cat] = value == '1'
+        # Extract slug from key like 'buyback_category_minerals'
+        slug = key.replace('buyback_category_', '')
+        # Map config slug to DB category (e.g. reaction_materials -> moon_materials)
+        db_cat = CONFIG_TO_DB_CATEGORY.get(slug, slug)
+        category_visibility[db_cat] = value == '1'
 
     conn.close()
 
@@ -61,7 +83,7 @@ def get_buyback_data():
         # Use buyback_rate if set, otherwise fall back to price_percentage
         effective_rate = rate if rate is not None else price_pct
 
-        buyback_items.append({
+        item = {
             'typeId': type_id,
             'name': type_name,
             'category': category,
@@ -70,7 +92,16 @@ def get_buyback_data():
             'accepted': bool(accepted),
             'quota': quota or 0,
             'avgJitaBuy': avg_prices.get(type_id, 0),
-        })
+        }
+
+        # Add tier for salvaged materials
+        if category == 'salvaged_materials' and display_order is not None:
+            for order_range, tier_name in SALVAGE_TIERS.items():
+                if display_order in order_range:
+                    item['tier'] = tier_name
+                    break
+
+        buyback_items.append(item)
 
     # Build category config
     categories = {}
