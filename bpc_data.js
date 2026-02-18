@@ -1443,6 +1443,16 @@ const BPC_DATA = [
     "subcategory": "Frigate"
   },
   {
+    "typeId": 12006,
+    "name": "Ishtar Blueprint",
+    "me": 4,
+    "te": 14,
+    "runs": 2,
+    "quantity": 2,
+    "category": "Ships",
+    "subcategory": "Cruiser"
+  },
+  {
     "typeId": 949,
     "name": "Kestrel Blueprint",
     "me": 10,
@@ -2338,7 +2348,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 2,
-    "quantity": 3,
+    "quantity": 2,
     "category": "Ships",
     "subcategory": "Cruiser"
   },

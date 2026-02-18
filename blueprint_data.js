@@ -178,7 +178,7 @@ BLUEPRINT_DATA = [
   },
   {
     "name": "Catalyst Blueprint",
-    "me": 8,
+    "me": 10,
     "te": 0,
     "category": "Ships",
     "subcategory": "Destroyer"
@@ -1872,7 +1872,7 @@ BLUEPRINT_DATA = [
   },
   {
     "name": "Vexor Blueprint",
-    "me": 7,
+    "me": 10,
     "te": 14,
     "category": "Ships",
     "subcategory": "Cruiser"
