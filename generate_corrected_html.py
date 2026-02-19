@@ -33,26 +33,15 @@ MOON_MATERIALS = {
 }
 
 def get_inventory_data():
-    """Get current inventory for the 35 tracked items."""
+    """Get current inventory for all tracked items."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Get all tracked items
-    all_items = MINERALS + ICE_PRODUCTS + [item for group in MOON_MATERIALS.values() for item in group]
+    cursor.execute("SELECT type_name, quantity FROM lx_zoj_current_inventory")
 
     inventory = {}
-    for item_name in all_items:
-        cursor.execute("""
-            SELECT type_name, quantity
-            FROM lx_zoj_current_inventory
-            WHERE type_name = ?
-        """, (item_name,))
-
-        result = cursor.fetchone()
-        if result:
-            inventory[item_name] = result[1]
-        else:
-            inventory[item_name] = 0
+    for type_name, quantity in cursor.fetchall():
+        inventory[type_name] = quantity
 
     conn.close()
     return inventory
