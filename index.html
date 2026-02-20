@@ -4762,14 +4762,25 @@ Tip: Copy directly from EVE inventory window"></textarea>
             document.getElementById('lastUpdated2').textContent = `Last updated: ${EMBEDDED_DATA.blueprintsLastUpdated}`;
         }
 
+        // Build name→sellRate lookup from buyback_data.js
+        const SELL_RATE_LOOKUP = {};
+        if (typeof BUYBACK_DATA !== 'undefined' && BUYBACK_DATA.items) {
+            BUYBACK_DATA.items.forEach(item => {
+                if (item.sellRate != null) SELL_RATE_LOOKUP[item.name] = item.sellRate;
+            });
+        }
+        function getSellRateLabel(name) {
+            const r = SELL_RATE_LOOKUP[name];
+            return r != null ? `${r}% JBV` : 'N/A';
+        }
+
         function renderMinerals(inventory) {
             const grid = document.getElementById('minerals-grid');
             grid.innerHTML = '';
 
             MINERALS.forEach(mineral => {
                 const quantity = inventory[mineral] || 0;
-                // Tritanium has special pricing
-                const priceText = mineral === 'Tritanium' ? '97% JBV' : '98% JBV';
+                const priceText = getSellRateLabel(mineral);
                 const item = createItemCard(mineral, quantity, priceText);
                 grid.appendChild(item);
             });
@@ -4781,7 +4792,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
             ICE_PRODUCTS.forEach(product => {
                 const quantity = inventory[product] || 0;
-                const priceText = product.includes('Isotopes') ? '97% JBV' : '98% JBV';
+                const priceText = getSellRateLabel(product);
                 const item = createItemCard(product, quantity, priceText);
                 grid.appendChild(item);
             });
@@ -4797,7 +4808,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                 materials.forEach(material => {
                     const quantity = inventory[material] || 0;
-                    const item = createItemCard(material, quantity, '98% JBV');
+                    const item = createItemCard(material, quantity, getSellRateLabel(material));
                     groupDiv.appendChild(item);
                 });
 
@@ -4822,7 +4833,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                 materials.forEach(material => {
                     const quantity = inventory[material] || 0;
-                    const item = createItemCard(material, quantity, '97% JBV');
+                    const item = createItemCard(material, quantity, getSellRateLabel(material));
                     tierGrid.appendChild(item);
                 });
 

@@ -89,6 +89,7 @@ def get_buyback_data():
             'category': category,
             'displayCategory': CATEGORY_DISPLAY.get(category, category),
             'rate': effective_rate,
+            'sellRate': price_pct,
             'accepted': bool(accepted),
             'quota': quota or 0,
             'avgJitaBuy': avg_prices.get(type_id, 0),
