@@ -1633,16 +1633,24 @@
             font-family: 'Rajdhani', sans-serif;
         }
 
+        .buyback-table-wrapper {
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
         .buyback-table thead th {
-            background: rgba(0, 50, 80, 0.5);
+            background: rgba(0, 50, 80, 0.95);
             color: #00d9ff;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             padding: 8px 12px;
             text-align: left;
             border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
         .buyback-table tbody tr {
@@ -1654,7 +1662,7 @@
 
         .buyback-table td {
             padding: 5px 12px;
-            font-size: 14px;
+            font-size: 15px;
             color: #c0e0f0;
         }
 
@@ -1868,17 +1876,31 @@
         .buyback-quote-row.side-by-side {
             display: flex;
             gap: 30px;
-            align-items: flex-start;
+            align-items: stretch;
         }
 
         .buyback-quote-row.side-by-side .buyback-calculator-panel {
             flex: 1;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Stack textarea above buttons inside calculator panel */
         .buyback-calculator-panel .buyback-input-area {
             flex-direction: column;
+            flex: 1;
+        }
+
+        .buyback-calculator-panel .buyback-paste-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .buyback-calculator-panel .buyback-paste-box textarea {
+            flex: 1;
+            height: auto;
         }
 
         .buyback-calculator-panel .buyback-actions {
@@ -2229,18 +2251,20 @@ Tip: Copy directly from EVE inventory window"></textarea>
                 <div class="buyback-results" id="buybackResults">
                     <div class="buyback-section-header">Quote Results</div>
 
-                    <table class="buyback-table">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th style="text-align:right;">Quantity</th>
-                                <th style="text-align:center;">Rate</th>
-                                <th style="text-align:right;">Your Payout</th>
-                                <th style="text-align:center;">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="buybackResultsBody"></tbody>
-                    </table>
+                    <div class="buyback-table-wrapper">
+                        <table class="buyback-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th style="text-align:right;">Quantity</th>
+                                    <th style="text-align:center;">Rate</th>
+                                    <th style="text-align:right;">Your Payout</th>
+                                    <th style="text-align:center;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="buybackResultsBody"></tbody>
+                        </table>
+                    </div>
 
                     <div class="buyback-summary" id="buybackSummary"></div>
 
