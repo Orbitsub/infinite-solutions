@@ -2000,6 +2000,49 @@
             flex-direction: column;
             gap: 5px;
         }
+
+        /* Price freshness badge */
+        .prices-freshness {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            color: #3a7a60;
+            margin-bottom: 10px;
+        }
+
+        .prices-freshness.stale { color: #8a6a20; }
+
+        /* Per-item breakdown tooltip */
+        .price-tooltip {
+            display: none;
+            position: fixed;
+            background: rgba(0, 15, 30, 0.97);
+            border: 1px solid rgba(0, 217, 255, 0.35);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            color: #a0c8e0;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        /* Mobile: stack three panels vertically */
+        @media (max-width: 768px) {
+            .buyback-quote-row {
+                flex-direction: column;
+                min-height: auto;
+                gap: 16px;
+            }
+
+            .quote-panel {
+                min-height: 280px;
+            }
+
+            .rate-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2309,6 +2352,7 @@
                     <!-- Panel 1: Instant Quote Calculator -->
                     <div class="quote-panel">
                         <div class="buyback-section-header">Instant Quote Calculator</div>
+                        <div class="prices-freshness" id="pricesFreshness"></div>
                         <div class="buyback-input-area">
                             <div class="buyback-paste-box">
                                 <textarea id="buybackPasteInput" placeholder="Paste your inventory here...
@@ -5665,6 +5709,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
                     effectiveQty,
                     accepted: true,
                     rate: buybackItem.rate,
+                    avgJita: buybackItem.avgJitaBuy,
                     jitaValue,
                     payout,
                     status: overLimit ? 'PARTIAL' : 'ACCEPTED',
@@ -5700,6 +5745,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
                         <td class="status-col"><span class="status-not-accepted">NOT ACCEPTED</span></td>`;
                 } else if (r.overLimit) {
                     row.className = 'over-limit';
+                    row.dataset.tooltip = `${formatISKBuyback(r.avgJita)} ISK avg  ×  ${r.effectiveQty.toLocaleString()} units  ×  ${r.rate}%  =  ${formatISKBuyback(r.payout)} ISK`;
                     row.innerHTML = `
                         <td class="item-name-col">${r.name}<span class="over-limit-note">Capped at quota - ${r.excessQty.toLocaleString()} excess</span></td>
                         <td class="qty-col"><span class="qty-adjusted">${r.quantity.toLocaleString()}</span><span class="qty-accepted">${r.effectiveQty.toLocaleString()}</span></td>
@@ -5707,6 +5753,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
                         <td class="payout-col">${formatISKBuyback(r.payout)} ISK</td>
                         <td class="status-col"><span class="status-accepted" style="color:#ffaa00;">PARTIAL</span></td>`;
                 } else {
+                    row.dataset.tooltip = `${formatISKBuyback(r.avgJita)} ISK avg  ×  ${r.quantity.toLocaleString()} units  ×  ${r.rate}%  =  ${formatISKBuyback(r.payout)} ISK`;
                     row.innerHTML = `
                         <td class="item-name-col">${r.name}</td>
                         <td class="qty-col">${r.quantity.toLocaleString()}</td>
@@ -5717,6 +5764,20 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                 tbody.appendChild(row);
             });
+
+            // Tooltip events
+            const tooltip = document.getElementById('priceTooltip');
+            tbody.onmouseover = e => {
+                const row = e.target.closest('tr[data-tooltip]');
+                if (!row) return;
+                tooltip.textContent = row.dataset.tooltip;
+                tooltip.style.display = 'block';
+            };
+            tbody.onmousemove = e => {
+                tooltip.style.left = (e.clientX + 14) + 'px';
+                tooltip.style.top  = (e.clientY - 36) + 'px';
+            };
+            tbody.onmouseout = () => { tooltip.style.display = 'none'; };
 
             // Populate contract details
             window._lastQuotePayout = totalPayout;
@@ -5801,7 +5862,21 @@ Tip: Copy directly from EVE inventory window"></textarea>
             });
         }
 
-function loadBuybackFromHash() {
+        function initPricesFreshness() {
+            const el = document.getElementById('pricesFreshness');
+            if (!el || typeof BUYBACK_DATA === 'undefined' || !BUYBACK_DATA.generated) return;
+            const genDate = new Date(BUYBACK_DATA.generated.replace(' UTC', 'Z').replace(' ', 'T'));
+            const diffMs = Date.now() - genDate;
+            const diffMins = Math.floor(diffMs / 60000);
+            let age;
+            if (diffMins < 60) age = `${diffMins}m ago`;
+            else if (diffMins < 1440) age = `${Math.floor(diffMins / 60)}h ago`;
+            else age = `${Math.floor(diffMins / 1440)}d ago`;
+            el.textContent = `Prices last updated: ${BUYBACK_DATA.generated} (${age})`;
+            if (diffMins > 1440) el.classList.add('stale');
+        }
+
+        function loadBuybackFromHash() {
             const hash = window.location.hash;
             if (!hash.startsWith('#buyback=')) return;
 
@@ -5852,11 +5927,13 @@ function loadBuybackFromHash() {
             loadResearchJobs();
             loadLastUpdated();
             renderBuybackRateCards();
+            initPricesFreshness();
             loadBuybackFromHash();
 
             // Auto-expand inventory on page load (skip landing page)
             expandInventory();
         });
     </script>
+    <div class="price-tooltip" id="priceTooltip"></div>
 </body>
 </html>
