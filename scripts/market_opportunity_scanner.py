@@ -29,8 +29,8 @@ BUY_COST_MULT  = 1.015     # cost = price × 1.015
 SELL_REV_MULT  = 0.95125   # revenue = price × 0.95125
 
 # ── Filters (adjustable via CLI) ──────────────────────────────────────────────
-MIN_NET_MARGIN_PCT  = 5.0      # Minimum net margin % after your fees
-MIN_PROFIT_PER_UNIT = 100_000  # ISK — skip penny items even at high margin
+MIN_NET_MARGIN_PCT  = 10.0      # Minimum net margin % after your fees
+MIN_PROFIT_PER_UNIT = 100_000_000  # ISK — skip penny items even at high margin
 MIN_BUY_ORDERS      = 5        # Minimum buy orders in book (depth)
 MIN_SELL_ORDERS     = 5        # Minimum sell orders in book (depth)
 MIN_AVG_DAILY_VOL   = 20       # Units/day from historical data (skip illiquid)
