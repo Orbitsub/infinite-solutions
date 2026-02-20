@@ -1860,8 +1860,21 @@
             font-style: italic;
         }
 
+        /* Side-by-side quote layout */
+        .buyback-quote-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-top: 35px;
+        }
+
+        .buyback-calculator-panel {
+            width: 380px;
+            flex-shrink: 0;
+        }
+
         .buyback-results { display: none; }
-        .buyback-results.visible { display: block; }
+        .buyback-results.visible { display: block; flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -2165,12 +2178,15 @@
                     <!-- Category cards rendered dynamically by JS -->
                 </div>
 
-                <!-- Paste & Calculate -->
-                <div class="buyback-section-header" style="margin-top: 35px;">Instant Quote Calculator</div>
+                <!-- Side-by-side quote layout -->
+                <div class="buyback-quote-row">
+                    <div class="buyback-calculator-panel">
+                        <!-- Paste & Calculate -->
+                        <div class="buyback-section-header">Instant Quote Calculator</div>
 
-                <div class="buyback-input-area">
-                    <div class="buyback-paste-box">
-                        <textarea id="buybackPasteInput" placeholder="Paste your inventory here...
+                        <div class="buyback-input-area">
+                            <div class="buyback-paste-box">
+                                <textarea id="buybackPasteInput" placeholder="Paste your inventory here...
 
 Example:
 Tritanium    1,000,000
@@ -2179,22 +2195,23 @@ Mexallon     250,000
 Heavy Water  50,000
 
 Tip: Copy directly from EVE inventory window"></textarea>
-                        <div class="paste-hint">Ctrl+V to paste from EVE</div>
-                    </div>
-                    <div class="buyback-actions">
-                        <button class="btn-calculate" onclick="calculateBuybackQuote()">Calculate Quote</button>
-                        <button class="btn-clear" onclick="clearBuybackInput()">Clear</button>
-                    </div>
-                </div>
+                                <div class="paste-hint">Ctrl+V to paste from EVE</div>
+                            </div>
+                            <div class="buyback-actions">
+                                <button class="btn-calculate" onclick="calculateBuybackQuote()">Calculate Quote</button>
+                                <button class="btn-clear" onclick="clearBuybackInput()">Clear</button>
+                            </div>
+                        </div>
 
-                <!-- Loaded from link banner -->
-                <div class="quote-loaded-banner" id="buybackLoadedBanner" style="display: none;">
-                    <div class="icon">&#128279;</div>
-                    <div class="text">
-                        Quote loaded from shared link - Quote ID: <strong id="buybackLoadedQuoteId">--</strong>
+                        <!-- Loaded from link banner -->
+                        <div class="quote-loaded-banner" id="buybackLoadedBanner" style="display: none;">
+                            <div class="icon">&#128279;</div>
+                            <div class="text">
+                                Quote loaded from shared link - Quote ID: <strong id="buybackLoadedQuoteId">--</strong>
+                            </div>
+                            <div class="recalc-note">Prices recalculated with current Jita rates</div>
+                        </div>
                     </div>
-                    <div class="recalc-note">Prices recalculated with current Jita rates</div>
-                </div>
 
                 <!-- Results -->
                 <div class="buyback-results" id="buybackResults">
@@ -2236,6 +2253,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
                         </div>
                     </div>
                 </div>
+                </div><!-- end buyback-quote-row -->
 
                 <div class="footer" style="text-align:center; margin-top:40px; padding-top:20px; border-top:1px solid rgba(0,217,255,0.1);">
                     <div style="font-size:16px; color:#4a8aa0;">Contract items to <span style="color:#00d9ff; font-weight:600;">Rax Hakaari</span> at <span style="color:#00d9ff; font-weight:600;">LX-ZOJ Tatara</span> | Payouts within 24 hours</div>
