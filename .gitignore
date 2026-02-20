@@ -18,6 +18,15 @@ credentials.json
 *.token
 *.secret
 
+# Customer transaction data (player names + ISK amounts)
+Customer Logs/
+
+# Scheduler/script logs
+logs/
+
 # Database files
 *.db
 mydatabase
+
+# EVE Static Data Export (large game data files, not versioned)
+sde/
