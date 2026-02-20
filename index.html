@@ -1633,16 +1633,24 @@
             font-family: 'Rajdhani', sans-serif;
         }
 
+        .buyback-table-wrapper {
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
         .buyback-table thead th {
-            background: rgba(0, 50, 80, 0.5);
+            background: rgba(0, 50, 80, 0.95);
             color: #00d9ff;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 14px 16px;
+            padding: 8px 12px;
             text-align: left;
             border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
         .buyback-table tbody tr {
@@ -1653,8 +1661,8 @@
         .buyback-table tbody tr:hover { background: rgba(0, 217, 255, 0.05); }
 
         .buyback-table td {
-            padding: 12px 16px;
-            font-size: 16px;
+            padding: 5px 12px;
+            font-size: 15px;
             color: #c0e0f0;
         }
 
@@ -1810,7 +1818,7 @@
             color: #ffffff;
         }
 
-        .quote-id-display {
+.quote-id-display {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -1860,8 +1868,181 @@
             font-style: italic;
         }
 
-        .buyback-results { display: none; }
-        .buyback-results.visible { display: block; }
+        /* Three-column quote layout — always visible */
+        .buyback-quote-row {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            margin-top: 35px;
+            min-height: 520px;
+        }
+
+        .quote-panel {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            background: rgba(5, 15, 30, 0.6);
+            border: 1px solid rgba(0, 217, 255, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .quote-panel .buyback-section-header {
+            margin-top: 0;
+        }
+
+        .quote-panel .buyback-input-area {
+            flex-direction: column;
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .quote-panel .buyback-paste-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quote-panel .buyback-paste-box textarea {
+            flex: 1;
+            height: auto;
+        }
+
+        .quote-panel .buyback-actions {
+            flex-direction: row;
+            margin-top: 12px;
+        }
+
+        .panel-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2a5a70;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            text-align: center;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        /* Contract Details step-by-step */
+        .contract-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .contract-step {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            color: #a0c8e0;
+            line-height: 1.5;
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: rgba(0, 217, 255, 0.15);
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-top: 2px;
+        }
+
+        .contract-field-box {
+            background: rgba(0, 30, 50, 0.6);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 6px 0 10px 34px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contract-payout-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        }
+
+        .contract-field-box .quote-link-input {
+            border: none;
+            background: transparent;
+            padding: 0;
+            font-size: 13px;
+        }
+
+        .contract-meta {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            color: #4a8aa0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        /* Price freshness badge */
+        .prices-freshness {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            color: #3a7a60;
+            margin-bottom: 10px;
+        }
+
+        .prices-freshness.stale { color: #8a6a20; }
+
+        /* Per-item breakdown tooltip */
+        .price-tooltip {
+            display: none;
+            position: fixed;
+            background: rgba(0, 15, 30, 0.97);
+            border: 1px solid rgba(0, 217, 255, 0.35);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            color: #a0c8e0;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        /* Mobile: stack three panels vertically */
+        @media (max-width: 768px) {
+            .buyback-quote-row {
+                flex-direction: column;
+                min-height: auto;
+                gap: 16px;
+            }
+
+            .quote-panel {
+                min-height: 280px;
+            }
+
+            .rate-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2165,12 +2346,16 @@
                     <!-- Category cards rendered dynamically by JS -->
                 </div>
 
-                <!-- Paste & Calculate -->
-                <div class="buyback-section-header" style="margin-top: 35px;">Instant Quote Calculator</div>
+                <!-- Three-column quote layout -->
+                <div class="buyback-quote-row" id="buybackQuoteRow">
 
-                <div class="buyback-input-area">
-                    <div class="buyback-paste-box">
-                        <textarea id="buybackPasteInput" placeholder="Paste your inventory here...
+                    <!-- Panel 1: Instant Quote Calculator -->
+                    <div class="quote-panel">
+                        <div class="buyback-section-header">Instant Quote Calculator</div>
+                        <div class="prices-freshness" id="pricesFreshness"></div>
+                        <div class="buyback-input-area">
+                            <div class="buyback-paste-box">
+                                <textarea id="buybackPasteInput" placeholder="Paste your inventory here...
 
 Example:
 Tritanium    1,000,000
@@ -2179,64 +2364,93 @@ Mexallon     250,000
 Heavy Water  50,000
 
 Tip: Copy directly from EVE inventory window"></textarea>
-                        <div class="paste-hint">Ctrl+V to paste from EVE</div>
-                    </div>
-                    <div class="buyback-actions">
-                        <button class="btn-calculate" onclick="calculateBuybackQuote()">Calculate Quote</button>
-                        <button class="btn-clear" onclick="clearBuybackInput()">Clear</button>
-                    </div>
-                </div>
-
-                <!-- Loaded from link banner -->
-                <div class="quote-loaded-banner" id="buybackLoadedBanner" style="display: none;">
-                    <div class="icon">&#128279;</div>
-                    <div class="text">
-                        Quote loaded from shared link - Quote ID: <strong id="buybackLoadedQuoteId">--</strong>
-                    </div>
-                    <div class="recalc-note">Prices recalculated with current Jita rates</div>
-                </div>
-
-                <!-- Results -->
-                <div class="buyback-results" id="buybackResults">
-                    <div class="buyback-section-header">Quote Results</div>
-
-                    <table class="buyback-table">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th style="text-align:right;">Quantity</th>
-                                <th style="text-align:center;">Rate</th>
-                                <th style="text-align:right;">Jita Buy (7d avg)</th>
-                                <th style="text-align:right;">Your Payout</th>
-                                <th style="text-align:center;">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="buybackResultsBody"></tbody>
-                    </table>
-
-                    <div class="buyback-summary" id="buybackSummary"></div>
-
-                    <!-- Share Quote Link -->
-                    <div class="quote-share-section" id="buybackShareSection">
-                        <div class="quote-share-header">
+                                <div class="paste-hint">Ctrl+V to paste from EVE</div>
+                            </div>
+                            <div class="buyback-actions">
+                                <button class="btn-calculate" onclick="calculateBuybackQuote()">Calculate Quote</button>
+                                <button class="btn-clear" onclick="clearBuybackInput()">Clear</button>
+                            </div>
+                        </div>
+                        <div class="quote-loaded-banner" id="buybackLoadedBanner" style="display: none;">
                             <div class="icon">&#128279;</div>
-                            <div class="title">Share This Quote</div>
-                        </div>
-                        <div class="quote-share-description">
-                            Copy this link and send it to <strong style="color:#00ffff;">@Rax Hakaari</strong> for verification.
-                            The link contains your items and quantities — prices are recalculated fresh when opened.
-                        </div>
-                        <div class="quote-link-row">
-                            <input type="text" class="quote-link-input" id="buybackQuoteLinkInput" readonly onclick="this.select()">
-                            <button class="btn-copy-link" id="buybackCopyLinkBtn" onclick="copyBuybackQuoteLink()">Copy Link</button>
-                        </div>
-                        <div class="quote-id-display">
-                            <span class="quote-id-label">Quote ID:</span>
-                            <span class="quote-id-value" id="buybackQuoteId">--</span>
-                            <span class="quote-timestamp" id="buybackQuoteTimestamp"></span>
+                            <div class="text">
+                                Quote loaded from shared link - Quote ID: <strong id="buybackLoadedQuoteId">--</strong>
+                            </div>
+                            <div class="recalc-note">Prices recalculated with current Jita rates</div>
                         </div>
                     </div>
-                </div>
+
+                    <!-- Panel 2: Quote Results -->
+                    <div class="quote-panel">
+                        <div class="buyback-section-header">Quote Results</div>
+                        <div class="panel-placeholder" id="resultsPlaceholder">Paste items and click Calculate Quote to see results.</div>
+                        <div id="buybackTableContainer" style="display:none;">
+                            <div class="buyback-table-wrapper">
+                                <table class="buyback-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th style="text-align:right;">Quantity</th>
+                                            <th style="text-align:center;">Rate</th>
+                                            <th style="text-align:right;">Your Payout</th>
+                                            <th style="text-align:center;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="buybackResultsBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 3: Contract Details -->
+                    <div class="quote-panel">
+                        <div class="buyback-section-header">Contract Details</div>
+                        <div class="panel-placeholder" id="contractPlaceholder">Calculate a quote to see contract details.</div>
+                        <div id="contractDetailsContent" style="display:none;">
+                            <div class="contract-steps">
+                                <div class="contract-step">
+                                    <span class="step-num">1</span>
+                                    <span>Open <strong>Contracts → Create Contract</strong> in EVE Online.</span>
+                                </div>
+                                <div class="contract-step">
+                                    <span class="step-num">2</span>
+                                    <span>Set type to <strong>Item Exchange</strong>, availability to <strong>Private</strong>, and search for <strong style="color:#00ffff;">Rax Hakaari</strong>.</span>
+                                </div>
+                                <div class="contract-step">
+                                    <span class="step-num">3</span>
+                                    <span>Add all <strong>accepted items</strong> from your quote to the contract.</span>
+                                </div>
+                                <div class="contract-step">
+                                    <span class="step-num">4</span>
+                                    <span>In <strong>"I Will Receive"</strong>, enter this amount exactly:</span>
+                                </div>
+                            </div>
+                            <div class="contract-field-box">
+                                <span class="contract-payout-value" id="contractPayoutDisplay">--</span>
+                                <button class="btn-copy-link" id="copyPayoutBtn" onclick="copyContractPayout()">Copy Amount</button>
+                            </div>
+                            <div class="contract-steps">
+                                <div class="contract-step">
+                                    <span class="step-num">5</span>
+                                    <span>In the <strong>Description</strong> box, paste this quote link:</span>
+                                </div>
+                            </div>
+                            <div class="contract-field-box">
+                                <input type="text" class="quote-link-input" id="buybackQuoteLinkInput" readonly onclick="this.select()">
+                                <button class="btn-copy-link" id="buybackCopyLinkBtn" onclick="copyBuybackQuoteLink()">Copy Link</button>
+                            </div>
+                            <div class="contract-meta">
+                                <div>
+                                    <span class="quote-id-label">Quote ID:</span>
+                                    <span class="quote-id-value" id="buybackQuoteId">--</span>
+                                </div>
+                                <div id="buybackQuoteTimestamp"></div>
+                                <div id="contractAcceptedDisplay"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end buyback-quote-row -->
 
                 <div class="footer" style="text-align:center; margin-top:40px; padding-top:20px; border-top:1px solid rgba(0,217,255,0.1);">
                     <div style="font-size:16px; color:#4a8aa0;">Contract items to <span style="color:#00d9ff; font-weight:600;">Rax Hakaari</span> at <span style="color:#00d9ff; font-weight:600;">LX-ZOJ Tatara</span> | Payouts within 24 hours</div>
@@ -5495,6 +5709,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
                     effectiveQty,
                     accepted: true,
                     rate: buybackItem.rate,
+                    avgJita: buybackItem.avgJitaBuy,
                     jitaValue,
                     payout,
                     status: overLimit ? 'PARTIAL' : 'ACCEPTED',
@@ -5526,24 +5741,23 @@ Tip: Copy directly from EVE inventory window"></textarea>
                         <td class="item-name-col">${r.name}</td>
                         <td class="qty-col">${r.quantity.toLocaleString()}</td>
                         <td class="rate-col">--</td>
-                        <td class="jita-col">--</td>
                         <td class="payout-col">--</td>
                         <td class="status-col"><span class="status-not-accepted">NOT ACCEPTED</span></td>`;
                 } else if (r.overLimit) {
                     row.className = 'over-limit';
+                    row.dataset.tooltip = `${formatISKBuyback(r.avgJita)} ISK avg  ×  ${r.effectiveQty.toLocaleString()} units  ×  ${r.rate}%  =  ${formatISKBuyback(r.payout)} ISK`;
                     row.innerHTML = `
                         <td class="item-name-col">${r.name}<span class="over-limit-note">Capped at quota - ${r.excessQty.toLocaleString()} excess</span></td>
                         <td class="qty-col"><span class="qty-adjusted">${r.quantity.toLocaleString()}</span><span class="qty-accepted">${r.effectiveQty.toLocaleString()}</span></td>
                         <td class="rate-col">${r.rate}%</td>
-                        <td class="jita-col">${formatISKBuyback(r.jitaValue)} ISK</td>
                         <td class="payout-col">${formatISKBuyback(r.payout)} ISK</td>
                         <td class="status-col"><span class="status-accepted" style="color:#ffaa00;">PARTIAL</span></td>`;
                 } else {
+                    row.dataset.tooltip = `${formatISKBuyback(r.avgJita)} ISK avg  ×  ${r.quantity.toLocaleString()} units  ×  ${r.rate}%  =  ${formatISKBuyback(r.payout)} ISK`;
                     row.innerHTML = `
                         <td class="item-name-col">${r.name}</td>
                         <td class="qty-col">${r.quantity.toLocaleString()}</td>
                         <td class="rate-col">${r.rate}%</td>
-                        <td class="jita-col">${formatISKBuyback(r.jitaValue)} ISK</td>
                         <td class="payout-col">${formatISKBuyback(r.payout)} ISK</td>
                         <td class="status-col"><span class="status-accepted">ACCEPTED</span></td>`;
                 }
@@ -5551,39 +5765,48 @@ Tip: Copy directly from EVE inventory window"></textarea>
                 tbody.appendChild(row);
             });
 
-            // Summary
-            const summaryDiv = document.getElementById('buybackSummary');
-            let summaryHtml = `
-                <div class="summary-item">
-                    <div class="summary-label">Accepted Items</div>
-                    <div class="summary-value items-count">${acceptedCount} / ${totalCount}</div>
-                </div>`;
+            // Tooltip events
+            const tooltip = document.getElementById('priceTooltip');
+            tbody.onmouseover = e => {
+                const row = e.target.closest('tr[data-tooltip]');
+                if (!row) return;
+                tooltip.textContent = row.dataset.tooltip;
+                tooltip.style.display = 'block';
+            };
+            tbody.onmousemove = e => {
+                tooltip.style.left = (e.clientX + 14) + 'px';
+                tooltip.style.top  = (e.clientY - 36) + 'px';
+            };
+            tbody.onmouseout = () => { tooltip.style.display = 'none'; };
 
-            if (quotaWarnings > 0) {
-                summaryHtml += `
-                    <div class="summary-item">
-                        <div class="summary-label">Quota Warnings</div>
-                        <div class="summary-value" style="color:#ffaa00; text-shadow:0 0 10px rgba(255,170,0,0.4);">${quotaWarnings} item${quotaWarnings > 1 ? 's' : ''} capped</div>
-                    </div>`;
-            }
+            // Populate contract details
+            window._lastQuotePayout = totalPayout;
+            document.getElementById('contractPayoutDisplay').textContent = formatISKBuyback(totalPayout) + ' ISK';
+            let acceptedText = `${acceptedCount} / ${totalCount} items accepted`;
+            if (quotaWarnings > 0) acceptedText += ` — ${quotaWarnings} capped at quota`;
+            document.getElementById('contractAcceptedDisplay').textContent = acceptedText;
 
-            summaryHtml += `
-                <div class="summary-item">
-                    <div class="summary-label">Total Jita Value</div>
-                    <div class="summary-value items-count">${formatISKBuyback(totalJita)} ISK</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Your Payout</div>
-                    <div class="summary-value">${formatISKBuyback(totalPayout)} ISK</div>
-                </div>`;
-
-            summaryDiv.innerHTML = summaryHtml;
-
-            // Build share link
+            // Build share link — auto-shorten via is.gd
             const acceptedItems = results.filter(r => r.accepted);
             const itemPairs = acceptedItems.map(r => `${r.typeId}:${r.quantity}`).join(',');
             const shareUrl = `${window.location.origin}${window.location.pathname}#buyback=${itemPairs}`;
-            document.getElementById('buybackQuoteLinkInput').value = shareUrl;
+            const linkInput = document.getElementById('buybackQuoteLinkInput');
+            const copyBtn = document.getElementById('buybackCopyLinkBtn');
+            linkInput.value = 'Shortening...';
+            copyBtn.disabled = true;
+            (async () => {
+                try {
+                    const resp = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(shareUrl)}`);
+                    if (!resp.ok) throw new Error();
+                    const short = (await resp.text()).trim();
+                    if (!short.startsWith('https://')) throw new Error();
+                    linkInput.value = short;
+                } catch {
+                    linkInput.value = shareUrl;
+                } finally {
+                    copyBtn.disabled = false;
+                }
+            })();
 
             // Generate quote ID from hash
             const quoteHash = itemPairs.split('').reduce((h, c) => ((h << 5) - h + c.charCodeAt(0)) | 0, 0);
@@ -5596,14 +5819,20 @@ Tip: Copy directly from EVE inventory window"></textarea>
             document.getElementById('buybackQuoteTimestamp').textContent =
                 `Generated: ${months[now.getUTCMonth()]} ${now.getUTCDate()}, ${now.getUTCFullYear()} ${String(now.getUTCHours()).padStart(2,'0')}:${String(now.getUTCMinutes()).padStart(2,'0')} EVE`;
 
-            // Show results
-            document.getElementById('buybackResults').classList.add('visible');
+            // Show results and contract details panels
+            document.getElementById('buybackTableContainer').style.display = 'block';
+            document.getElementById('resultsPlaceholder').style.display = 'none';
+            document.getElementById('contractDetailsContent').style.display = 'block';
+            document.getElementById('contractPlaceholder').style.display = 'none';
         }
 
         function clearBuybackInput() {
             document.getElementById('buybackPasteInput').value = '';
-            document.getElementById('buybackResults').classList.remove('visible');
             document.getElementById('buybackResultsBody').innerHTML = '';
+            document.getElementById('buybackTableContainer').style.display = 'none';
+            document.getElementById('resultsPlaceholder').style.display = 'flex';
+            document.getElementById('contractDetailsContent').style.display = 'none';
+            document.getElementById('contractPlaceholder').style.display = 'flex';
         }
 
         function copyBuybackQuoteLink() {
@@ -5618,6 +5847,33 @@ Tip: Copy directly from EVE inventory window"></textarea>
                     btn.classList.remove('copied');
                 }, 2000);
             });
+        }
+
+        function copyContractPayout() {
+            const raw = (window._lastQuotePayout || 0).toFixed(2);
+            navigator.clipboard.writeText(raw).then(() => {
+                const btn = document.getElementById('copyPayoutBtn');
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy Amount';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function initPricesFreshness() {
+            const el = document.getElementById('pricesFreshness');
+            if (!el || typeof BUYBACK_DATA === 'undefined' || !BUYBACK_DATA.generated) return;
+            const genDate = new Date(BUYBACK_DATA.generated.replace(' UTC', 'Z').replace(' ', 'T'));
+            const diffMs = Date.now() - genDate;
+            const diffMins = Math.floor(diffMs / 60000);
+            let age;
+            if (diffMins < 60) age = `${diffMins}m ago`;
+            else if (diffMins < 1440) age = `${Math.floor(diffMins / 60)}h ago`;
+            else age = `${Math.floor(diffMins / 1440)}d ago`;
+            el.textContent = `Prices last updated: ${BUYBACK_DATA.generated} (${age})`;
+            if (diffMins > 1440) el.classList.add('stale');
         }
 
         function loadBuybackFromHash() {
@@ -5671,11 +5927,13 @@ Tip: Copy directly from EVE inventory window"></textarea>
             loadResearchJobs();
             loadLastUpdated();
             renderBuybackRateCards();
+            initPricesFreshness();
             loadBuybackFromHash();
 
             // Auto-expand inventory on page load (skip landing page)
             expandInventory();
         });
     </script>
+    <div class="price-tooltip" id="priceTooltip"></div>
 </body>
 </html>
