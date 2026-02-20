@@ -377,16 +377,6 @@ const BPC_DATA = [
     "name": "Capital Capacitor Battery Blueprint",
     "me": 10,
     "te": 20,
-    "runs": 5,
-    "quantity": 2,
-    "category": "Components",
-    "subcategory": "Capital Ship"
-  },
-  {
-    "typeId": 21020,
-    "name": "Capital Capacitor Battery Blueprint",
-    "me": 10,
-    "te": 20,
     "runs": 19,
     "quantity": 1,
     "category": "Components",
@@ -437,18 +427,8 @@ const BPC_DATA = [
     "name": "Capital Cargo Bay Blueprint",
     "me": 10,
     "te": 20,
-    "runs": 3,
-    "quantity": 1,
-    "category": "Components",
-    "subcategory": "Capital Ship"
-  },
-  {
-    "typeId": 21028,
-    "name": "Capital Cargo Bay Blueprint",
-    "me": 10,
-    "te": 20,
     "runs": 5,
-    "quantity": 11,
+    "quantity": 5,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -508,7 +488,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 1,
-    "quantity": 2,
+    "quantity": 1,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -518,7 +498,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 5,
-    "quantity": 3,
+    "quantity": 2,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -557,18 +537,8 @@ const BPC_DATA = [
     "name": "Capital Construction Parts Blueprint",
     "me": 10,
     "te": 20,
-    "runs": 4,
-    "quantity": 1,
-    "category": "Components",
-    "subcategory": "Capital Ship"
-  },
-  {
-    "typeId": 21038,
-    "name": "Capital Construction Parts Blueprint",
-    "me": 10,
-    "te": 20,
     "runs": 5,
-    "quantity": 9,
+    "quantity": 7,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -598,7 +568,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 5,
-    "quantity": 2,
+    "quantity": 1,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -768,7 +738,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 5,
-    "quantity": 3,
+    "quantity": 2,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -858,7 +828,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 1,
-    "quantity": 3,
+    "quantity": 2,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
@@ -868,7 +838,7 @@ const BPC_DATA = [
     "me": 10,
     "te": 20,
     "runs": 5,
-    "quantity": 5,
+    "quantity": 4,
     "category": "Components",
     "subcategory": "Capital Ship"
   },
