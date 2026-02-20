@@ -4555,7 +4555,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
             MINERALS.forEach(mineral => {
                 const quantity = inventory[mineral] || 0;
                 // Tritanium has special pricing
-                const priceText = mineral === 'Tritanium' ? '97% JBV (3% below alliance)' : '98% JBV (2% below alliance)';
+                const priceText = mineral === 'Tritanium' ? '97% JBV' : '98% JBV';
                 const item = createItemCard(mineral, quantity, priceText);
                 grid.appendChild(item);
             });
@@ -4567,7 +4567,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
             ICE_PRODUCTS.forEach(product => {
                 const quantity = inventory[product] || 0;
-                const priceText = product.includes('Isotopes') ? '97% JBV (5% below alliance)' : '98% JBV (4% below alliance)';
+                const priceText = product.includes('Isotopes') ? '97% JBV' : '98% JBV';
                 const item = createItemCard(product, quantity, priceText);
                 grid.appendChild(item);
             });
@@ -4583,7 +4583,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                 materials.forEach(material => {
                     const quantity = inventory[material] || 0;
-                    const item = createItemCard(material, quantity, '98% JBV (4% below alliance)');
+                    const item = createItemCard(material, quantity, '98% JBV');
                     groupDiv.appendChild(item);
                 });
 
