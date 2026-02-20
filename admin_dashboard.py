@@ -161,7 +161,7 @@ class AdminDashboard:
         self.rates_tree.heading('item', text='Item Name')
         self.rates_tree.heading('current_rate', text='Current Rate')
         self.rates_tree.heading('new_rate', text='New Rate (%)')
-        self.rates_tree.heading('alliance_discount', text='Alliance Discount')
+        self.rates_tree.heading('alliance_discount', text='Discount %')
 
         self.rates_tree.column('category', width=130, anchor='center')
         self.rates_tree.column('item', width=250)
@@ -218,8 +218,8 @@ class AdminDashboard:
                            command=lambda p=pct: self.quick_set_rate(p))
             btn.pack(side='left', padx=2)
 
-        # Alliance discount
-        ttk.Label(inner, text="Alliance Discount %:",
+        # Discount adjustment
+        ttk.Label(inner, text="Discount %:",
                   font=('Segoe UI', 11)).pack(side='left', padx=(25, 5))
 
         self.discount_var = tk.IntVar(value=2)
@@ -1479,7 +1479,7 @@ class AdminDashboard:
             self.update_status("All saved")
 
     def apply_discount_change(self):
-        """Apply the alliance discount change to all selected items."""
+        """Apply the discount change to all selected items."""
         selection = self.rates_tree.selection()
         if not selection:
             messagebox.showinfo("No Selection", "Click on an item first.")
