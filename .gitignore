@@ -30,3 +30,10 @@ mydatabase
 
 # EVE Static Data Export (large game data files, not versioned)
 sde/
+
+# Data/reference files (CSVs, PDFs — not source code)
+*.csv
+*.pdf
+
+# Standalone HTML templates (not part of the live site)
+discord_banner_template.html
