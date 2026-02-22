@@ -1484,8 +1484,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                     let quotaHtml = '';
                     if (item.quota > 0) {
-                        const currentStock = (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA.inventory)
-                            ? (EMBEDDED_DATA.inventory[item.name] || 0) : 0;
+                        const currentStock = EMBEDDED_DATA.inventory[item.name] || 0;
                         const remaining = Math.max(0, item.quota - currentStock);
                         let quotaClass = 'rate-item-quota';
                         if (remaining <= 0) {
@@ -1594,7 +1593,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
                 // Check quota (dynamic: remaining = quota target - current inventory)
                 let quotaRemaining = buybackItem.quota;
-                if (buybackItem.quota > 0 && typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA.inventory) {
+                if (buybackItem.quota > 0) {
                     const currentStock = EMBEDDED_DATA.inventory[buybackItem.name] || 0;
                     quotaRemaining = Math.max(0, buybackItem.quota - currentStock);
                 }
