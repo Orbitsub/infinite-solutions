@@ -222,6 +222,13 @@ body {
             background-size: 50px 50px;
         }
 
+        .bg-grid {
+            background-image:
+                linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
         /* Back button */
         .back-button {
             display: none; /* Disabled - skip landing page */
