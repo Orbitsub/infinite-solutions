@@ -4,7 +4,7 @@ REM ============================================================================
 REM Quick Update Script for GitHub Pages
 REM ============================================================================
 REM After editing index.html, double-click this file to push changes live.
-REM Your page will update at: https://hamektok.github.io/infinite-solutions/
+REM Your page will update at: https://orbitsub.github.io/infinite-solutions/
 REM ============================================================================
 
 echo ============================================================================
@@ -16,7 +16,7 @@ cd /d "E:\Python Project"
 
 REM Regenerate buyback data from database
 echo Regenerating buyback data...
-"C:\Users\lsant\AppData\Local\Python\pythoncore-3.14-64\python.exe" generate_buyback_data.py
+"C:\Users\chris\AppData\Local\Programs\Python\Python313\python.exe" generate_buyback_data.py
 echo.
 
 REM Add and commit changes directly on main
@@ -35,7 +35,7 @@ if %errorlevel% equ 0 (
         echo ============================================================================
         echo SUCCESS! Your page is updating now.
         echo.
-        echo Live URL: https://hamektok.github.io/infinite-solutions/
+        echo Live URL: https://orbitsub.github.io/infinite-solutions/
         echo Wait 1-2 minutes, then refresh the page to see changes.
         echo ============================================================================
     ) else (
