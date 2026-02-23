@@ -14,7 +14,7 @@ SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts')
 sys.path.insert(0, SCRIPT_DIR)
 
 # Import token manager and script utils
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
@@ -26,11 +26,9 @@ HTML_BACKUP_PATH = os.path.join(PROJECT_DIR, 'index.backup.html')
 
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
-# Your character ID
-CHARACTER_ID = 2114278577
-
 # LX-ZOJ Structure ID
-LX_ZOJ_STRUCTURE_ID = 1027625808467
+# LX_ZOJ_STRUCTURE_ID = 1027625808467
+LX_ZOJ_STRUCTURE_ID = 1023105221183
 
 # ============================================
 # FUNCTIONS
@@ -53,7 +51,7 @@ def get_character_assets(headers):
     print("Fetching character assets from ESI...")
 
     while True:
-        url = f'{ESI_BASE_URL}/characters/{CHARACTER_ID}/assets/'
+        url = f'{ESI_BASE_URL}/characters/{character_id}/assets/'
         params = {'page': page}
 
         response = requests.get(url, params=params, headers=headers)
@@ -332,7 +330,7 @@ def main():
     # Switch to main branch FIRST (before modifying any files)
     ensure_main_branch()
 
-    print(f"\nCharacter ID: {CHARACTER_ID}")
+    print(f"\nCharacter ID: {character_id}")
     print(f"Structure: LX-ZOJ ({LX_ZOJ_STRUCTURE_ID})")
 
     # Get authentication

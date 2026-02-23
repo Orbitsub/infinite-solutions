@@ -15,16 +15,13 @@ PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 sys.path.insert(0, SCRIPT_DIR)
 
 # Import token manager
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
 # ============================================
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-
-# Your character ID
-CHARACTER_ID = 2114278577
 
 # Jita 4-4 station ID
 JITA_STATION_ID = 60003760
@@ -50,7 +47,7 @@ def get_character_assets(headers):
     print("Fetching character assets from ESI...")
     
     while True:
-        url = f'{ESI_BASE_URL}/characters/{CHARACTER_ID}/assets/'
+        url = f'{ESI_BASE_URL}/characters/{character_id}/assets/'
         params = {'page': page}
         
         response = requests.get(url, params=params, headers=headers)
@@ -152,7 +149,7 @@ def main():
     """
     
     print("Fetching Jita 4-4 hangar inventory...")
-    print(f"Character ID: {CHARACTER_ID}")
+    print(f"Character ID: {character_id}")
     print(f"Station: Jita 4-4 ({JITA_STATION_ID})")
     
     # Get authentication

@@ -8,7 +8,7 @@ sys.path.insert(0, SCRIPT_DIR)
 import requests
 import sqlite3
 from datetime import datetime, timezone
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
@@ -16,7 +16,6 @@ from token_manager import get_token
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-CHARACTER_ID = 2114278577
 
 # ============================================
 # FUNCTIONS
@@ -159,10 +158,10 @@ def main():
     
     # Get standings
     print("\nFetching standings from ESI...")
-    standings_data = get_character_standings(CHARACTER_ID, token)
+    standings_data = get_character_standings(character_id, token)
     
     if standings_data:
-        updated = update_standings_in_db(conn, CHARACTER_ID, standings_data)
+        updated = update_standings_in_db(conn, character_id, standings_data)
         print(f"\nUpdated {updated} standings")
         
         # Show key standings as confirmation
@@ -175,7 +174,7 @@ def main():
             WHERE cs.character_id = ?
             AND ue.entity_type = 'faction'
             ORDER BY cs.standing DESC
-        ''', (CHARACTER_ID,))
+        ''', (character_id,))
         
         for row in cursor.fetchall():
             print(f"  {row[0]}: {row[1]:.2f}")

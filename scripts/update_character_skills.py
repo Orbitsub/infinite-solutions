@@ -8,7 +8,7 @@ sys.path.insert(0, SCRIPT_DIR)
 import requests
 import sqlite3
 from datetime import datetime, timezone
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
@@ -16,7 +16,6 @@ from token_manager import get_token
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-CHARACTER_ID = 2114278577
 
 # ============================================
 # FUNCTIONS
@@ -86,10 +85,10 @@ def main():
     
     # Get skills
     print("\nFetching skills from ESI...")
-    skills_data = get_character_skills(CHARACTER_ID, token)
+    skills_data = get_character_skills(character_id, token)
     
     if skills_data:
-        updated = update_skills_in_db(conn, CHARACTER_ID, skills_data)
+        updated = update_skills_in_db(conn, character_id, skills_data)
         print(f"Updated {updated} skills")
         
         # Show trading skills as confirmation
@@ -101,7 +100,7 @@ def main():
             JOIN inv_types t ON cs.skill_id = t.type_id
             WHERE cs.character_id = ?
             AND t.type_name IN ('Broker Relations', 'Accounting', 'Trade', 'Retail', 'Advanced Broker Relations')
-        ''', (CHARACTER_ID,))
+        ''', (character_id,))
         
         for row in cursor.fetchall():
             print(f"  {row[0]}: Level {row[1]}")
