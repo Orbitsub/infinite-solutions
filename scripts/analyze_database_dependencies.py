@@ -11,11 +11,10 @@ from collections import defaultdict
 from pathlib import Path
 
 # Configuration
-PROJECT_DIR = r'E:\Python Project'
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 SCRIPTS_DIR = os.path.join(PROJECT_DIR, 'scripts')
 QUERIES_DIR = os.path.join(PROJECT_DIR, 'queries')
-ARCHIVE_DIR = os.path.join(SCRIPTS_DIR, 'Archive')
-
 
 def analyze_python_script(filepath):
     """Analyze a Python script and extract key information"""
@@ -373,7 +372,7 @@ def print_recommendations(scripts, queries):
     if frequently_used:
         print("\n💡 QUERIES THAT COULD BE VIEWS:")
         for query in frequently_used[:5]:
-            print(f"   • {query['filename']} - uses {len(q['tables_used'])} tables")
+            print(f"   • {query['filename']} - uses {len(query['tables_used'])} tables")
     
     print("\n✅ KEEP DOING:")
     print("   • Scripts organized in categories (market, character, static)")
