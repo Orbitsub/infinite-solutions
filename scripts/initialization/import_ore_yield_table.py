@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Import Moon Ore Yields from CSV
+Import Ore Yields from CSV
 Handles both regular minerals and moon materials.
 """
 
@@ -9,9 +9,11 @@ import csv
 import os
 
 # Configuration
-DB_PATH = r'E:\Python Project\mydatabase.db'
-CSV_PATH = r'E:\Python Project\moon_ore_yields.csv'
 
+INIT_DIR  = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(os.path.dirname(INIT_DIR))
+DB_PATH     = os.path.join(PROJECT_DIR, 'mydatabase.db')
+CSV_PATH = os.path.join(PROJECT_DIR, 'dataImported', 'moon_ore_yields.csv')
 
 def import_csv_to_moon_ore_yields(conn, csv_path):
     """

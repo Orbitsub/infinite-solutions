@@ -8,7 +8,7 @@ import os
 import json
 from datetime import datetime, timezone, timedelta
 
-DB_PATH = os.path.join(os.path.dirname(__file__), 'mydatabase.db')
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mydatabase.db')
 
 # Map DB category names to display names
 CATEGORY_DISPLAY = {
@@ -27,7 +27,7 @@ SALVAGE_TIERS = {
     range(43, 100): 'Rogue Drone',
 }
 
-# Map config slug (from display name) to DB category key
+# Map config slug to DB category key
 # Admin dashboard stores config as: buyback_category_{display_name_slug}
 # e.g. "Reaction Materials" -> buyback_category_reaction_materials
 CONFIG_TO_DB_CATEGORY = {
@@ -132,7 +132,7 @@ def main():
     print(f"  Items: {total} total, {accepted} accepting, {with_prices} with price data")
 
     # Write to buyback_data.js
-    output_path = os.path.join(os.path.dirname(__file__), 'buyback_data.js')
+    output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'assets', 'buyback_data.js')
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write('// Auto-generated buyback program data\n')
         f.write(f'// Generated: {data["generated"]}\n')

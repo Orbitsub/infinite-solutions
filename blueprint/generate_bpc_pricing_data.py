@@ -13,7 +13,7 @@ from calculate_bpc_pricing import (
     calculate_quality_multiplier,
 )
 
-DB_PATH = 'mydatabase.db'
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mydatabase.db')
 
 def get_all_blueprints_with_pricing():
     """Get all blueprints with pricing data."""
@@ -86,11 +86,11 @@ def get_all_blueprints_with_pricing():
 
 def write_pricing_js(blueprints_data):
     """Write pricing data to JavaScript file."""
-    output_file = 'bpc_pricing_data.js'
+    output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'assets', 'bpc_pricing_data_data.js')
 
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('// Auto-generated BPC pricing data\n')
-        f.write('// Updated automatically - do not edit manually\n')
+        f.write('// Updated automatically - do not manually edit\n')
         f.write('\n')
         f.write('// Pricing configuration\n')
         f.write('const BPC_PRICING_CONFIG = {\n')

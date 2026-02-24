@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 """
 Import edited blueprint categories from CSV and create database overrides.
-Run this after editing blueprint_categories.csv in Excel.
+Run this after uploading blueprint_categories.csv.
 """
 import sqlite3
 import csv
