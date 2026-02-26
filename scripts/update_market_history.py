@@ -2,6 +2,7 @@ from script_utils import timed_script
 import requests
 import sqlite3
 import os
+import sys
 import time
 from datetime import datetime
 from requests.adapters import HTTPAdapter
@@ -15,8 +16,8 @@ PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
-THE_FORGE_REGION_ID = 10000002
-JITA_STATION_ID = 60003760
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import HOME_REGION_ID as THE_FORGE_REGION_ID, HOME_STATION_ID as JITA_STATION_ID
 
 # Rate limiting: 100 requests per second (conservative)
 REQUESTS_PER_SECOND = 100

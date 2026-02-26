@@ -26,8 +26,8 @@ sys.path.insert(0, SCRIPT_DIR)
 # CONFIGURATION
 # ============================================
 
-CORPORATION_ID = 98814441  # ← Your corp ID
-ALLIANCE_ID = None         # ← Or alliance ID (set CORPORATION_ID to None)
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import CORPORATION_ID, ALLIANCE_ID
 
 # How many pages to fetch (None = all available)
 MAX_PAGES = None

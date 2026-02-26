@@ -17,16 +17,17 @@ from datetime import datetime, timezone
 import time
 import json
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, SCRIPT_DIR)
+TBD_DIR     = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS_DIR = os.path.dirname(TBD_DIR)
+PROJECT_DIR = os.path.dirname(SCRIPTS_DIR)
+sys.path.insert(0, SCRIPTS_DIR)
 
 # ============================================
 # CONFIGURATION
 # ============================================
 
-CORPORATION_ID = 98814441
-ALLIANCE_ID = None
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import CORPORATION_ID, ALLIANCE_ID
 
 MAX_PAGES = 3  # Check last 3 pages for new killmails
 

@@ -33,8 +33,8 @@ PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH     = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
-# Corporation ID that owns the refineries
-CORPORATION_ID = 98814441  # <-- UPDATE THIS to your corp ID
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import CORPORATION_ID
 
 # ============================================
 # ESI HELPERS

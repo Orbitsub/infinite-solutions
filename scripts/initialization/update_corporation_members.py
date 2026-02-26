@@ -13,16 +13,19 @@ from script_utils import timed_script
 import requests
 import sqlite3
 import os
+import sys
 from datetime import datetime, timezone
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+INIT_DIR    = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS_DIR = os.path.dirname(INIT_DIR)
+PROJECT_DIR = os.path.dirname(SCRIPTS_DIR)
 
 # ============================================
 # CONFIGURATION
 # ============================================
 
-CORPORATION_ID = 98814441  # Your corp ID
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import CORPORATION_ID
 
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'

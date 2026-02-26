@@ -16,7 +16,9 @@ from datetime import datetime, timezone, timedelta
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-THE_FORGE_REGION_ID = 10000002
+
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import HOME_REGION_ID as THE_FORGE_REGION_ID
 
 # Retry configuration
 MAX_RETRIES = 3

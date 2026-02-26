@@ -16,7 +16,9 @@ from token_manager import get_token
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-GEMINATE_REGION_ID = 10000029  # Geminate region
+
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import OPS_REGION_ID as GEMINATE_REGION_ID
 
 # ============================================
 # FUNCTIONS

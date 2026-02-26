@@ -21,17 +21,17 @@ import sys
 from datetime import datetime, timezone
 import time
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, SCRIPT_DIR)
+TBD_DIR     = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS_DIR = os.path.dirname(TBD_DIR)
+PROJECT_DIR = os.path.dirname(SCRIPTS_DIR)
+sys.path.insert(0, SCRIPTS_DIR)
 
 # ============================================
 # CONFIGURATION
 # ============================================
 
-# Your corporation or alliance ID
-CORPORATION_ID = 98814441  # ← Your corp
-ALLIANCE_ID = None         # ← Or set this for whole alliance (set CORPORATION_ID to None)
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import CORPORATION_ID, ALLIANCE_ID
 
 # How many killmails to fetch
 # zKillboard returns up to 200 per page

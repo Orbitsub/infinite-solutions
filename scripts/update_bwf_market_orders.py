@@ -25,7 +25,9 @@ ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
 STRUCTURE_ID = 1051346234914  # BWF-ZZ - BWFour Time WWB ChampZZ
 STRUCTURE_NAME = "BWF-ZZ - BWFour Time WWB ChampZZ"
-REGION_ID = 10000029  # Geminate region
+
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from setup import OPS_REGION_ID as REGION_ID
 
 # ============================================
 # AUTHENTICATION
