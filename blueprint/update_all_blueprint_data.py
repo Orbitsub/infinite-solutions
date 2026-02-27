@@ -21,6 +21,7 @@ from datetime import datetime
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 LOG_FILE = os.path.join(SCRIPT_DIR, 'logs', 'blueprint_updates.log')
+ENABLE_GITHUB_COMMIT = False
 
 def log(message):
     """Log message to both console and file."""
@@ -106,38 +107,41 @@ def main():
                 os.path.join(PROJECT_DIR, 'index.html')
             )
 
-            log("Committing and pushing to GitHub...")
-            files_to_add = [
-                'index.html', 'index_final.html',
-                'assets/blueprint_data.js', 'assets/bpc_data.js',
-                'assets/bpc_pricing_data.js', 'assets/research_jobs.js',
-                'assets/embedded_data.js'
-            ]
-            subprocess.run(
-                ['git', 'add'] + files_to_add,
-                cwd=PROJECT_DIR, check=True, capture_output=True
-            )
+            if ENABLE_GITHUB_COMMIT:
+                log("Committing and pushing to GitHub...")
+                files_to_add = [
+                    'index.html', 'index_final.html',
+                    'assets/blueprint_data.js', 'assets/bpc_data.js',
+                    'assets/bpc_pricing_data.js', 'assets/research_jobs.js',
+                    'assets/embedded_data.js'
+                ]
+                subprocess.run(
+                    ['git', 'add'] + files_to_add,
+                    cwd=PROJECT_DIR, check=True, capture_output=True
+                )
 
-            # Check if there are actually changes to commit
-            diff_result = subprocess.run(
-                ['git', 'diff', '--cached', '--quiet'],
-                cwd=PROJECT_DIR, capture_output=True
-            )
-            if diff_result.returncode == 0:
-                log("  [OK] No changes to commit (data unchanged)")
+                # Check if there are actually changes to commit
+                diff_result = subprocess.run(
+                    ['git', 'diff', '--cached', '--quiet'],
+                    cwd=PROJECT_DIR, capture_output=True
+                )
+                if diff_result.returncode == 0:
+                    log("  [OK] No changes to commit (data unchanged)")
+                else:
+                    commit_msg = f"Auto-update blueprint data - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+                    subprocess.run(
+                        ['git', 'commit', '-m', commit_msg],
+                        cwd=PROJECT_DIR, check=True, capture_output=True
+                    )
+                    subprocess.run(
+                        ['git', 'push'],
+                        cwd=PROJECT_DIR, check=True, capture_output=True
+                    )
+                    log(f"  [OK] Pushed to GitHub: {commit_msg}")
+                    success_count += 1
+                    total_steps += 1
             else:
-                commit_msg = f"Auto-update blueprint data - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
-                subprocess.run(
-                    ['git', 'commit', '-m', commit_msg],
-                    cwd=PROJECT_DIR, check=True, capture_output=True
-                )
-                subprocess.run(
-                    ['git', 'push'],
-                    cwd=PROJECT_DIR, check=True, capture_output=True
-                )
-                log(f"  [OK] Pushed to GitHub: {commit_msg}")
-                success_count += 1
-                total_steps += 1
+                log("Skipping GitHub commit/push step (ENABLE_GITHUB_COMMIT=False)")
 
         except subprocess.CalledProcessError as e:
             log(f"  [ERROR] Git operation failed: {e}")

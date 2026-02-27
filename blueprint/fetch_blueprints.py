@@ -39,10 +39,34 @@ except ImportError:
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
+ESI_VERIFY_URL = 'https://esi.evetech.net/verify/'
 
 # ============================================
 # ESI API FUNCTIONS
 # ============================================
+
+def resolve_character_identity(access_token, creds):
+    """Resolve character identity from ESI token verify endpoint."""
+    headers = {'Authorization': f'Bearer {access_token}'}
+
+    try:
+        response = requests.get(ESI_VERIFY_URL, headers=headers, timeout=15)
+        if response.status_code == 200:
+            payload = response.json()
+            return payload.get('CharacterID'), payload.get('CharacterName')
+        raise Exception(f"ESI verify failed: {response.status_code} - {response.text}")
+    except Exception as verify_error:
+        character_id = creds.get('character_id')
+        character_name = creds.get('character_name', 'Unknown')
+
+        if character_id:
+            print(f"[WARN] Could not verify token with ESI ({verify_error}); using character_id from credentials")
+            return character_id, character_name
+
+        raise RuntimeError(
+            f"Could not determine character identity: {verify_error}. "
+            "Add character_id to config/credentials.json or ensure ESI /verify is reachable."
+        )
 
 def fetch_character_blueprints(character_id, access_token):
     """Fetch all blueprints for a character from ESI."""
@@ -163,13 +187,11 @@ def main():
     token_mgr = TokenManager()
     creds = token_mgr.credentials
 
-    character_id = creds['character_id']
-    character_name = creds['character_name']
+    access_token = token_mgr.get_access_token()
+    character_id, character_name = resolve_character_identity(access_token, creds)
 
     print(f"Character ID: {character_id}")
     print(f"Character Name: {character_name}")
-
-    access_token = token_mgr.get_access_token()
 
     # Fetch blueprints from ESI
     blueprints = fetch_character_blueprints(character_id, access_token)

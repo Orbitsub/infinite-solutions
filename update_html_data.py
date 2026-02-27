@@ -13,7 +13,8 @@ from generate_corrected_html import get_last_updated, get_inventory_last_updated
 import json
 import re
 
-EMBEDDED_DATA_FILE = os.path.join('assets', 'embedded_data.js')
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+EMBEDDED_DATA_FILE = os.path.join(PROJECT_DIR, 'assets', 'embedded_data.js')
 
 print("Fetching data from database...")
 print("-" * 60)
