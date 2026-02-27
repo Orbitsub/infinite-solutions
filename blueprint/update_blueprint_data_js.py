@@ -3,7 +3,9 @@ Update blueprint_data.js with deduplicated blueprint data.
 """
 import sys
 import os
-sys.path.insert(0, os.path.dirname(__file__))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, PROJECT_DIR)
 
 from generate_corrected_html import get_blueprints_with_metadata
 import json
@@ -29,12 +31,13 @@ else:
     print("No duplicates found!")
     print()
 
-# Write to blueprint_data.js
-with open('blueprint_data.js', 'w', encoding='utf-8') as f:
+# Write to assets/blueprint_data.js
+output_path = os.path.join(PROJECT_DIR, 'assets', 'blueprint_data.js')
+with open(output_path, 'w', encoding='utf-8') as f:
     f.write('// Auto-generated blueprint data with deduplication\n')
     f.write('// Only best ME/TE version of each blueprint is included\n')
     f.write('BLUEPRINT_DATA = ')
     f.write(json.dumps(blueprints, indent=2))
     f.write(';')
 
-print(f"blueprint_data.js updated successfully with {len(blueprints)} unique blueprints!")
+print(f"{output_path} updated successfully with {len(blueprints)} unique blueprints!")

@@ -12,11 +12,13 @@ Price Source:
 - Fallback: MIN(price) from current market_orders (for items without snapshot history)
 """
 import sqlite3
-import json
+import os
 from datetime import datetime, timezone, timedelta
 
 # Configuration
-DB_PATH = 'mydatabase.db'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 JITA_STATION_ID = 60003760  # Jita IV - Moon 4 - Caldari Navy Assembly Plant
 BASE_PERCENTAGE = 0.01  # 1% of Jita best sell at 100% quality
 
@@ -66,23 +68,26 @@ def get_jita_sell_prices():
     return prices
 
 
-def get_blueprint_product_mapping():
-    """Get mapping of blueprint_type_id -> product_type_id from SDE."""
-    print("Loading blueprint product mappings...")
-    mapping = {}
+def get_blueprint_product_mapping_from_db():
+    """Get mapping of blueprint_type_id -> product_type_id from SQLite table."""
+    print("Loading blueprint product mappings from database...")
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
 
-    with open('sde/blueprints.jsonl', 'r') as f:
-        for line in f:
-            bp = json.loads(line)
-            bp_type_id = bp['blueprintTypeID']
+    cursor.execute("""
+        SELECT blueprint_type_id, product_type_id
+        FROM blueprint_product_mapping
+    """)
 
-            if 'manufacturing' in bp.get('activities', {}):
-                products = bp['activities']['manufacturing'].get('products', [])
-                if products:
-                    product_type_id = products[0]['typeID']
-                    mapping[bp_type_id] = product_type_id
+    mapping = {bp_type_id: product_type_id for bp_type_id, product_type_id in cursor.fetchall()}
+    conn.close()
 
-    print(f"  Loaded {len(mapping)} blueprint mappings")
+    if not mapping:
+        print("  [WARN] blueprint_product_mapping is empty")
+        print("  [WARN] Run: python3 blueprint/update_blueprint_product_mapping.py")
+    else:
+        print(f"  Loaded {len(mapping)} blueprint mappings")
+
     return mapping
 
 
@@ -169,7 +174,7 @@ def main():
 
     # Load all data
     jita_prices = get_jita_sell_prices()
-    bp_product_map = get_blueprint_product_mapping()
+    bp_product_map = get_blueprint_product_mapping_from_db()
     character_bps = get_character_blueprints()
 
     print()

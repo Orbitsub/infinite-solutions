@@ -3,20 +3,22 @@ Fetch currently researching blueprints from ESI.
 """
 import sys
 import os
-sys.path.insert(0, os.path.dirname(__file__))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
 
-from update_hamektok_blueprints import HamektokTokenManager
+from token_manager import TokenManager
 import requests
 import sqlite3
 from datetime import datetime, timezone
 
-DB_PATH = os.path.join(os.path.dirname(__file__), 'mydatabase.db')
+DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 
 def get_research_jobs():
     """Get active ME/TE research jobs from ESI."""
 
     # Get access token
-    tm = HamektokTokenManager()
+    tm = TokenManager()
     access_token = tm.get_access_token()
 
     character_id = 97153110

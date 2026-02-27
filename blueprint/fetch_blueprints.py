@@ -1,24 +1,28 @@
 """
-Fetch and update Hamektok Hakaari's blueprints from ESI.
+Fetch and update blueprints from ESI.
 Stores BPO/BPC data with ME/TE in database.
 """
 import requests
-import json
 import os
 import sqlite3
-from datetime import datetime, timedelta, timezone
-from base64 import b64encode
+from datetime import datetime, timezone
+from functools import wraps
 import sys
 
-# Add scripts directory to path for utilities
+# Add scripts and config directories to path
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(SCRIPT_DIR, 'scripts'))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'scripts'))
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+
+from token_manager import TokenManager
 
 try:
     from script_utils import timed_script
 except ImportError:
     # If script_utils doesn't exist, create a simple decorator
     def timed_script(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             print(f"\n{'='*60}")
             print(f"{func.__name__.upper().replace('_', ' ')}")
@@ -32,93 +36,9 @@ except ImportError:
 # ============================================
 # CONFIGURATION
 # ============================================
-PROJECT_DIR = SCRIPT_DIR
-CREDENTIALS_PATH = os.path.join(PROJECT_DIR, 'config', 'credentials_hamektok.json')
-TOKEN_CACHE_PATH = os.path.join(PROJECT_DIR, 'config', 'token_cache_hamektok.json')
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
-LOG_PATH = os.path.join(PROJECT_DIR, 'logs', 'blueprint_updates.log')
 
-ESI_TOKEN_URL = 'https://login.eveonline.com/v2/oauth/token'
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-
-# ============================================
-# TOKEN MANAGEMENT
-# ============================================
-
-class HamektokTokenManager:
-    """Token manager for Hamektok Hakaari character."""
-
-    def __init__(self):
-        self.credentials = self._load_credentials()
-        self.token_cache = self._load_token_cache()
-
-    def _load_credentials(self):
-        """Load credentials from Hamektok's config file."""
-        with open(CREDENTIALS_PATH, 'r') as f:
-            return json.load(f)
-
-    def _load_token_cache(self):
-        """Load cached access token if exists."""
-        if os.path.exists(TOKEN_CACHE_PATH):
-            with open(TOKEN_CACHE_PATH, 'r') as f:
-                return json.load(f)
-        return {}
-
-    def _save_token_cache(self, access_token, expires_in):
-        """Save access token to cache."""
-        expiry = datetime.now(timezone.utc) + timedelta(seconds=expires_in - 60)
-        cache = {
-            'access_token': access_token,
-            'expires_at': expiry.isoformat()
-        }
-        with open(TOKEN_CACHE_PATH, 'w') as f:
-            json.dump(cache, f, indent=2)
-        self.token_cache = cache
-
-    def _is_token_valid(self):
-        """Check if cached token is still valid."""
-        if 'access_token' not in self.token_cache or 'expires_at' not in self.token_cache:
-            return False
-        expiry = datetime.fromisoformat(self.token_cache['expires_at'])
-        return datetime.now(timezone.utc) < expiry
-
-    def _refresh_access_token(self):
-        """Get new access token from ESI."""
-        print("Refreshing access token...")
-
-        client_id = self.credentials['client_id']
-        client_secret = self.credentials['client_secret']
-
-        auth_string = f"{client_id}:{client_secret}"
-        auth_header = b64encode(auth_string.encode()).decode()
-
-        headers = {
-            'Authorization': f'Basic {auth_header}',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
-        data = {
-            'grant_type': 'refresh_token',
-            'refresh_token': self.credentials['refresh_token']
-        }
-
-        response = requests.post(ESI_TOKEN_URL, headers=headers, data=data)
-
-        if response.status_code == 200:
-            token_data = response.json()
-            self._save_token_cache(token_data['access_token'], token_data['expires_in'])
-            print(f"[OK] New access token obtained")
-            return token_data['access_token']
-        else:
-            raise Exception(f"Token refresh failed: {response.status_code} - {response.text}")
-
-    def get_access_token(self):
-        """Get valid access token (cached or refreshed)."""
-        if self._is_token_valid():
-            print("Using cached access token")
-            return self.token_cache['access_token']
-        else:
-            return self._refresh_access_token()
 
 # ============================================
 # ESI API FUNCTIONS
@@ -193,27 +113,28 @@ def store_blueprints(conn, blueprints, type_names):
     cursor.execute("DELETE FROM character_blueprints")
 
     # Insert new data
-    for bp in blueprints:
-        type_id = bp['type_id']
-        type_name = type_names.get(type_id, f"Unknown ({type_id})")
-
-        cursor.execute("""
-            INSERT INTO character_blueprints
-            (item_id, type_id, type_name, location_id, location_flag,
-             quantity, time_efficiency, material_efficiency, runs, last_updated)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
+    now = datetime.now(timezone.utc).isoformat()
+    rows = [
+        (
             bp['item_id'],
-            type_id,
-            type_name,
+            bp['type_id'],
+            type_names.get(bp['type_id'], f"Unknown ({bp['type_id']})"),
             bp['location_id'],
             bp['location_flag'],
             bp['quantity'],
             bp['time_efficiency'],
             bp['material_efficiency'],
             bp['runs'],
-            datetime.now(timezone.utc).isoformat()
-        ))
+            now,
+        )
+        for bp in blueprints
+    ]
+    cursor.executemany("""
+        INSERT INTO character_blueprints
+        (item_id, type_id, type_name, location_id, location_flag,
+         quantity, time_efficiency, material_efficiency, runs, last_updated)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, rows)
 
     conn.commit()
     print(f"[OK] Stored {len(blueprints)} blueprints")
@@ -236,11 +157,11 @@ def store_blueprints(conn, blueprints, type_names):
 
 @timed_script
 def main():
-    """Fetch and store Hamektok's blueprints."""
+    """Fetch and store blueprints."""
 
-    # Load credentials
-    with open(CREDENTIALS_PATH, 'r') as f:
-        creds = json.load(f)
+    # Get access token (credentials are loaded inside TokenManager)
+    token_mgr = TokenManager()
+    creds = token_mgr.credentials
 
     character_id = creds['character_id']
     character_name = creds['character_name']
@@ -248,9 +169,7 @@ def main():
     print(f"Character ID: {character_id}")
     print(f"Character Name: {character_name}")
 
-    # Get access token
-    token_manager = HamektokTokenManager()
-    access_token = token_manager.get_access_token()
+    access_token = token_mgr.get_access_token()
 
     # Fetch blueprints from ESI
     blueprints = fetch_character_blueprints(character_id, access_token)

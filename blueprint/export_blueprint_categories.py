@@ -4,10 +4,17 @@ Opens in Excel/Google Sheets for easy editing of 100+ blueprints.
 """
 import sqlite3
 import csv
+import os
+import sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, PROJECT_DIR)
+
 from generate_corrected_html import categorize_blueprint, get_subcategory
 
-DB_PATH = 'mydatabase.db'
-OUTPUT_CSV = 'blueprint_categories.csv'
+DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
+OUTPUT_CSV = os.path.join(PROJECT_DIR, 'blueprint_categories.csv')
 
 def export_categories():
     print("=" * 70)

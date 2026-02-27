@@ -12,9 +12,10 @@ __pycache__/
 *.db-shm
 
 # Sensitive files - ESI credentials and tokens
-config/
-token_manager.py
-credentials.json
+config/credentials.json
+config/token_manager.py
+config/token_cache.json
+config/setup.py
 *.token
 *.secret
 

@@ -5,9 +5,10 @@ Runs:
 2. Update blueprint_data.js (deduplicated BPOs)
 3. Update bpc_data.js (BPCs with quantity aggregation)
 4. Update research_jobs.js (active research)
-5. Update BPC pricing data
-6. Update index_final.html (embedded data)
-7. Copy index_final.html -> index.html, commit & push to GitHub
+5. Update blueprint product mapping table
+6. Update BPC pricing data
+7. Update index_final.html (embedded data)
+8. Copy index_final.html -> index.html, commit & push to GitHub
 
 Run this script daily via Windows Task Scheduler.
 """
@@ -18,6 +19,7 @@ import shutil
 from datetime import datetime
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 LOG_FILE = os.path.join(SCRIPT_DIR, 'logs', 'blueprint_updates.log')
 
 def log(message):
@@ -65,10 +67,10 @@ def main():
     log("="*70)
 
     success_count = 0
-    total_steps = 6
+    total_steps = 7
 
     # Step 1: Fetch blueprints from ESI
-    if run_script('update_hamektok_blueprints.py', 'Fetch blueprints from ESI'):
+    if run_script('fetch_blueprints.py', 'Fetch blueprints from ESI'):
         success_count += 1
 
     # Step 2: Update blueprint_data.js (deduplicated BPOs)
@@ -83,12 +85,16 @@ def main():
     if run_script('update_research_jobs.py', 'Update research_jobs.js'):
         success_count += 1
 
-    # Step 5: Update BPC pricing data (quality-based pricing)
+    # Step 5: Update blueprint -> product mapping
+    if run_script('update_blueprint_product_mapping.py', 'Update blueprint product mapping table'):
+        success_count += 1
+
+    # Step 6: Update BPC pricing data (quality-based pricing)
     if run_script('generate_bpc_pricing_data.py', 'Update BPC pricing data'):
         success_count += 1
 
-    # Step 6: Update index_final.html (embedded data)
-    if run_script('update_html_data.py', 'Update index_final.html'):
+    # Step 7: Update index_final.html (embedded data)
+    if run_script(os.path.join('..', 'update_html_data.py'), 'Update embedded_data.js'):
         success_count += 1
 
     # Step 7: Copy index_final.html -> index.html and push to GitHub
@@ -96,25 +102,26 @@ def main():
         try:
             log("Copying index_final.html -> index.html...")
             shutil.copy2(
-                os.path.join(SCRIPT_DIR, 'index_final.html'),
-                os.path.join(SCRIPT_DIR, 'index.html')
+                os.path.join(PROJECT_DIR, 'index_final.html'),
+                os.path.join(PROJECT_DIR, 'index.html')
             )
 
             log("Committing and pushing to GitHub...")
             files_to_add = [
                 'index.html', 'index_final.html',
-                'blueprint_data.js', 'bpc_data.js',
-                'bpc_pricing_data.js', 'research_jobs.js'
+                'assets/blueprint_data.js', 'assets/bpc_data.js',
+                'assets/bpc_pricing_data.js', 'assets/research_jobs.js',
+                'assets/embedded_data.js'
             ]
             subprocess.run(
                 ['git', 'add'] + files_to_add,
-                cwd=SCRIPT_DIR, check=True, capture_output=True
+                cwd=PROJECT_DIR, check=True, capture_output=True
             )
 
             # Check if there are actually changes to commit
             diff_result = subprocess.run(
                 ['git', 'diff', '--cached', '--quiet'],
-                cwd=SCRIPT_DIR, capture_output=True
+                cwd=PROJECT_DIR, capture_output=True
             )
             if diff_result.returncode == 0:
                 log("  [OK] No changes to commit (data unchanged)")
@@ -122,11 +129,11 @@ def main():
                 commit_msg = f"Auto-update blueprint data - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
                 subprocess.run(
                     ['git', 'commit', '-m', commit_msg],
-                    cwd=SCRIPT_DIR, check=True, capture_output=True
+                    cwd=PROJECT_DIR, check=True, capture_output=True
                 )
                 subprocess.run(
                     ['git', 'push'],
-                    cwd=SCRIPT_DIR, check=True, capture_output=True
+                    cwd=PROJECT_DIR, check=True, capture_output=True
                 )
                 log(f"  [OK] Pushed to GitHub: {commit_msg}")
                 success_count += 1

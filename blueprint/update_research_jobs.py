@@ -14,7 +14,7 @@ jobs = get_research_jobs()
 print(f"Found {len(jobs)} active research jobs")
 
 # Write to research_jobs.js
-output_path = 'research_jobs.js'
+output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'assets', 'research_jobs.js')
 with open(output_path, 'w', encoding='utf-8') as f:
     f.write('// Auto-generated research jobs data\n')
     f.write('// Updated automatically - do not edit manually\n')

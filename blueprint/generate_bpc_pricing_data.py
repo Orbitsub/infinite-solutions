@@ -6,9 +6,10 @@ Formula: per_run = Jita 7-day avg best sell × 1% × quality multiplier
 """
 import sqlite3
 import json
+import os
 from calculate_bpc_pricing import (
     get_jita_sell_prices,
-    get_blueprint_product_mapping,
+    get_blueprint_product_mapping_from_db,
     calculate_bpc_price,
     calculate_quality_multiplier,
 )
@@ -22,7 +23,7 @@ def get_all_blueprints_with_pricing():
 
     # Load all required data
     jita_prices = get_jita_sell_prices()
-    bp_product_map = get_blueprint_product_mapping()
+    bp_product_map = get_blueprint_product_mapping_from_db()
 
     # Get character blueprints
     conn = sqlite3.connect(DB_PATH)
@@ -86,9 +87,9 @@ def get_all_blueprints_with_pricing():
 
 def write_pricing_js(blueprints_data):
     """Write pricing data to JavaScript file."""
-    output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'assets', 'bpc_pricing_data_data.js')
+    output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'assets', 'bpc_pricing_data.js')
 
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write('// Auto-generated BPC pricing data\n')
         f.write('// Updated automatically - do not manually edit\n')
         f.write('\n')
@@ -129,8 +130,8 @@ def write_pricing_js(blueprints_data):
         f.write('    };\n')
         f.write('}\n')
 
-    print(f"\n[OK] Pricing data written to {output_file}")
-    return output_file
+    print(f"\n[OK] Pricing data written to {output_path}")
+    return output_path
 
 def main():
     print("=" * 60)
