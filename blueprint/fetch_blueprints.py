@@ -8,14 +8,15 @@ import sqlite3
 from datetime import datetime, timezone
 from functools import wraps
 import sys
+from pathlib import Path
 
 # Add scripts and config directories to path
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, os.path.join(PROJECT_DIR, 'scripts'))
-sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+sys.path.insert(0, str(PROJECT_DIR / 'config'))
 
-from token_manager import TokenManager
+from token_manager import get_token, CHARACTER_ID
 
 try:
     from script_utils import timed_script
@@ -36,7 +37,7 @@ except ImportError:
 # ============================================
 # CONFIGURATION
 # ============================================
-DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
+DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
 
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 ESI_VERIFY_URL = 'https://esi.evetech.net/verify/'
@@ -45,7 +46,7 @@ ESI_VERIFY_URL = 'https://esi.evetech.net/verify/'
 # ESI API FUNCTIONS
 # ============================================
 
-def resolve_character_identity(access_token, creds):
+def resolve_character_identity(access_token, fallback_character_id=CHARACTER_ID):
     """Resolve character identity from ESI token verify endpoint."""
     headers = {'Authorization': f'Bearer {access_token}'}
 
@@ -56,16 +57,13 @@ def resolve_character_identity(access_token, creds):
             return payload.get('CharacterID'), payload.get('CharacterName')
         raise Exception(f"ESI verify failed: {response.status_code} - {response.text}")
     except Exception as verify_error:
-        character_id = creds.get('character_id')
-        character_name = creds.get('character_name', 'Unknown')
-
-        if character_id:
-            print(f"[WARN] Could not verify token with ESI ({verify_error}); using character_id from credentials")
-            return character_id, character_name
+        if fallback_character_id:
+            print(f"[WARN] Could not verify token with ESI ({verify_error}); using fallback character ID from token_manager")
+            return fallback_character_id, 'Unknown'
 
         raise RuntimeError(
             f"Could not determine character identity: {verify_error}. "
-            "Add character_id to config/credentials.json or ensure ESI /verify is reachable."
+            "Set CHARACTER_ID in config/token_manager.py or ensure ESI /verify is reachable."
         )
 
 def fetch_character_blueprints(character_id, access_token):
@@ -83,7 +81,7 @@ def fetch_character_blueprints(character_id, access_token):
 
     while True:
         params = {'page': page}
-        response = requests.get(url, headers=headers, params=params)
+        response = requests.get(url, headers=headers, params=params, timeout=30)
 
         if response.status_code == 200:
             blueprints = response.json()
@@ -183,12 +181,9 @@ def store_blueprints(conn, blueprints, type_names):
 def main():
     """Fetch and store blueprints."""
 
-    # Get access token (credentials are loaded inside TokenManager)
-    token_mgr = TokenManager()
-    creds = token_mgr.credentials
-
-    access_token = token_mgr.get_access_token()
-    character_id, character_name = resolve_character_identity(access_token, creds)
+    # Get access token from shared token manager helper
+    access_token = get_token()
+    character_id, character_name = resolve_character_identity(access_token)
 
     print(f"Character ID: {character_id}")
     print(f"Character Name: {character_name}")

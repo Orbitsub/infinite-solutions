@@ -9,12 +9,12 @@ import os
 import sys
 from datetime import datetime, timezone
 
-# Add scripts directory to path for imports
-SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts')
-sys.path.insert(0, SCRIPT_DIR)
+# Add config directory to path for imports
+CONFIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config')
+sys.path.insert(0, CONFIG_DIR)
 
 # Import token manager and script utils
-from token_manager import get_token, character_id
+from token_manager import get_token, CHARACTER_ID as character_id
 
 # ============================================
 # CONFIGURATION
@@ -23,7 +23,7 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 HTML_PATH = os.path.join(PROJECT_DIR, 'index.html')
 HTML_BACKUP_PATH = os.path.join(PROJECT_DIR, 'index.backup.html')
-
+ENABLE_GITHUB_COMMIT = False
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
 # LX-ZOJ Structure ID
@@ -369,7 +369,11 @@ def main():
         # Commit and push to GitHub
         git_success = False
         if html_success:
-            git_success = commit_and_push_to_github(snapshot_time)
+            if ENABLE_GITHUB_COMMIT:
+                git_success = commit_and_push_to_github(snapshot_time)
+            else:
+                print("\n[INFO] GitHub commit/push skipped (ENABLE_GITHUB_COMMIT=False)")
+                git_success = True  # Consider it a success since we intentionally skipped it
 
         # Show summary
         print("\n" + "=" * 60)

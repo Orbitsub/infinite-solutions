@@ -7,15 +7,16 @@ import subprocess
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 # Market data scripts in optimal execution order
 SCRIPTS = [
     {
         'name': 'Market Orders Update',
         'file': 'update_market_orders.py',
-        'description': 'Updates Jita 4-4 market orders (30-45 min)',
+        'description': 'Updates Jita 4-4 market orders (takes 30-45 min)',
         'critical': True  # If this fails, skip others
     },
     {
@@ -54,7 +55,7 @@ def run_script(script_info):
     """
     script_name = script_info['name']
     script_file = script_info['file']
-    script_path = os.path.join(SCRIPT_DIR, script_file)
+    script_path = SCRIPT_DIR / script_file
     
     log_separator()
     log_message(f"STARTING: {script_name}")
@@ -68,7 +69,7 @@ def run_script(script_info):
     try:
         # Run the script with real-time output
         result = subprocess.run(
-            [sys.executable, script_path],
+            [sys.executable, str(script_path)],
             capture_output=True,
             text=True,
             encoding='utf-8',
@@ -106,9 +107,7 @@ def main():
     overall_start = datetime.now()
     
     log_separator('=', 70)
-    log_message("MARKET UPDATES - ORCHESTRATOR (ZERO DOWNTIME MODE)")
-    log_separator('=', 70)
-    log_message("All scripts use temporary tables - production stays live!")
+    log_message("AUTOMATED MARKET DATA UPDATE - STARTING")
     log_separator('=', 70)
     
     results = {}

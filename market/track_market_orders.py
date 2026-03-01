@@ -25,19 +25,24 @@ Database:
     Both tables live in mydatabase.db.
 """
 
-from script_utils import timed_script
 import sqlite3
 import argparse
 import csv
 import os
+import sys
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+
+from script_utils import timed_script
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 
-SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-DB_PATH     = os.path.join(PROJECT_DIR, 'mydatabase.db')
-ITEMS_FILE  = os.path.join(SCRIPT_DIR, 'tracked_items.txt')
+DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
+ITEMS_FILE = PROJECT_DIR / 'scripts' / 'tracked_items.txt'
 
 # ─── LOAD TRACKED ITEMS ──────────────────────────────────────────────────────
 
@@ -47,7 +52,7 @@ def load_tracked_type_ids() -> list[int]:
     Skips comments (#) and blank lines.
     """
     type_ids = []
-    with open(ITEMS_FILE) as f:
+    with open(ITEMS_FILE, encoding='utf-8') as f:
         for line in f:
             line = line.strip()
             if not line or line.startswith('#'):
@@ -71,13 +76,13 @@ def load_bpc_product_type_ids(conn) -> list[int]:
     if not bp_ids:
         return []
 
-    sde_path = os.path.join(PROJECT_DIR, 'sde', 'blueprints.jsonl')
-    if not os.path.exists(sde_path):
+    sde_path = PROJECT_DIR / 'sde' / 'blueprints.jsonl'
+    if not sde_path.exists():
         print("  [WARN] sde/blueprints.jsonl not found — skipping BPC product tracking")
         return []
 
     product_ids = set()
-    with open(sde_path, 'r') as f:
+    with open(sde_path, 'r', encoding='utf-8') as f:
         for line in f:
             bp = json.loads(line)
             if bp['blueprintTypeID'] in bp_ids:

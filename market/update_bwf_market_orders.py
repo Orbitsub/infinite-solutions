@@ -1,14 +1,16 @@
-from script_utils import timed_script
 import requests
 import sqlite3
-import os
 import sys
+import time
 from datetime import datetime, timezone
+from pathlib import Path
 
-# Add scripts directory to path
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, SCRIPT_DIR)
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+sys.path.insert(0, str(PROJECT_DIR / 'config'))
+
+from script_utils import timed_script
 
 # Import token manager
 from token_manager import get_token
@@ -16,8 +18,12 @@ from token_manager import get_token
 # ============================================
 # CONFIGURATION
 # ============================================
-DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
+DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
+ESI_VERIFY_URL = 'https://esi.evetech.net/verify/'
+REQUEST_TIMEOUT = 30
+MAX_RETRIES = 3
+REQUIRED_SCOPE = 'esi-markets.structure_markets.v1'
 
 # ============================================
 # BWF-ZZ KEEPSTAR CONFIGURATION
@@ -26,7 +32,6 @@ ESI_BASE_URL = 'https://esi.evetech.net/latest'
 STRUCTURE_ID = 1051346234914  # BWF-ZZ - BWFour Time WWB ChampZZ
 STRUCTURE_NAME = "BWF-ZZ - BWFour Time WWB ChampZZ"
 
-sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
 from setup import OPS_REGION_ID as REGION_ID
 
 # ============================================
@@ -43,6 +48,69 @@ def get_authenticated_headers():
         print(f"[ERROR] Failed to get access token: {e}")
         return None
 
+
+def verify_token_scopes(headers):
+    """Validate token and print scope diagnostics for structure-market access."""
+    try:
+        response = requests.get(ESI_VERIFY_URL, headers=headers, timeout=REQUEST_TIMEOUT)
+    except requests.RequestException as error:
+        print(f"[WARNING] Could not verify token scopes: {error}")
+        return
+
+    if response.status_code != 200:
+        print(f"[WARNING] ESI /verify returned {response.status_code}: {response.text}")
+        return
+
+    payload = response.json()
+    scopes_raw = payload.get('Scopes', '')
+    scopes = set(scopes_raw.split()) if scopes_raw else set()
+    character_name = payload.get('CharacterName', 'Unknown')
+    character_id = payload.get('CharacterID', 'Unknown')
+
+    print(f"[OK] Token verified for {character_name} ({character_id})")
+    if REQUIRED_SCOPE in scopes:
+        print(f"[OK] Required scope present: {REQUIRED_SCOPE}")
+    else:
+        print(f"[WARNING] Missing required scope: {REQUIRED_SCOPE}")
+        if scopes:
+            print(f"[WARNING] Current scopes: {' '.join(sorted(scopes))}")
+        else:
+            print("[WARNING] No scopes reported by ESI verify")
+
+
+def request_structure_orders_page(headers, page):
+    """Fetch a single structure-orders page with retry handling for transient failures."""
+    url = f'{ESI_BASE_URL}/markets/structures/{STRUCTURE_ID}/'
+    params = {'page': page}
+    last_error = None
+
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            response = requests.get(url, params=params, headers=headers, timeout=REQUEST_TIMEOUT)
+        except requests.RequestException as error:
+            last_error = error
+            wait_seconds = attempt * 2
+            print(f"[WARNING] Request failed on page {page} (attempt {attempt}/{MAX_RETRIES}): {error}")
+            if attempt < MAX_RETRIES:
+                print(f"[WARNING] Retrying in {wait_seconds}s...")
+                time.sleep(wait_seconds)
+            continue
+
+        if response.status_code in (420, 502, 503, 504):
+            wait_seconds = attempt * 2
+            print(
+                f"[WARNING] Transient ESI error {response.status_code} on page {page} "
+                f"(attempt {attempt}/{MAX_RETRIES})"
+            )
+            if attempt < MAX_RETRIES:
+                print(f"[WARNING] Retrying in {wait_seconds}s...")
+                time.sleep(wait_seconds)
+                continue
+
+        return response
+
+    raise RuntimeError(f"Failed to fetch page {page} after {MAX_RETRIES} attempts: {last_error}")
+
 # ============================================
 # FUNCTIONS
 # ============================================
@@ -58,10 +126,7 @@ def get_structure_market_orders(headers):
     print(f"\nFetching orders from BWF-ZZ Keepstar (direct endpoint)...")
     
     while True:
-        url = f'{ESI_BASE_URL}/markets/structures/{STRUCTURE_ID}/'
-        params = {'page': page}
-        
-        response = requests.get(url, params=params, headers=headers)
+        response = request_structure_orders_page(headers, page)
         
         if response.status_code == 200:
             orders = response.json()
@@ -81,17 +146,19 @@ def get_structure_market_orders(headers):
             break
             
         elif response.status_code == 401:
-            print(f"[ERROR] Token expired (401) on page {page}")
-            break
+            print(f"[ERROR] Unauthorized (401) on page {page}")
+            print(f"[ERROR] Token may be missing {REQUIRED_SCOPE} or no longer valid")
+            return None
             
         elif response.status_code == 403:
             print(f"[ERROR] Access denied (403) on page {page}")
-            print("You may not have access to this structure's market")
-            break
+            print("You may not have docking/market access to this structure")
+            return None
             
         else:
             print(f"[WARNING] Error on page {page}: {response.status_code}")
-            break
+            print(response.text[:300])
+            return None
     
     return all_orders
 
@@ -237,6 +304,8 @@ def main():
     if headers is None:
         print("\n[ERROR] Cannot proceed without authentication")
         return
+
+    verify_token_scopes(headers)
     
     conn = sqlite3.connect(DB_PATH, timeout=30)
     
@@ -246,6 +315,12 @@ def main():
         
         # Fetch orders using direct structure endpoint
         orders = get_structure_market_orders(headers)
+
+        if orders is None:
+            raise RuntimeError(
+                "Unable to fetch structure orders due to authentication/access errors. "
+                "Re-authorize token with required scope and confirm structure access."
+            )
         
         if not orders:
             print(f"\n[WARNING] No orders found for {STRUCTURE_NAME}")

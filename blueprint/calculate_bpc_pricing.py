@@ -94,9 +94,7 @@ def get_blueprint_product_mapping_from_db():
 def calculate_quality_multiplier(me, te):
     """
     Calculate quality multiplier based on ME/TE levels.
-
     Formula: 0.25 + (ME/10 × 0.60) + (TE/20 × 0.15)
-
     Returns value between 0.25 (unresearched) and 1.0 (perfect 10/20)
     """
     me_factor = me / 10.0
@@ -108,7 +106,6 @@ def calculate_bpc_price(blueprint_type_id, product_type_id, me, te, runs, copies
                        jita_sell_price):
     """
     Calculate BPC service price.
-
     Formula: per_run = jita_best_sell × 1% × quality
     Total = per_run × runs × copies
     """

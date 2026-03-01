@@ -658,8 +658,6 @@ body {
             display: flex;
             gap: 10px;
             margin-bottom: 25px;
-            border-bottom: 2px solid rgba(220, 0, 0, 0.2);
-            padding-bottom: 5px;
         }
 
         .blueprint-subtab {
@@ -793,10 +791,9 @@ body {
 
         .footer {
             margin-top: 30px;
-            padding-top: 25px;
             border-top: 2px solid rgba(220, 0, 0, 0.3);
             text-align: center;
-            position: relative;
+            padding-top: 30px;
         }
 
         .footer-text {
@@ -2223,4 +2220,86 @@ body {
                 0 0 20px rgba(75, 235, 110, 0.28),
                 inset 0 0 12px rgba(45, 155, 70, 0.22) !important;
             text-shadow: 0 0 8px rgba(121, 255, 143, 0.35) !important;
+        }
+
+        .main-tab.active,
+        .main-tab.active:hover {
+            background: rgba(12, 42, 18, 0.95) !important;
+            color: var(--crt-highlight) !important;
+            border-bottom-color: #49b85f !important;
+            box-shadow:
+                0 0 10px rgba(75, 235, 110, 0.35),
+                inset 0 -2px 10px rgba(55, 195, 90, 0.25) !important;
+            text-shadow: 0 0 10px rgba(121, 255, 143, 0.42) !important;
+        }
+
+        .research-header,
+        .research-header:hover,
+        .research-content {
+            background: linear-gradient(135deg, rgba(8, 30, 12, 0.96) 0%, rgba(4, 18, 8, 0.96) 100%) !important;
+            border-color: rgba(60, 170, 85, 0.38) !important;
+        }
+
+        .research-header h3,
+        .research-content,
+        .research-content p,
+        .research-content span,
+        .research-content div {
+            color: var(--crt-text) !important;
+            text-shadow: 0 0 7px rgba(121, 255, 143, 0.25) !important;
+        }
+
+        .research-section {
+            background: rgba(7, 28, 11, 0.6) !important;
+            border: 2px solid rgba(60, 170, 85, 0.42) !important;
+            box-shadow: inset 0 0 18px rgba(35, 125, 60, 0.12), 0 0 14px rgba(45, 155, 70, 0.16) !important;
+        }
+
+        .research-job {
+            background: rgba(8, 30, 12, 0.7) !important;
+            border: 1px solid rgba(60, 170, 85, 0.38) !important;
+            box-shadow: inset 0 0 12px rgba(35, 125, 60, 0.1) !important;
+        }
+
+        .research-job:hover {
+            border-color: #49b85f !important;
+            box-shadow: 0 0 14px rgba(75, 235, 110, 0.28), inset 0 0 12px rgba(45, 155, 70, 0.18) !important;
+        }
+
+        .blueprint-table-container,
+        .blueprint-table,
+        .blueprint-table thead {
+            background: rgba(5, 20, 8, 0.9) !important;
+            border-color: rgba(60, 170, 85, 0.35) !important;
+        }
+
+        .blueprint-table th {
+            color: var(--crt-highlight) !important;
+            background: rgba(8, 32, 14, 0.95) !important;
+            border-bottom: 2px solid rgba(60, 170, 85, 0.45) !important;
+            text-shadow: 0 0 7px rgba(121, 255, 143, 0.3) !important;
+        }
+
+        .blueprint-table th:hover {
+            background: rgba(12, 42, 18, 0.95) !important;
+            color: var(--crt-highlight) !important;
+        }
+
+        .blueprint-table td {
+            color: var(--crt-text) !important;
+            border-bottom: 1px solid rgba(60, 170, 85, 0.22) !important;
+            text-shadow: 0 0 6px rgba(121, 255, 143, 0.2) !important;
+        }
+
+        .blueprint-table tr:hover {
+            background: rgba(20, 70, 30, 0.22) !important;
+        }
+
+        #bpcTable th,
+        #bpcTable td {
+            border-color: rgba(60, 170, 85, 0.28) !important;
+        }
+
+        .research-countdown {
+        border-top: 1px solid rgba(60, 170, 85, 0.45) !important;
         }

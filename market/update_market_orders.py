@@ -1,19 +1,22 @@
-from script_utils import timed_script
 import requests
 import sqlite3
-import os
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+sys.path.insert(0, str(PROJECT_DIR / 'config'))
+
+from script_utils import timed_script
 
 # ============================================
 # CONFIGURATION
 # ============================================
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
+DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
-sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
 from setup import HOME_REGION_ID as THE_FORGE_REGION_ID, HOME_STATION_ID as JITA_STATION_ID
 
 # ============================================

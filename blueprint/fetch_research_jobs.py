@@ -2,32 +2,52 @@
 Fetch currently researching blueprints from ESI.
 """
 import sys
-import os
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, os.path.join(PROJECT_DIR, 'config'))
+from pathlib import Path
 
-from token_manager import TokenManager
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(PROJECT_DIR / 'config'))
+
+from token_manager import get_token, CHARACTER_ID
 import requests
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime
 
-DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
+DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
+ESI_VERIFY_URL = 'https://esi.evetech.net/verify/'
+
+
+def resolve_character_id(access_token, fallback_character_id=CHARACTER_ID):
+    """Resolve character ID from ESI token verify endpoint with fallback."""
+    headers = {'Authorization': f'Bearer {access_token}'}
+
+    try:
+        response = requests.get(ESI_VERIFY_URL, headers=headers, timeout=15)
+        if response.status_code == 200:
+            payload = response.json()
+            return payload.get('CharacterID')
+        raise Exception(f"ESI verify failed: {response.status_code} - {response.text}")
+    except Exception as verify_error:
+        if fallback_character_id:
+            print(f"[WARN] Could not verify token with ESI ({verify_error}); using fallback character ID from token_manager")
+            return fallback_character_id
+        raise RuntimeError(
+            f"Could not determine character ID: {verify_error}. "
+            "Set CHARACTER_ID in config/token_manager.py or ensure ESI /verify is reachable."
+        )
 
 def get_research_jobs():
     """Get active ME/TE research jobs from ESI."""
 
-    # Get access token
-    tm = TokenManager()
-    access_token = tm.get_access_token()
-
-    character_id = 97153110
+    # Get access token and resolve character identity
+    access_token = get_token()
+    character_id = resolve_character_id(access_token)
 
     # Fetch industry jobs
     url = f'https://esi.evetech.net/latest/characters/{character_id}/industry/jobs/'
     headers = {'Authorization': f'Bearer {access_token}'}
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=30)
 
     if response.status_code != 200:
         print(f"ESI error: {response.status_code}")

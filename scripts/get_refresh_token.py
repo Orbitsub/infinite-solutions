@@ -63,15 +63,40 @@ def save_refresh_token(creds, refresh_token):
 def get_scopes(creds):
     """
     Pull scopes from credentials.json.
-    Looks for a 'scopes' key (list) or falls back to '_required_scopes_example'.
+    Looks for a 'scopes' key (list), then 'required_scopes', then
+    '_required_scopes_example'.
     Filters out any non-scope strings (those that don't start with 'esi-' or
     equal 'publicData').
     """
-    raw = creds.get('scopes') or creds.get('_required_scopes_example', [])
-    # Flatten if it's a list-of-lists (as in the example file)
-    if raw and isinstance(raw[0], list):
-        raw = raw[0]
-    return [s for s in raw if isinstance(s, str) and (s.startswith('esi-') or s == 'publicData')]
+    raw = (
+        creds.get('scopes')
+        or creds.get('required_scopes')
+        or creds.get('_required_scopes_example', [])
+    )
+
+    flattened = []
+    if isinstance(raw, list):
+        for item in raw:
+            if isinstance(item, list):
+                flattened.extend(item)
+            else:
+                flattened.append(item)
+    elif isinstance(raw, str):
+        flattened = raw.split()
+
+    valid_scopes = [
+        scope for scope in flattened
+        if isinstance(scope, str) and (scope.startswith('esi-') or scope == 'publicData')
+    ]
+
+    seen = set()
+    deduped = []
+    for scope in valid_scopes:
+        if scope not in seen:
+            deduped.append(scope)
+            seen.add(scope)
+
+    return deduped
 
 
 def exchange_code(client_id, client_secret, code, redirect_uri):

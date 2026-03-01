@@ -1,8 +1,55 @@
-from script_utils import timed_script
 import sqlite3
 from datetime import datetime
+from pathlib import Path
+import sys
 
-DB_PATH = r'E:\Python Project\mydatabase.db'
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+
+from script_utils import timed_script
+
+DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
+DEFAULT_BUY_COST_MULTIPLIER = 1.015
+DEFAULT_SELL_REVENUE_MULTIPLIER = 0.95125
+
+
+def build_fee_cte(cursor):
+    """Return SQL for my_fees CTE using view data when available, else defaults."""
+    cursor.execute(
+        """
+        SELECT 1
+        FROM sqlite_master
+        WHERE type = 'view'
+          AND name = 'v_my_trading_fees'
+        LIMIT 1
+        """
+    )
+    has_fee_view = cursor.fetchone() is not None
+
+    if has_fee_view:
+        print("[OK] Using trading fees from v_my_trading_fees")
+        return """
+        my_fees AS (
+            SELECT
+                buy_cost_multiplier,
+                sell_revenue_multiplier
+            FROM v_my_trading_fees
+            LIMIT 1
+        )
+        """
+
+    print(
+        "[WARN] v_my_trading_fees not found; using defaults "
+        f"(buy x{DEFAULT_BUY_COST_MULTIPLIER}, sell x{DEFAULT_SELL_REVENUE_MULTIPLIER})"
+    )
+    return f"""
+    my_fees AS (
+        SELECT
+            {DEFAULT_BUY_COST_MULTIPLIER} AS buy_cost_multiplier,
+            {DEFAULT_SELL_REVENUE_MULTIPLIER} AS sell_revenue_multiplier
+    )
+    """
 
 @timed_script
 def refresh_breakeven_cache():
@@ -17,9 +64,11 @@ def refresh_breakeven_cache():
     
     # Drop temp table if exists
     cursor.execute("DROP TABLE IF EXISTS breakeven_cache_temp")
+
+    fee_cte_sql = build_fee_cte(cursor)
     
     # Create TEMPORARY table with the calculation
-    cursor.execute("""
+    cursor.execute(f"""
         CREATE TABLE breakeven_cache_temp AS
         WITH my_sell_orders AS (
             SELECT 
@@ -59,13 +108,7 @@ def refresh_breakeven_cache():
             WHERE rn = 1
             ORDER BY date DESC
         ),
-        my_fees AS (
-            SELECT 
-                buy_cost_multiplier,
-                sell_revenue_multiplier
-            FROM v_my_trading_fees
-            LIMIT 1
-        )
+        {fee_cte_sql}
         SELECT 
             t.type_name,
             so.volume_remain as units_to_sell,
