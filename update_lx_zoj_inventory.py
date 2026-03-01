@@ -1,6 +1,6 @@
 """
 Update LX-ZOJ Inventory
-Fetches inventory from LX-ZOJ citadel via ESI, stores snapshot in database,
+Fetches inventory from a LX-ZOJ structure via ESI, stores snapshot in database,
 and updates index.html with current stock levels.
 """
 import requests
