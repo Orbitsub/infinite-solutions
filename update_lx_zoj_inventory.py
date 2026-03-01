@@ -27,8 +27,9 @@ ENABLE_GITHUB_COMMIT = False
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
 # LX-ZOJ Structure ID
-# LX_ZOJ_STRUCTURE_ID = 1027625808467
-LX_ZOJ_STRUCTURE_ID = 1023105221183
+LX_ZOJ_STRUCTURE_ID = 1027625808467 #T2 Reactions - Tatara
+#LX_ZOJ_STRUCTURE_ID = 1051683386935 #Tylenol R&D HQ - Azbel
+#LX_ZOJ_STRUCTURE_ID = 1023105221183 #Hephaestus' Holy Home - Sotiyo
 
 # ============================================
 # FUNCTIONS

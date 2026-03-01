@@ -2,20 +2,20 @@
 // Updated automatically - do not edit manually
 RESEARCH_JOBS = [
   {
+    "name": "Mining Laser Upgrade I Blueprint",
+    "research_type": "TE",
+    "current_level": 0,
+    "target_level": 2,
+    "end_date": "2026-03-03T20:25:58+00:00",
+    "job_id": 644047091
+  },
+  {
     "name": "Large Asteroid Ore Compressor I Blueprint",
     "research_type": "ME",
     "current_level": 7,
     "target_level": 8,
     "end_date": "2026-03-05T02:37:44+00:00",
     "job_id": 643599022
-  },
-  {
-    "name": "Mining Laser Upgrade I Blueprint",
-    "research_type": "ME",
-    "current_level": 0,
-    "target_level": 1,
-    "end_date": "2026-02-28T20:46:44+00:00",
-    "job_id": 643598915
   },
   {
     "name": "Sigil Blueprint",

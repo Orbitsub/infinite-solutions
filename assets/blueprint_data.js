@@ -24,7 +24,7 @@ BLUEPRINT_DATA = [
   },
   {
     "name": "Mining Laser Upgrade I Blueprint",
-    "me": 0,
+    "me": 10,
     "te": 0,
     "category": "Modules",
     "subcategory": "Mining Laser Upgrade Blueprint"

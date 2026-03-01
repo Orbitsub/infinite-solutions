@@ -73,6 +73,26 @@ const BPC_DATA = [
     "subcategory": "Frigate"
   },
   {
+    "typeId": 4315,
+    "name": "Helium Fuel Block Blueprint",
+    "me": 10,
+    "te": 20,
+    "runs": 200,
+    "quantity": 1,
+    "category": "Components",
+    "subcategory": "Fuel Block Blueprint"
+  },
+  {
+    "typeId": 4316,
+    "name": "Hydrogen Fuel Block Blueprint",
+    "me": 10,
+    "te": 20,
+    "runs": 200,
+    "quantity": 1,
+    "category": "Components",
+    "subcategory": "Fuel Block Blueprint"
+  },
+  {
     "typeId": 954,
     "name": "Imicus Blueprint",
     "me": 10,
@@ -163,6 +183,16 @@ const BPC_DATA = [
     "subcategory": "Frigate"
   },
   {
+    "typeId": 4314,
+    "name": "Nitrogen Fuel Block Blueprint",
+    "me": 10,
+    "te": 20,
+    "runs": 200,
+    "quantity": 1,
+    "category": "Components",
+    "subcategory": "Fuel Block Blueprint"
+  },
+  {
     "typeId": 686,
     "name": "Osprey Blueprint",
     "me": 10,
@@ -171,6 +201,16 @@ const BPC_DATA = [
     "quantity": 2,
     "category": "Ships",
     "subcategory": "Cruiser"
+  },
+  {
+    "typeId": 4313,
+    "name": "Oxygen Fuel Block Blueprint",
+    "me": 10,
+    "te": 20,
+    "runs": 200,
+    "quantity": 1,
+    "category": "Components",
+    "subcategory": "Fuel Block Blueprint"
   },
   {
     "typeId": 690,
