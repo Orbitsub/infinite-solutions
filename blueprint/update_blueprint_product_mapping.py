@@ -32,7 +32,7 @@ def load_mappings_from_sde():
     if not os.path.exists(SDE_BLUEPRINTS_PATH):
         raise FileNotFoundError(
             f"SDE file not found: {SDE_BLUEPRINTS_PATH}\n"
-            "Download/restore sde/blueprints.jsonl before running this script."
+            "Download/restore dataImported/blueprints.jsonl before running this script."
         )
 
     mappings = []

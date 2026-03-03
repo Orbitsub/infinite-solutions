@@ -10,6 +10,7 @@ __pycache__/
 *.db-journal
 *.db-wal
 *.db-shm
+John/
 
 # Sensitive files - ESI credentials and tokens
 config/credentials.json

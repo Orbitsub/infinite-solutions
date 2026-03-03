@@ -45,7 +45,7 @@ BLUEPRINT_DATA = [
   },
   {
     "name": "Sigil Blueprint",
-    "me": 9,
+    "me": 10,
     "te": 12,
     "category": "Ships",
     "subcategory": "Hauler Blueprint"

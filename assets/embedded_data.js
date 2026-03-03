@@ -3,14 +3,15 @@
 // ============================================
 const EMBEDDED_DATA = {
     "inventory": {
-        "Tritanium": 84642725,
-        "Mexallon": 448709,
-        "Pyerite": 15974063,
+        "Tritanium": 84988379,
+        "Mexallon": 972119,
+        "Pyerite": 16231143,
         "Zydrine": 81747,
         "Morphite": 1169,
-        "Isogen": 338560,
-        "Nocxium": 247072,
-        "Megacyte": 350774,
+        "Isogen": 474214,
+        "Heavy Water": 16811,
+        "Nocxium": 281369,
+        "Megacyte": 351482,
         "Plagioclase": 0,
         "Spodumain": 0,
         "Kernite": 0,
@@ -480,7 +481,6 @@ const EMBEDDED_DATA = {
         "Krystallos": 0,
         "Impetus Console": 0,
         "Capacitor Console": 0,
-        "Heavy Water": 0,
         "Liquid Ozone": 0,
         "Helium Isotopes": 0,
         "Strontium Clathrates": 0,
@@ -488,6 +488,6 @@ const EMBEDDED_DATA = {
         "Intact Armor Plates": 0,
         "Enhanced Ward Console": 0
     },
-    "blueprintsLastUpdated": "Mar 01, 2026 17:23 EVE",
-    "inventoryLastUpdated": "Mar 01, 2026 17:45 EVE"
+    "blueprintsLastUpdated": "Mar 03, 2026 02:50 EVE",
+    "inventoryLastUpdated": "Mar 03, 2026 02:52 EVE"
 };
