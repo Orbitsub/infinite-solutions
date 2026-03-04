@@ -1,11 +1,14 @@
 import requests
 import sqlite3
 import time
+import os
 from datetime import datetime, timezone, timedelta
 
-DB_PATH = r'E:\Python Project\mydatabase.db'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(SCRIPT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 THE_FORGE_REGION = 10000002
+
 
 # CONFIG
 DEEP_SCAN = False

@@ -9,8 +9,10 @@ import json
 import os
 
 # Configuration
-DB_PATH = r'E:\Python Project\mydatabase.db'
-JSONL_PATH = r'E:\Python Project\sde\typeMaterials.jsonl'  # Adjust path if needed
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
+JSONL_PATH = os.path.join(PROJECT_DIR, 'dataImported', 'typeMaterials.jsonl')
 
 
 def create_raw_table(conn):
@@ -82,77 +84,6 @@ def import_raw_data(conn, jsonl_path):
     
     return added
 
-
-def show_summary(conn):
-    """Display summary of imported data"""
-    cursor = conn.cursor()
-    
-    print("\n" + "=" * 70)
-    print("RAW TYPE_MATERIALS TABLE - SUMMARY")
-    print("=" * 70)
-    
-    cursor.execute('SELECT COUNT(*) FROM type_materials')
-    total = cursor.fetchone()[0]
-    print(f"\nTotal rows: {total}")
-    
-    print("\n" + "=" * 70)
-    print("SAMPLE DATA")
-    print("=" * 70)
-    
-    cursor.execute('''
-        SELECT type_id, materials_json
-        FROM type_materials
-        LIMIT 5
-    ''')
-    
-    for type_id, materials_json in cursor.fetchall():
-        materials = json.loads(materials_json)
-        print(f"\nType ID: {type_id}")
-        print(f"Materials: {len(materials)} items")
-        for mat in materials[:3]:  # Show first 3
-            print(f"  - Material {mat['materialTypeID']}: {mat['quantity']} units")
-        if len(materials) > 3:
-            print(f"  ... and {len(materials) - 3} more")
-    
-    print("\n" + "=" * 70)
-    print("USAGE EXAMPLES")
-    print("=" * 70)
-    print("""
-1. Get materials for a specific item (e.g., type_id = 18):
-   
-   SELECT type_id, materials_json
-   FROM type_materials
-   WHERE type_id = 18;
-
-2. Parse JSON in Python:
-   
-   import json
-   cursor.execute('SELECT materials_json FROM type_materials WHERE type_id = ?', (18,))
-   materials = json.loads(cursor.fetchone()[0])
-   for mat in materials:
-       print(f"Material {mat['materialTypeID']}: {mat['quantity']}")
-
-3. Count items by number of materials:
-   
-   SELECT 
-       LENGTH(materials_json) - LENGTH(REPLACE(materials_json, 'materialTypeID', '')) 
-       as material_count,
-       COUNT(*) as items
-   FROM type_materials
-   GROUP BY material_count
-   ORDER BY material_count;
-
-4. Join with inv_types to get item names:
-   
-   SELECT 
-       it.type_name,
-       tm.materials_json
-   FROM type_materials tm
-   JOIN inv_types it ON it.type_id = tm.type_id
-   WHERE it.type_name LIKE '%Muninn%';
-""")
-
-
 def main():
     print("=" * 70)
     print("EVE ONLINE - RAW IMPORT OF typeMaterials.jsonl")
@@ -165,7 +96,7 @@ def main():
     if not os.path.exists(DB_PATH):
         print(f"[ERROR] Database not found: {DB_PATH}")
         return
-    
+
     if not os.path.exists(JSONL_PATH):
         print(f"[ERROR] typeMaterials.jsonl not found: {JSONL_PATH}")
         print("\nExpected location:")

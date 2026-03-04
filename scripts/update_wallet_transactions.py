@@ -9,7 +9,7 @@ sys.path.insert(0, SCRIPT_DIR)
 import requests
 import sqlite3
 from datetime import datetime, timezone
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
@@ -17,9 +17,6 @@ from token_manager import get_token
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-
-# Your character ID
-CHARACTER_ID = 2114278577
 
 # ============================================
 # FUNCTIONS
@@ -94,12 +91,12 @@ def main():
     
     # Get transactions
     print("\nFetching wallet transactions...")
-    transactions = get_wallet_transactions(CHARACTER_ID, token)
+    transactions = get_wallet_transactions(character_id, token)
     
     if transactions:
         print(f"Inserting {len(transactions)} transactions...")
         for transaction in transactions:
-            insert_transaction_into_db(conn, CHARACTER_ID, transaction)
+            insert_transaction_into_db(conn, character_id, transaction)
     
     # Save and close
     print("\nSaving changes to database...")

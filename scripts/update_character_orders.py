@@ -9,7 +9,7 @@ sys.path.insert(0, SCRIPT_DIR)
 import requests
 import sqlite3
 from datetime import datetime, timezone
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
@@ -17,9 +17,6 @@ from token_manager import get_token
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-
-# Your character ID
-CHARACTER_ID = 2114278577
 
 # ============================================
 # FUNCTIONS
@@ -134,22 +131,22 @@ def main():
     
     # Get active orders
     print("\nFetching active orders...")
-    active_orders = get_character_orders(CHARACTER_ID, token)
+    active_orders = get_character_orders(character_id, token)
     
     if active_orders:
         print(f"Inserting {len(active_orders)} active orders...")
         for order in active_orders:
-            insert_order_into_db(conn, CHARACTER_ID, order, state='active')
+            insert_order_into_db(conn, character_id, order, state='active')
     
     # Get historical orders
     print("\nFetching historical orders...")
-    historical_orders = get_character_orders_history(CHARACTER_ID, token)
+    historical_orders = get_character_orders_history(character_id, token)
     
     if historical_orders:
         print(f"Inserting {len(historical_orders)} historical orders...")
         for order in historical_orders:
             # Historical orders already have a 'state' field
-            insert_order_into_db(conn, CHARACTER_ID, order)
+            insert_order_into_db(conn, character_id, order)
     
     # Save and close
     print("\nSaving changes to database...")

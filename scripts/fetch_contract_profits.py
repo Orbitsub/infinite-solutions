@@ -14,7 +14,7 @@ sys.path.insert(0, SCRIPT_DIR)
 import requests
 import sqlite3
 from datetime import datetime, timezone, timedelta
-from token_manager import get_token
+from token_manager import get_token, character_id
 
 # ============================================
 # CONFIGURATION
@@ -22,7 +22,6 @@ from token_manager import get_token
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
-CHARACTER_ID = 2114278577
 
 
 def create_table(conn):
@@ -170,7 +169,7 @@ def process_contracts(conn, contracts, token):
         c for c in contracts
         if c.get('type') == 'item_exchange'
         and c.get('status') == 'finished'
-        and c.get('issuer_id') == CHARACTER_ID
+        and c.get('issuer_id') == character_id
         and c.get('price', 0) > 0
         and c.get('contract_id') not in existing
     ]
@@ -180,7 +179,7 @@ def process_contracts(conn, contracts, token):
         c for c in contracts
         if c.get('type') == 'item_exchange'
         and c.get('status') == 'finished'
-        and c.get('issuer_id') == CHARACTER_ID
+        and c.get('issuer_id') == character_id
         and c.get('price', 0) == 0
     ]
     if transfers:
@@ -209,7 +208,7 @@ def process_contracts(conn, contracts, token):
         customer = name_cache[acceptor_id]
 
         # Fetch contract items
-        items = fetch_contract_items(CHARACTER_ID, contract_id, token)
+        items = fetch_contract_items(character_id, contract_id, token)
         time.sleep(0.3)
 
         if not items:
@@ -396,14 +395,14 @@ def main():
     create_table(conn)
 
     # Fetch contracts
-    print(f"\nFetching contracts for character {CHARACTER_ID}...")
-    contracts = fetch_contracts(CHARACTER_ID, token)
+    print(f"\nFetching contracts for character {character_id}...")
+    contracts = fetch_contracts(character_id, token)
     print(f"Total contracts from ESI: {len(contracts)}")
 
     # Show breakdown
     finished = [c for c in contracts if c.get('status') == 'finished']
     item_exchange = [c for c in finished if c.get('type') == 'item_exchange']
-    as_issuer = [c for c in item_exchange if c.get('issuer_id') == CHARACTER_ID]
+    as_issuer = [c for c in item_exchange if c.get('issuer_id') == character_id]
     print(f"  Finished: {len(finished)}")
     print(f"  Item exchange: {len(item_exchange)}")
     print(f"  As issuer (your sales): {len(as_issuer)}")

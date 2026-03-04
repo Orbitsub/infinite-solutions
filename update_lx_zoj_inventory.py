@@ -1,6 +1,6 @@
 """
 Update LX-ZOJ Inventory
-Fetches inventory from LX-ZOJ citadel via ESI, stores snapshot in database,
+Fetches inventory from a LX-ZOJ structure via ESI, stores snapshot in database,
 and updates index.html with current stock levels.
 """
 import requests
@@ -9,12 +9,12 @@ import os
 import sys
 from datetime import datetime, timezone
 
-# Add scripts directory to path for imports
-SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts')
-sys.path.insert(0, SCRIPT_DIR)
+# Add config directory to path for imports
+CONFIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config')
+sys.path.insert(0, CONFIG_DIR)
 
 # Import token manager and script utils
-from token_manager import get_token
+from token_manager import get_token, CHARACTER_ID as character_id
 
 # ============================================
 # CONFIGURATION
@@ -23,14 +23,13 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 HTML_PATH = os.path.join(PROJECT_DIR, 'index.html')
 HTML_BACKUP_PATH = os.path.join(PROJECT_DIR, 'index.backup.html')
-
+ENABLE_GITHUB_COMMIT = False
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
-# Your character ID
-CHARACTER_ID = 2114278577
-
 # LX-ZOJ Structure ID
-LX_ZOJ_STRUCTURE_ID = 1027625808467
+LX_ZOJ_STRUCTURE_ID = 1027625808467 #T2 Reactions - Tatara
+#LX_ZOJ_STRUCTURE_ID = 1051683386935 #Tylenol R&D HQ - Azbel
+#LX_ZOJ_STRUCTURE_ID = 1023105221183 #Hephaestus' Holy Home - Sotiyo
 
 # ============================================
 # FUNCTIONS
@@ -53,7 +52,7 @@ def get_character_assets(headers):
     print("Fetching character assets from ESI...")
 
     while True:
-        url = f'{ESI_BASE_URL}/characters/{CHARACTER_ID}/assets/'
+        url = f'{ESI_BASE_URL}/characters/{character_id}/assets/'
         params = {'page': page}
 
         response = requests.get(url, params=params, headers=headers)
@@ -332,7 +331,7 @@ def main():
     # Switch to main branch FIRST (before modifying any files)
     ensure_main_branch()
 
-    print(f"\nCharacter ID: {CHARACTER_ID}")
+    print(f"\nCharacter ID: {character_id}")
     print(f"Structure: LX-ZOJ ({LX_ZOJ_STRUCTURE_ID})")
 
     # Get authentication
@@ -371,7 +370,11 @@ def main():
         # Commit and push to GitHub
         git_success = False
         if html_success:
-            git_success = commit_and_push_to_github(snapshot_time)
+            if ENABLE_GITHUB_COMMIT:
+                git_success = commit_and_push_to_github(snapshot_time)
+            else:
+                print("\n[INFO] GitHub commit/push skipped (ENABLE_GITHUB_COMMIT=False)")
+                git_success = True  # Consider it a success since we intentionally skipped it
 
         # Show summary
         print("\n" + "=" * 60)

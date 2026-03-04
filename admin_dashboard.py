@@ -7,6 +7,7 @@ from tkinter import ttk, messagebox
 import sqlite3
 import subprocess
 import os
+import sys
 from datetime import datetime, timezone
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mydatabase.db')
@@ -1569,7 +1570,7 @@ class AdminDashboard:
 
     def action_update_blueprints(self):
         """Run the blueprint update script."""
-        self.run_script('update_all_blueprint_data.py', 'Blueprint Update')
+        self.run_script(os.path.join('blueprint', 'update_all_blueprint_data.py'), 'Blueprint Update')
 
     def action_deploy(self):
         """Push changes to GitHub."""
@@ -1582,7 +1583,7 @@ class AdminDashboard:
                                "This will push the current site to GitHub.\n"
                                "The live site will update in 1-2 minutes.\n\n"
                                "Continue?"):
-            self.run_script('update_page.bat', 'Deploy')
+            self.run_script(os.path.join('batches', 'update_page.bat'), 'Deploy')
 
     def run_script(self, script_name, label):
         """Run a script in the project directory."""
@@ -1596,10 +1597,11 @@ class AdminDashboard:
 
         try:
             if script_name.endswith('.bat'):
+                # Assuming this runs on Windows or wine, though the OS is Linux according to context.
+                # If running on Linux, it might need 'bash' and a '.sh' extension instead.
                 subprocess.Popen(['cmd', '/c', script_path], cwd=PROJECT_DIR)
             else:
-                python_exe = r'C:\Users\lsant\AppData\Local\Python\pythoncore-3.14-64\python.exe'
-                subprocess.Popen([python_exe, script_path], cwd=PROJECT_DIR)
+                subprocess.Popen([sys.executable, script_path], cwd=PROJECT_DIR)
 
             self.update_status(f"{label} started")
             messagebox.showinfo("Started", f"{label} is running.\n"
