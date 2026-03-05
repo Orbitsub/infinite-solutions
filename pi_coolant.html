@@ -6,9 +6,6 @@
     <title>Infinite Solutions - PI: Coolant Production Chain</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap">
     <style>
-        /* ============================================
-           BASE
-           ============================================ */
         *, *::before, *::after { box-sizing: border-box; }
 
         body {
@@ -24,20 +21,16 @@
 
         .page-wrapper {
             width: 96vw;
-            max-width: 1600px;
+            max-width: 1400px;
             background: #000000;
             border: 2px solid #dd0000;
-            box-shadow:
-                0 0 30px rgba(220, 0, 0, 0.3),
-                inset 0 0 100px rgba(140, 0, 0, 0.08);
+            box-shadow: 0 0 30px rgba(220,0,0,0.3), inset 0 0 100px rgba(140,0,0,0.08);
             position: relative;
             overflow: hidden;
         }
 
-        /* Star / grid backgrounds */
         .bg-stars {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background-image:
                 radial-gradient(2px 2px at 20% 30%, white, transparent),
                 radial-gradient(2px 2px at 60% 70%, white, transparent),
@@ -45,48 +38,27 @@
                 radial-gradient(1px 1px at 80% 10%, white, transparent),
                 radial-gradient(2px 2px at 90% 60%, white, transparent),
                 radial-gradient(1px 1px at 33% 80%, white, transparent);
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 0;
+            opacity: 0.25; pointer-events: none; z-index: 0;
         }
 
         .bg-grid {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background-image:
-                linear-gradient(rgba(255, 26, 0, 0.06) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 26, 0, 0.06) 1px, transparent 1px);
+                linear-gradient(rgba(255,26,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,26,0,0.05) 1px, transparent 1px);
             background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
 
-        .bg-nebula {
-            position: absolute;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(220, 0, 0, 0.12) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
-            filter: blur(60px);
-            pointer-events: none;
-            z-index: 0;
-        }
+        .page-content { position: relative; z-index: 10; }
 
-        .page-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* ============================================
-           HEADER
-           ============================================ */
+        /* ===== HEADER ===== */
         .site-header {
-            background: linear-gradient(135deg, #0a0000 0%, #100000 50%, #100000 100%);
+            background: linear-gradient(135deg, #0a0000 0%, #100000 100%);
             padding: 30px;
             text-align: center;
             border-bottom: 3px solid #ff1a00;
-            box-shadow: 0 0 30px rgba(255, 30, 0, 0.4);
+            box-shadow: 0 0 30px rgba(255,30,0,0.4);
         }
 
         .site-header h1 {
@@ -97,10 +69,7 @@
             margin: 0 0 10px 0;
             text-transform: uppercase;
             letter-spacing: 6px;
-            text-shadow:
-                0 0 20px rgba(255, 30, 0, 1),
-                0 0 40px rgba(255, 30, 0, 0.6),
-                0 0 60px rgba(255, 30, 0, 0.4);
+            text-shadow: 0 0 20px rgba(255,30,0,1), 0 0 40px rgba(255,30,0,0.6);
         }
 
         .site-header .tagline {
@@ -111,18 +80,15 @@
             font-weight: 600;
         }
 
-        /* ============================================
-           BREADCRUMB / NAV
-           ============================================ */
+        /* ===== BREADCRUMB ===== */
         .breadcrumb {
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 14px 30px;
             background: #0e0000;
-            border-bottom: 1px solid rgba(220, 0, 0, 0.25);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
+            border-bottom: 1px solid rgba(220,0,0,0.25);
+            font-size: 15px;
             color: #aa2222;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -131,778 +97,472 @@
         .breadcrumb a {
             color: #ff1a00;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             transition: color 0.2s;
         }
 
-        .breadcrumb a:hover {
-            color: #ffaa44;
-            text-shadow: 0 0 8px rgba(255, 170, 68, 0.6);
-        }
+        .breadcrumb a:hover { color: #ffaa44; }
+        .breadcrumb-sep { color: #500000; }
+        .breadcrumb-current { color: #ffcc00; font-weight: 700; }
 
-        .breadcrumb-sep {
-            color: #500000;
-            font-size: 18px;
-        }
-
-        .breadcrumb-current {
-            color: #ffcc00;
-            font-weight: 700;
-        }
-
-        /* ============================================
-           MAIN CONTENT AREA
-           ============================================ */
+        /* ===== MAIN LAYOUT ===== */
         .main-content {
-            padding: 40px 50px 60px 50px;
+            padding: 40px 40px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* ============================================
-           SECTION HEADER
-           ============================================ */
+        /* ===== PRODUCT TITLE BAR ===== */
+        .product-bar {
+            width: 100%;
+            max-width: 940px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 36px;
+            padding: 18px 24px;
+            background: rgba(40,5,0,0.6);
+            border: 1px solid rgba(220,0,0,0.35);
+            border-radius: 8px;
+        }
+
+        .product-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .product-icon { font-size: 38px; line-height: 1; }
+
+        .product-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: #ffdd44;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(255,220,68,0.4);
+        }
+
+        .product-tier {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffcc00;
+            background: rgba(255,200,0,0.12);
+            border: 1px solid rgba(255,200,0,0.4);
+            border-radius: 12px;
+            padding: 4px 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .product-stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .pstat {
+            text-align: center;
+        }
+
+        .pstat-label {
+            font-size: 11px;
+            color: #885533;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        .pstat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffcc00;
+        }
+
+        /* ===== FLOW DIAGRAM CONTAINER ===== */
+        .flow-diagram {
+            width: 100%;
+            max-width: 940px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* The two parallel branches */
+        .flow-branches {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            width: 100%;
+        }
+
+        .flow-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        /* Centered single-column area */
+        .flow-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* ===== NODE CARDS ===== */
+        .node {
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .node-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+        }
+
+        .node-tier-badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .node-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .node-body {
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .node-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 14px;
+            line-height: 1.4;
+            gap: 8px;
+        }
+
+        .node-row .lbl {
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .node-row .val {
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .node-row .val.big {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+        }
+
+        .node-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin: 4px 0;
+        }
+
+        /* planet badges */
+        .planet-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 2px;
+        }
+
+        .pb {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        .pb.temp  { background: rgba(0,180,80,0.15);   border:1px solid #00bb55; color:#00dd66; }
+        .pb.ice   { background: rgba(100,180,255,0.12); border:1px solid #66aaff; color:#88ccff; }
+        .pb.oce   { background: rgba(0,100,220,0.15);  border:1px solid #0055cc; color:#4488ff; }
+        .pb.gas   { background: rgba(180,120,255,0.15); border:1px solid #aa66ff; color:#cc88ff; }
+        .pb.storm { background: rgba(255,180,0,0.12);  border:1px solid #ffaa00; color:#ffbb33; }
+
+        /* ---- P0 node ---- */
+        .node--p0 {
+            background: rgba(45,12,0,0.75);
+            border: 2px solid #cc4400;
+        }
+        .node--p0 .node-header {
+            background: rgba(160,50,0,0.22);
+            border-bottom: 1px solid rgba(200,70,0,0.35);
+        }
+        .node--p0 .node-tier-badge {
+            background: rgba(200,68,0,0.22); border:1px solid #cc4400; color:#ff6622;
+        }
+        .node--p0 .node-name { color:#ff8844; }
+        .node--p0 .node-row .lbl { color:#773322; }
+        .node--p0 .node-row .val { color:#ffaa77; }
+
+        /* ---- P1 node ---- */
+        .node--p1 {
+            background: rgba(45,25,0,0.75);
+            border: 2px solid #ff8800;
+        }
+        .node--p1 .node-header {
+            background: rgba(160,90,0,0.2);
+            border-bottom: 1px solid rgba(220,130,0,0.35);
+        }
+        .node--p1 .node-tier-badge {
+            background: rgba(220,130,0,0.2); border:1px solid #ff8800; color:#ffaa44;
+        }
+        .node--p1 .node-name { color:#ffbb66; }
+        .node--p1 .node-row .lbl { color:#886622; }
+        .node--p1 .node-row .val { color:#ffcc88; }
+
+        /* ---- P2 node ---- */
+        .node--p2 {
+            background: rgba(45,35,0,0.75);
+            border: 2px solid #ffcc00;
+            animation: glow-p2 3s ease-in-out infinite;
+            max-width: 460px;
+        }
+        @keyframes glow-p2 {
+            0%,100% { box-shadow: 0 0 16px rgba(255,200,0,0.25); }
+            50%      { box-shadow: 0 0 32px rgba(255,200,0,0.55); }
+        }
+        .node--p2 .node-header {
+            background: rgba(160,120,0,0.2);
+            border-bottom: 1px solid rgba(220,180,0,0.4);
+        }
+        .node--p2 .node-tier-badge {
+            background: rgba(220,180,0,0.18); border:1px solid #ffcc00; color:#ffdd44;
+        }
+        .node--p2 .node-name { color:#ffdd44; text-shadow: 0 0 10px rgba(255,220,68,0.5); }
+        .node--p2 .node-row .lbl { color:#998833; }
+        .node--p2 .node-row .val { color:#ffee88; }
+
+        /* ---- Facility node ---- */
+        .node--facility {
+            background: rgba(14,3,0,0.85);
+            border: 1px solid rgba(180,0,0,0.4);
+            border-left: 3px solid #cc0000;
+            border-radius: 4px;
+        }
+        .node--facility .node-header {
+            background: rgba(80,0,0,0.25);
+            border-bottom: 1px solid rgba(160,0,0,0.3);
+            padding: 8px 14px;
+        }
+        .node--facility .node-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #cc2200;
+            letter-spacing: 1px;
+        }
+        .node--facility .node-body { padding: 9px 14px; gap: 5px; }
+        .node--facility .node-row .lbl { color: #663322; font-size: 11px; }
+        .node--facility .node-row .val { color: #ff8844; font-size: 13px; }
+
+        /* ===== VERTICAL CONNECTOR ===== */
+        .v-conn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .v-conn-line {
+            width: 2px;
+            height: 16px;
+            background: linear-gradient(to bottom, rgba(220,0,0,0.8), rgba(220,0,0,0.4));
+        }
+
+        .v-conn-arrow {
+            width: 0; height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 10px solid #cc0000;
+        }
+
+        /* ===== MERGE CONNECTOR (SVG) ===== */
+        .merge-row {
+            width: 100%;
+            height: 56px;
+            position: relative;
+        }
+
+        .merge-row svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ===== SCALING TABLE ===== */
         .section-header {
             font-family: 'Orbitron', sans-serif;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             color: #dd0000;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin: 0 0 25px 0;
-            padding: 12px 18px;
-            background: rgba(220, 0, 0, 0.1);
+            padding: 10px 16px;
+            background: rgba(220,0,0,0.1);
             border-left: 4px solid #dd0000;
-            text-shadow: 0 0 10px rgba(220, 0, 0, 0.5);
-        }
-
-        /* ============================================
-           OVERVIEW CARD
-           ============================================ */
-        .overview-card {
-            display: flex;
-            gap: 30px;
-            background: rgba(60, 0, 0, 0.25);
-            border: 1px solid rgba(220, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 28px 32px;
-            margin-bottom: 50px;
-            align-items: flex-start;
-        }
-
-        .overview-icon {
-            flex-shrink: 0;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, rgba(255, 200, 0, 0.15) 0%, rgba(255, 200, 0, 0.05) 60%, transparent 100%);
-            border: 2px solid #ffcc00;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            box-shadow: 0 0 20px rgba(255, 200, 0, 0.3);
-        }
-
-        .overview-info { flex: 1; }
-
-        .overview-info h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            font-weight: 900;
-            color: #ffcc00;
-            margin: 0 0 8px 0;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 15px rgba(255, 200, 0, 0.6);
-        }
-
-        .overview-info .tier-badge {
-            display: inline-block;
-            background: rgba(255, 200, 0, 0.15);
-            border: 1px solid #ffcc00;
-            color: #ffcc00;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 14px;
-        }
-
-        .overview-info .desc {
-            font-size: 18px;
-            color: #c0a0a0;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        .overview-info .desc strong {
-            color: #ffaa44;
-        }
-
-        .overview-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            min-width: 220px;
-        }
-
-        .stat-box {
-            background: rgba(40, 0, 0, 0.5);
-            border: 1px solid rgba(220, 0, 0, 0.35);
-            border-radius: 6px;
-            padding: 12px 18px;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #aa2222;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffcc00;
-            text-shadow: 0 0 8px rgba(255, 200, 0, 0.5);
-        }
-
-        .stat-value.p2-color { color: #ffcc00; text-shadow: 0 0 8px rgba(255,200,0,0.5); }
-
-        /* ============================================
-           PRODUCTION CHAIN
-           ============================================ */
-        .chain-container {
-            margin-bottom: 50px;
-        }
-
-        /* Top two-column P0 + P1, converging into P2 */
-        .chain-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 0;
-        }
-
-        .chain-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-        }
-
-        /* Material card tiers */
-        .mat-card {
+            text-shadow: 0 0 10px rgba(220,0,0,0.5);
             width: 100%;
-            border-radius: 8px;
-            padding: 20px 24px;
-            position: relative;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            max-width: 940px;
+            margin: 48px 0 20px;
         }
 
-        .mat-card:hover {
-            transform: translateY(-3px);
-        }
-
-        /* P0 cards — raw extraction */
-        .mat-card.p0 {
-            background: rgba(60, 15, 0, 0.6);
-            border: 2px solid #cc4400;
-            box-shadow: 0 0 12px rgba(204, 68, 0, 0.25);
-        }
-
-        .mat-card.p0:hover {
-            box-shadow: 0 0 20px rgba(204, 68, 0, 0.5);
-        }
-
-        /* P1 cards — basic processed */
-        .mat-card.p1 {
-            background: rgba(60, 30, 0, 0.6);
-            border: 2px solid #ff8800;
-            box-shadow: 0 0 12px rgba(255, 136, 0, 0.2);
-        }
-
-        .mat-card.p1:hover {
-            box-shadow: 0 0 20px rgba(255, 136, 0, 0.45);
-        }
-
-        /* P2 card — refined commodity */
-        .mat-card.p2 {
-            background: rgba(60, 50, 0, 0.6);
-            border: 2px solid #ffcc00;
-            box-shadow: 0 0 18px rgba(255, 200, 0, 0.3);
-        }
-
-        .mat-card.p2:hover {
-            box-shadow: 0 0 28px rgba(255, 200, 0, 0.55);
-        }
-
-        .mat-card-tier {
-            display: inline-block;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            padding: 3px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .mat-card.p0 .mat-card-tier {
-            background: rgba(204, 68, 0, 0.25);
-            border: 1px solid #cc4400;
-            color: #ff6622;
-        }
-
-        .mat-card.p1 .mat-card-tier {
-            background: rgba(255, 136, 0, 0.2);
-            border: 1px solid #ff8800;
-            color: #ffaa44;
-        }
-
-        .mat-card.p2 .mat-card-tier {
-            background: rgba(255, 200, 0, 0.15);
-            border: 1px solid #ffcc00;
-            color: #ffcc00;
-        }
-
-        .mat-card-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 14px;
-        }
-
-        .mat-card.p0 .mat-card-name { color: #ff8844; }
-        .mat-card.p1 .mat-card-name { color: #ffaa66; }
-        .mat-card.p2 .mat-card-name { color: #ffdd44; text-shadow: 0 0 12px rgba(255,220,68,0.5); }
-
-        .mat-card-rows {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .mat-card-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-            line-height: 1.4;
-        }
-
-        .mat-card-row .lbl {
-            color: #885533;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-
-        .mat-card.p1 .mat-card-row .lbl { color: #aa6622; }
-        .mat-card.p2 .mat-card-row .lbl { color: #aa8800; }
-
-        .mat-card-row .val {
-            color: #ffffff;
-            font-weight: 600;
-            text-align: right;
-        }
-
-        /* Planet type badges */
-        .planet-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 12px;
-        }
-
-        .planet-badge {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 3px 10px;
-            border-radius: 4px;
-        }
-
-        .planet-badge.temperate  { background: rgba(0,180,80,0.15);  border: 1px solid #00bb55; color: #00dd66; }
-        .planet-badge.ice        { background: rgba(100,180,255,0.12); border: 1px solid #66aaff; color: #88ccff; }
-        .planet-badge.oceanic    { background: rgba(0,100,220,0.15);  border: 1px solid #0055cc; color: #4488ff; }
-        .planet-badge.gas        { background: rgba(180,120,255,0.15); border: 1px solid #aa66ff; color: #cc88ff; }
-        .planet-badge.storm      { background: rgba(255,180,0,0.12);  border: 1px solid #ffaa00; color: #ffbb33; }
-
-        /* ============================================
-           CHAIN ARROWS
-           ============================================ */
-        .arrow-down {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px 0;
-            gap: 2px;
-        }
-
-        .arrow-line {
-            width: 2px;
-            height: 20px;
-            background: linear-gradient(to bottom, rgba(255,26,0,0.3), #ff1a00);
-        }
-
-        .arrow-label {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #dd5500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: center;
-            padding: 4px 12px;
-            background: rgba(255,26,0,0.08);
-            border: 1px solid rgba(255,26,0,0.2);
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        .arrow-tip {
-            width: 0;
-            height: 0;
-            border-left: 7px solid transparent;
-            border-right: 7px solid transparent;
-            border-top: 12px solid #ff1a00;
-        }
-
-        /* Converging arrow area below the two columns */
-        .chain-converge {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            margin-top: 0;
-            padding: 0 30px;
-            position: relative;
-        }
-
-        .converge-svg {
+        .scale-table-wrap {
             width: 100%;
-            max-width: 600px;
-            height: 70px;
-            overflow: visible;
-        }
-
-        /* The centred P2 card wrapper */
-        .chain-p2-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 0;
-        }
-
-        .chain-p2-wrapper .mat-card.p2 {
-            max-width: 600px;
-            width: 100%;
-        }
-
-        /* ============================================
-           FACILITIES SECTION
-           ============================================ */
-        .facilities-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 50px;
-        }
-
-        .facility-card {
-            background: rgba(30, 5, 0, 0.5);
-            border: 1px solid rgba(220, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 22px 24px;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .facility-card:hover {
-            border-color: #dd0000;
-            box-shadow: 0 0 16px rgba(220, 0, 0, 0.3);
-        }
-
-        .facility-card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            color: #ff1a00;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        .facility-card-abbr {
-            font-size: 13px;
-            color: #aa2222;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 14px;
-        }
-
-        .facility-card-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 15px;
-            padding: 5px 0;
-            border-bottom: 1px solid rgba(220, 0, 0, 0.1);
-        }
-
-        .facility-card-row:last-child {
-            border-bottom: none;
-        }
-
-        .facility-card-row .lbl {
-            color: #885533;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .facility-card-row .val {
-            color: #ffdd44;
-            font-weight: 700;
-        }
-
-        /* ============================================
-           PLANET SETUP SECTION
-           ============================================ */
-        .planet-setup-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 50px;
-        }
-
-        .planet-card {
-            background: rgba(20, 5, 0, 0.6);
-            border: 2px solid rgba(220, 0, 0, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .planet-card:hover {
-            border-color: #cc3300;
-            box-shadow: 0 0 18px rgba(200, 50, 0, 0.35);
-        }
-
-        .planet-card-header {
-            background: linear-gradient(135deg, #200000 0%, #2c0000 100%);
-            padding: 16px 20px;
-            border-bottom: 2px solid rgba(220, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .planet-card-num {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(220, 0, 0, 0.25);
-            border: 2px solid #dd0000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #ff1a00;
-            flex-shrink: 0;
-        }
-
-        .planet-card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #ff8844;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .planet-card-subtitle {
-            font-size: 13px;
-            color: #885533;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-
-        .planet-card-body {
-            padding: 18px 20px;
-        }
-
-        .planet-type-row {
-            margin-bottom: 14px;
-        }
-
-        .planet-type-label {
-            font-size: 12px;
-            color: #885533;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        .planet-resource {
-            font-size: 16px;
-            color: #ffaa66;
-            font-weight: 700;
-            margin-bottom: 14px;
-        }
-
-        .planet-step-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .planet-step-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 15px;
-            color: #c0a0a0;
-            line-height: 1.4;
-        }
-
-        .step-icon {
-            flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: rgba(220, 0, 0, 0.2);
-            border: 1px solid rgba(220, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: #dd0000;
-            font-family: 'Orbitron', sans-serif;
-            margin-top: 1px;
-        }
-
-        .planet-step-list li strong {
-            color: #ffaa44;
-        }
-
-        /* ============================================
-           PRODUCTION MATH TABLE
-           ============================================ */
-        .math-table-wrapper {
+            max-width: 940px;
             overflow-x: auto;
-            margin-bottom: 50px;
         }
 
-        .math-table {
+        .scale-table {
             width: 100%;
             border-collapse: collapse;
             font-family: 'Rajdhani', sans-serif;
-            min-width: 700px;
+            min-width: 600px;
         }
 
-        .math-table thead tr {
-            background: rgba(220, 0, 0, 0.1);
+        .scale-table thead tr {
+            background: rgba(220,0,0,0.1);
         }
 
-        .math-table th {
+        .scale-table th {
             font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: #dd0000;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             text-align: left;
-            border-bottom: 2px solid rgba(220, 0, 0, 0.3);
+            border-bottom: 2px solid rgba(220,0,0,0.3);
             white-space: nowrap;
         }
 
-        .math-table td {
-            font-size: 16px;
-            color: #ffffff;
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(220, 0, 0, 0.1);
-            vertical-align: middle;
+        .scale-table td {
+            font-size: 15px;
+            color: #fff;
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(220,0,0,0.1);
         }
 
-        .math-table tr:hover td {
-            background: rgba(220, 0, 0, 0.05);
-        }
+        .scale-table tr:hover td { background: rgba(220,0,0,0.05); }
+        .scale-table td.hi { color: #ffcc00; font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 14px; }
+        .scale-table td.dim { color: #774433; }
 
-        .math-table td.highlight {
-            color: #ffcc00;
-            font-weight: 700;
-            font-size: 17px;
-        }
-
-        .math-table td.dim {
-            color: #885533;
-        }
-
-        .math-table .sub-row td {
-            font-size: 14px;
-            color: #885533;
-            padding-top: 4px;
-            padding-bottom: 4px;
-        }
-
-        .scale-badge {
+        .aif-badge {
             display: inline-block;
-            background: rgba(255, 26, 0, 0.15);
-            border: 1px solid rgba(255, 26, 0, 0.4);
+            background: rgba(255,26,0,0.15);
+            border: 1px solid rgba(255,26,0,0.4);
             color: #ff8844;
-            font-size: 13px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
             font-weight: 700;
             padding: 2px 10px;
-            border-radius: 12px;
-            font-family: 'Orbitron', sans-serif;
+            border-radius: 10px;
         }
 
-        /* ============================================
-           INFO BOXES
-           ============================================ */
-        .info-box {
-            background: rgba(20, 10, 0, 0.5);
-            border-left: 4px solid #ff8800;
-            border-radius: 0 6px 6px 0;
-            padding: 16px 20px;
-            margin-bottom: 20px;
+        /* ===== TIPS ===== */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 940px;
+            margin-top: 20px;
         }
 
-        .info-box .info-title {
+        .tip {
+            background: rgba(18,4,0,0.55);
+            border: 1px solid rgba(220,0,0,0.2);
+            border-radius: 6px;
+            padding: 16px 18px;
+        }
+
+        .tip-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            color: #ff8800;
+            color: #cc3300;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
         }
 
-        .info-box p {
+        .tip p {
             margin: 0;
-            font-size: 16px;
-            color: #c0a880;
-            line-height: 1.6;
-        }
-
-        .info-box p strong {
-            color: #ffaa44;
-        }
-
-        /* ============================================
-           TIPS SECTION
-           ============================================ */
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-
-        .tip-card {
-            background: rgba(20, 5, 0, 0.5);
-            border: 1px solid rgba(220, 0, 0, 0.25);
-            border-radius: 8px;
-            padding: 20px 22px;
-        }
-
-        .tip-card-title {
-            font-family: 'Orbitron', sans-serif;
             font-size: 14px;
-            font-weight: 700;
-            color: #cc4400;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .tip-card p {
-            margin: 0;
-            font-size: 15px;
-            color: #c0a0a0;
+            color: #b09090;
             line-height: 1.6;
         }
 
-        .tip-card p strong {
-            color: #ffaa44;
-        }
+        .tip p strong { color: #ffaa44; }
 
-        /* ============================================
-           FOOTER
-           ============================================ */
+        /* ===== FOOTER ===== */
         .page-footer {
-            margin: 0 50px;
-            padding: 24px 0 40px 0;
-            border-top: 2px solid rgba(220, 0, 0, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
+            padding: 20px 40px 36px;
+            border-top: 1px solid rgba(220,0,0,0.2);
+            margin-top: 48px;
         }
 
-        .footer-left {
-            font-size: 15px;
-            color: #885533;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .page-footer-left { font-size: 13px; color: #774433; text-transform: uppercase; letter-spacing: 1px; }
 
-        .footer-right a {
+        .page-footer-right a {
             font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            color: #dd0000;
+            color: #cc0000;
             text-decoration: none;
-            transition: color 0.2s, text-shadow 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: color 0.2s;
         }
 
-        .footer-right a:hover {
-            color: #ff4422;
-            text-shadow: 0 0 10px rgba(255, 68, 34, 0.6);
-        }
+        .page-footer-right a:hover { color: #ff4422; }
 
-        /* ============================================
-           PULSE ANIMATION
-           ============================================ */
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 18px rgba(255, 200, 0, 0.3); }
-            50%       { box-shadow: 0 0 35px rgba(255, 200, 0, 0.6); }
-        }
-
-        .mat-card.p2 {
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media screen and (max-width: 900px) {
-            .main-content { padding: 24px 20px 40px 20px; }
-            .chain-grid { grid-template-columns: 1fr; gap: 0; }
-            .facilities-grid { grid-template-columns: 1fr; }
-            .planet-setup-grid { grid-template-columns: 1fr; }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 720px) {
+            .flow-branches { grid-template-columns: 1fr; gap: 0; }
+            .merge-row { display: none; }
+            .main-content { padding: 24px 16px 40px; }
+            .product-stats { display: none; }
             .tips-grid { grid-template-columns: 1fr; }
-            .overview-card { flex-direction: column; }
-            .overview-stats { flex-direction: row; flex-wrap: wrap; min-width: 0; }
-            .stat-box { flex: 1; min-width: 120px; }
-            .page-footer { flex-direction: column; align-items: flex-start; margin: 0 20px; }
+            .page-footer { padding: 16px 20px 28px; flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -910,489 +570,429 @@
 <div class="page-wrapper">
     <div class="bg-stars"></div>
     <div class="bg-grid"></div>
-    <div class="bg-nebula"></div>
 
     <div class="page-content">
 
-        <!-- ===== HEADER ===== -->
+        <!-- HEADER -->
         <div class="site-header">
             <h1>INFINITE SOLUTIONS</h1>
-            <div class="tagline">Planetary Interaction — Production Guide</div>
+            <div class="tagline">Planetary Interaction — Production Chain</div>
         </div>
 
-        <!-- ===== BREADCRUMB ===== -->
+        <!-- BREADCRUMB -->
         <div class="breadcrumb">
-            <a href="index.html">← Materials &amp; Resources Market</a>
+            <a href="index.html">← Market &amp; Blueprints</a>
             <span class="breadcrumb-sep">›</span>
             <span>Planetary Interaction</span>
             <span class="breadcrumb-sep">›</span>
-            <span class="breadcrumb-current">Coolant Chain</span>
+            <span class="breadcrumb-current">Coolant</span>
         </div>
 
         <div class="main-content">
 
-            <!-- ===== PRODUCT OVERVIEW ===== -->
-            <div class="overview-card">
-                <div class="overview-icon">❄️</div>
-                <div class="overview-info">
-                    <h2>Coolant</h2>
-                    <div class="tier-badge">P2 — Refined Commodity</div>
-                    <p class="desc">
-                        Coolant is a <strong>Processed (P2)</strong> planetary commodity produced by combining
-                        <strong>Water</strong> and <strong>Electrolytes</strong> in an Advanced Industry Facility.
-                        It is a key material in <strong>Amarr Fuel Block</strong> manufacturing and numerous
-                        <strong>T2 component</strong> blueprints.
-                    </p>
+            <!-- PRODUCT TITLE BAR -->
+            <div class="product-bar">
+                <div class="product-bar-left">
+                    <div class="product-icon">❄️</div>
+                    <div>
+                        <div class="product-name">Coolant</div>
+                        <div class="product-tier">P2 — Refined Commodity</div>
+                    </div>
                 </div>
-                <div class="overview-stats">
-                    <div class="stat-box">
-                        <div class="stat-label">Volume</div>
-                        <div class="stat-value p2-color">1.5 m³</div>
+                <div class="product-stats">
+                    <div class="pstat">
+                        <div class="pstat-label">Output / cycle</div>
+                        <div class="pstat-value">5 units</div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Chain Depth</div>
-                        <div class="stat-value p2-color">P0 → P1 → P2</div>
+                    <div class="pstat">
+                        <div class="pstat-label">Output / day</div>
+                        <div class="pstat-value">120 units</div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Inputs Required</div>
-                        <div class="stat-value p2-color">2 Resources</div>
+                    <div class="pstat">
+                        <div class="pstat-label">Volume / unit</div>
+                        <div class="pstat-value">0.75 m³</div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Min. Planets</div>
-                        <div class="stat-value p2-color">2–3 Planets</div>
+                    <div class="pstat">
+                        <div class="pstat-label">Chain depth</div>
+                        <div class="pstat-value">P0 → P2</div>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== PRODUCTION CHAIN ===== -->
-            <div class="section-header">Production Chain</div>
-            <div class="chain-container">
+            <!-- ===================================================
+                 FLOW DIAGRAM
+                 Two parallel branches (left=Water, right=Electrolytes)
+                 converging into AIF → Coolant output
+                 =================================================== -->
+            <div class="flow-diagram">
 
-                <!-- Row 1: P0 side by side -->
-                <div class="chain-grid">
-                    <div class="chain-column">
-                        <div class="mat-card p0">
-                            <div class="mat-card-tier">P0 — Raw Material</div>
-                            <div class="mat-card-name">Aqueous Liquids</div>
-                            <div class="mat-card-rows">
-                                <div class="mat-card-row">
+                <!-- ── ROW 1: P0 inputs, side by side ── -->
+                <div class="flow-branches">
+
+                    <!-- LEFT BRANCH: Aqueous Liquids → Water -->
+                    <div class="flow-branch">
+
+                        <div class="node node--p0">
+                            <div class="node-header">
+                                <span class="node-tier-badge">P0</span>
+                                <span class="node-name">Aqueous Liquids</span>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-row">
                                     <span class="lbl">Source</span>
                                     <span class="val">Planetary Extraction</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Processed By</span>
-                                    <span class="val">Basic Industry Facility</span>
+                                <div class="node-row">
+                                    <span class="lbl">Qty needed / hr</span>
+                                    <span class="val big">6,000</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Produces</span>
-                                    <span class="val">Water (P1)</span>
+                                <div class="node-row">
+                                    <span class="lbl">Volume</span>
+                                    <span class="val">30 m³</span>
                                 </div>
-                            </div>
-                            <div class="planet-badges">
-                                <span class="planet-badge temperate">Temperate</span>
-                                <span class="planet-badge ice">Ice</span>
-                                <span class="planet-badge oceanic">Oceanic</span>
+                                <div class="node-divider"></div>
+                                <div class="node-row">
+                                    <span class="lbl">Planet types</span>
+                                </div>
+                                <div class="planet-badges">
+                                    <span class="pb temp">Temperate</span>
+                                    <span class="pb ice">Ice</span>
+                                    <span class="pb oce">Oceanic</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="arrow-down">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-label">3,000 units → 20 Water &nbsp;|&nbsp; BIF · 30 min</div>
-                            <div class="arrow-line" style="background: linear-gradient(to bottom, #ff1a00, rgba(255,26,0,0.3));"></div>
-                            <div class="arrow-tip"></div>
+                        <div class="v-conn">
+                            <div class="v-conn-line"></div>
+                            <div class="v-conn-line" style="height:8px;"></div>
                         </div>
 
-                        <div class="mat-card p1">
-                            <div class="mat-card-tier">P1 — Basic Commodity</div>
-                            <div class="mat-card-name">Water</div>
-                            <div class="mat-card-rows">
-                                <div class="mat-card-row">
-                                    <span class="lbl">Facility</span>
-                                    <span class="val">Basic Industry Facility</span>
+                        <div class="node node--facility">
+                            <div class="node-header">
+                                <span class="node-name">Basic Industry Facility</span>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-row">
+                                    <span class="lbl">Schematic</span>
+                                    <span class="val">Water</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Cycle Time</span>
-                                    <span class="val">30 minutes</span>
+                                <div class="node-row">
+                                    <span class="lbl">Cycle time</span>
+                                    <span class="val">30 min</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Input</span>
+                                <div class="node-row">
+                                    <span class="lbl">Input / cycle</span>
                                     <span class="val">3,000 Aqueous Liquids</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Output</span>
+                                <div class="node-row">
+                                    <span class="lbl">Output / cycle</span>
                                     <span class="val">20 Water</span>
-                                </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">AIF Demand</span>
-                                    <span class="val">40 / hr &nbsp;(1 BIF satisfies this)</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="chain-column">
-                        <div class="mat-card p0">
-                            <div class="mat-card-tier">P0 — Raw Material</div>
-                            <div class="mat-card-name">Ionic Solutions</div>
-                            <div class="mat-card-rows">
-                                <div class="mat-card-row">
+                        <div class="v-conn">
+                            <div class="v-conn-line" style="height:8px;"></div>
+                            <div class="v-conn-arrow"></div>
+                        </div>
+
+                        <div class="node node--p1">
+                            <div class="node-header">
+                                <span class="node-tier-badge">P1</span>
+                                <span class="node-name">Water</span>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-row">
+                                    <span class="lbl">Qty produced / hr</span>
+                                    <span class="val big">40</span>
+                                </div>
+                                <div class="node-row">
+                                    <span class="lbl">Volume</span>
+                                    <span class="val">7.6 m³</span>
+                                </div>
+                                <div class="node-row">
+                                    <span class="lbl">Unit volume</span>
+                                    <span class="val">0.19 m³ each</span>
+                                </div>
+                                <div class="node-divider"></div>
+                                <div class="node-row">
+                                    <span class="lbl">Used by AIF</span>
+                                    <span class="val">40 / AIF cycle</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- end left branch -->
+
+                    <!-- RIGHT BRANCH: Ionic Solutions → Electrolytes -->
+                    <div class="flow-branch">
+
+                        <div class="node node--p0">
+                            <div class="node-header">
+                                <span class="node-tier-badge">P0</span>
+                                <span class="node-name">Ionic Solutions</span>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-row">
                                     <span class="lbl">Source</span>
                                     <span class="val">Planetary Extraction</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Processed By</span>
-                                    <span class="val">Basic Industry Facility</span>
+                                <div class="node-row">
+                                    <span class="lbl">Qty needed / hr</span>
+                                    <span class="val big">6,000</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Produces</span>
-                                    <span class="val">Electrolytes (P1)</span>
+                                <div class="node-row">
+                                    <span class="lbl">Volume</span>
+                                    <span class="val">30 m³</span>
                                 </div>
-                            </div>
-                            <div class="planet-badges">
-                                <span class="planet-badge gas">Gas</span>
-                                <span class="planet-badge storm">Storm</span>
+                                <div class="node-divider"></div>
+                                <div class="node-row">
+                                    <span class="lbl">Planet types</span>
+                                </div>
+                                <div class="planet-badges">
+                                    <span class="pb gas">Gas</span>
+                                    <span class="pb storm">Storm</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="arrow-down">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-label">3,000 units → 20 Electrolytes &nbsp;|&nbsp; BIF · 30 min</div>
-                            <div class="arrow-line" style="background: linear-gradient(to bottom, #ff1a00, rgba(255,26,0,0.3));"></div>
-                            <div class="arrow-tip"></div>
+                        <div class="v-conn">
+                            <div class="v-conn-line"></div>
+                            <div class="v-conn-line" style="height:8px;"></div>
                         </div>
 
-                        <div class="mat-card p1">
-                            <div class="mat-card-tier">P1 — Basic Commodity</div>
-                            <div class="mat-card-name">Electrolytes</div>
-                            <div class="mat-card-rows">
-                                <div class="mat-card-row">
-                                    <span class="lbl">Facility</span>
-                                    <span class="val">Basic Industry Facility</span>
+                        <div class="node node--facility">
+                            <div class="node-header">
+                                <span class="node-name">Basic Industry Facility</span>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-row">
+                                    <span class="lbl">Schematic</span>
+                                    <span class="val">Electrolytes</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Cycle Time</span>
-                                    <span class="val">30 minutes</span>
+                                <div class="node-row">
+                                    <span class="lbl">Cycle time</span>
+                                    <span class="val">30 min</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Input</span>
+                                <div class="node-row">
+                                    <span class="lbl">Input / cycle</span>
                                     <span class="val">3,000 Ionic Solutions</span>
                                 </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Output</span>
+                                <div class="node-row">
+                                    <span class="lbl">Output / cycle</span>
                                     <span class="val">20 Electrolytes</span>
-                                </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">AIF Demand</span>
-                                    <span class="val">40 / hr &nbsp;(1 BIF satisfies this)</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Converging arrow via SVG -->
-                <div class="chain-converge">
-                    <svg class="converge-svg" viewBox="0 0 600 70" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                        <!-- left arm -->
-                        <line x1="150" y1="0" x2="150" y2="25" stroke="rgba(255,26,0,0.5)" stroke-width="2"/>
-                        <line x1="150" y1="25" x2="300" y2="55" stroke="rgba(255,26,0,0.6)" stroke-width="2"/>
-                        <!-- right arm -->
-                        <line x1="450" y1="0" x2="450" y2="25" stroke="rgba(255,26,0,0.5)" stroke-width="2"/>
-                        <line x1="450" y1="25" x2="300" y2="55" stroke="rgba(255,26,0,0.6)" stroke-width="2"/>
-                        <!-- arrow tip -->
-                        <polygon points="293,55 307,55 300,68" fill="#ff1a00"/>
-                        <!-- label -->
-                        <rect x="178" y="28" width="244" height="22" rx="4" fill="rgba(255,26,0,0.08)" stroke="rgba(255,26,0,0.2)" stroke-width="1"/>
-                        <text x="300" y="43" text-anchor="middle" font-family="Rajdhani, sans-serif" font-size="13" font-weight="700" fill="#dd5500" letter-spacing="0.5">40 WATER  +  40 ELECTROLYTES  |  AIF · 60 MIN</text>
+                        <div class="v-conn">
+                            <div class="v-conn-line" style="height:8px;"></div>
+                            <div class="v-conn-arrow"></div>
+                        </div>
+
+                        <div class="node node--p1">
+                            <div class="node-header">
+                                <span class="node-tier-badge">P1</span>
+                                <span class="node-name">Electrolytes</span>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-row">
+                                    <span class="lbl">Qty produced / hr</span>
+                                    <span class="val big">40</span>
+                                </div>
+                                <div class="node-row">
+                                    <span class="lbl">Volume</span>
+                                    <span class="val">7.6 m³</span>
+                                </div>
+                                <div class="node-row">
+                                    <span class="lbl">Unit volume</span>
+                                    <span class="val">0.19 m³ each</span>
+                                </div>
+                                <div class="node-divider"></div>
+                                <div class="node-row">
+                                    <span class="lbl">Used by AIF</span>
+                                    <span class="val">40 / AIF cycle</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- end right branch -->
+
+                </div><!-- end flow-branches -->
+
+                <!-- ── MERGE: converging SVG lines ── -->
+                <div class="merge-row">
+                    <svg viewBox="0 0 940 56" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Left branch line down and in -->
+                        <line x1="235" y1="0"  x2="235" y2="20" stroke="rgba(220,0,0,0.6)" stroke-width="2"/>
+                        <line x1="235" y1="20" x2="470" y2="46" stroke="rgba(220,0,0,0.7)" stroke-width="2"/>
+                        <!-- Right branch line down and in -->
+                        <line x1="705" y1="0"  x2="705" y2="20" stroke="rgba(220,0,0,0.6)" stroke-width="2"/>
+                        <line x1="705" y1="20" x2="470" y2="46" stroke="rgba(220,0,0,0.7)" stroke-width="2"/>
+                        <!-- Arrow tip -->
+                        <polygon points="463,46 477,46 470,56" fill="#cc0000"/>
+                        <!-- Label: inputs -->
+                        <rect x="310" y="22" width="320" height="20" rx="3" fill="rgba(220,0,0,0.08)" stroke="rgba(220,0,0,0.2)" stroke-width="1"/>
+                        <text x="470" y="36" text-anchor="middle" font-family="Rajdhani, sans-serif" font-size="12" font-weight="700" fill="#aa3300" letter-spacing="0.5">40 WATER  +  40 ELECTROLYTES  PER CYCLE</text>
                     </svg>
                 </div>
 
-                <!-- P2 output card centred -->
-                <div class="chain-p2-wrapper">
-                    <div class="mat-card p2">
-                        <div class="mat-card-tier">P2 — Refined Commodity</div>
-                        <div class="mat-card-name">Coolant</div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px 40px;">
-                            <div class="mat-card-rows">
-                                <div class="mat-card-row">
-                                    <span class="lbl">Facility</span>
-                                    <span class="val">Advanced Industry Facility</span>
-                                </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Cycle Time</span>
-                                    <span class="val">60 minutes</span>
-                                </div>
+                <!-- ── AIF FACILITY NODE (centered) ── -->
+                <div class="flow-center">
+
+                    <div class="node node--facility" style="max-width:460px; width:100%;">
+                        <div class="node-header">
+                            <span class="node-name">Advanced Industry Facility</span>
+                        </div>
+                        <div class="node-body">
+                            <div class="node-row">
+                                <span class="lbl">Schematic</span>
+                                <span class="val">Coolant</span>
                             </div>
-                            <div class="mat-card-rows">
-                                <div class="mat-card-row">
-                                    <span class="lbl">Input</span>
-                                    <span class="val">40 Water + 40 Electrolytes</span>
-                                </div>
-                                <div class="mat-card-row">
-                                    <span class="lbl">Output</span>
-                                    <span class="val">5 Coolant per cycle</span>
-                                </div>
+                            <div class="node-row">
+                                <span class="lbl">Cycle time</span>
+                                <span class="val">60 min</span>
+                            </div>
+                            <div class="node-row">
+                                <span class="lbl">Input / cycle</span>
+                                <span class="val">40 Water  +  40 Electrolytes</span>
+                            </div>
+                            <div class="node-row">
+                                <span class="lbl">Output / cycle</span>
+                                <span class="val">5 Coolant</span>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div><!-- end chain-container -->
-
-            <!-- ===== FACILITY REFERENCE ===== -->
-            <div class="section-header">Facility Reference</div>
-            <div class="facilities-grid">
-                <div class="facility-card">
-                    <div class="facility-card-title">Extractor Control Unit</div>
-                    <div class="facility-card-abbr">ECU</div>
-                    <div class="facility-card-row"><span class="lbl">Role</span><span class="val">Extracts P0 raw materials</span></div>
-                    <div class="facility-card-row"><span class="lbl">Planet Types</span><span class="val">Type-specific (see above)</span></div>
-                    <div class="facility-card-row"><span class="lbl">Heads</span><span class="val">Up to 10 extractor heads</span></div>
-                    <div class="facility-card-row"><span class="lbl">CPU / PG</span><span class="val">Varies by head placement</span></div>
-                    <div class="facility-card-row"><span class="lbl">Typical Target</span><span class="val">6,000+ P0 / hr sustained</span></div>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-card-title">Basic Industry Facility</div>
-                    <div class="facility-card-abbr">BIF</div>
-                    <div class="facility-card-row"><span class="lbl">Role</span><span class="val">Converts P0 → P1</span></div>
-                    <div class="facility-card-row"><span class="lbl">Cycle Time</span><span class="val">30 minutes</span></div>
-                    <div class="facility-card-row"><span class="lbl">Input</span><span class="val">3,000 P0 per cycle</span></div>
-                    <div class="facility-card-row"><span class="lbl">Output</span><span class="val">20 P1 per cycle</span></div>
-                    <div class="facility-card-row"><span class="lbl">Throughput</span><span class="val">40 P1 / hr (= 1 AIF demand)</span></div>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-card-title">Advanced Industry Facility</div>
-                    <div class="facility-card-abbr">AIF</div>
-                    <div class="facility-card-row"><span class="lbl">Role</span><span class="val">Combines P1 + P1 → P2</span></div>
-                    <div class="facility-card-row"><span class="lbl">Cycle Time</span><span class="val">60 minutes</span></div>
-                    <div class="facility-card-row"><span class="lbl">Input</span><span class="val">40 Water + 40 Electrolytes</span></div>
-                    <div class="facility-card-row"><span class="lbl">Output</span><span class="val">5 Coolant per cycle</span></div>
-                    <div class="facility-card-row"><span class="lbl">Throughput</span><span class="val">120 Coolant / day</span></div>
-                </div>
-            </div>
-
-            <!-- ===== PLANET SETUP GUIDE ===== -->
-            <div class="section-header">Recommended Planet Setup (3 Planets)</div>
-            <div class="info-box" style="margin-bottom: 24px;">
-                <div class="info-title">Setup Strategy</div>
-                <p>
-                    Coolant requires two distinct planet types — one for each P1 input. The optimal approach uses
-                    <strong>two extraction planets</strong> (each processing their P0 into P1) and one
-                    <strong>factory planet</strong> to combine the P1s into finished Coolant.
-                    The ratio is exactly <strong>1 BIF : 1 BIF : 1 AIF</strong> for a balanced single-AIF setup.
-                </p>
-            </div>
-
-            <div class="planet-setup-grid">
-                <div class="planet-card">
-                    <div class="planet-card-header">
-                        <div class="planet-card-num">1</div>
-                        <div>
-                            <div class="planet-card-title">Water Planet</div>
-                            <div class="planet-card-subtitle">P0 Extraction + P1 Processing</div>
-                        </div>
+                    <div class="v-conn">
+                        <div class="v-conn-line" style="height:8px;"></div>
+                        <div class="v-conn-arrow"></div>
                     </div>
-                    <div class="planet-card-body">
-                        <div class="planet-type-row">
-                            <div class="planet-type-label">Compatible Types</div>
-                            <div>
-                                <span class="planet-badge temperate">Temperate</span>&nbsp;
-                                <span class="planet-badge ice">Ice</span>&nbsp;
-                                <span class="planet-badge oceanic">Oceanic</span>
+
+                    <!-- ── P2 OUTPUT NODE (centered) ── -->
+                    <div class="node node--p2">
+                        <div class="node-header">
+                            <span class="node-tier-badge">P2</span>
+                            <span class="node-name">Coolant</span>
+                        </div>
+                        <div class="node-body">
+                            <div class="node-row">
+                                <span class="lbl">Output / cycle  (1 hr)</span>
+                                <span class="val big">5 units</span>
+                            </div>
+                            <div class="node-row">
+                                <span class="lbl">Output / day</span>
+                                <span class="val big">120 units</span>
+                            </div>
+                            <div class="node-row">
+                                <span class="lbl">Volume / cycle</span>
+                                <span class="val">3.75 m³</span>
+                            </div>
+                            <div class="node-row">
+                                <span class="lbl">Unit volume</span>
+                                <span class="val">0.75 m³ each</span>
+                            </div>
+                            <div class="node-divider"></div>
+                            <div class="node-row">
+                                <span class="lbl">Used in</span>
+                                <span class="val">Amarr Fuel Blocks · T2 Components</span>
                             </div>
                         </div>
-                        <div class="planet-resource">Resource: Aqueous Liquids → Water</div>
-                        <ul class="planet-step-list">
-                            <li><span class="step-icon">E</span> <span>1× <strong>Extractor Control Unit</strong> targeting Aqueous Liquids<br>(aim for 6,000+ units/hr sustained)</span></li>
-                            <li><span class="step-icon">B</span> <span>1× <strong>Basic Industry Facility</strong> set to Water<br>(3,000 Aq. Liquids → 20 Water per 30 min)</span></li>
-                            <li><span class="step-icon">S</span> <span>1× <strong>Storage Facility</strong> to buffer Water</span></li>
-                            <li><span class="step-icon">L</span> <span>1× <strong>Launch Pad</strong> — export Water to Planet 3</span></li>
-                        </ul>
                     </div>
-                </div>
 
-                <div class="planet-card">
-                    <div class="planet-card-header">
-                        <div class="planet-card-num">2</div>
-                        <div>
-                            <div class="planet-card-title">Electrolytes Planet</div>
-                            <div class="planet-card-subtitle">P0 Extraction + P1 Processing</div>
-                        </div>
-                    </div>
-                    <div class="planet-card-body">
-                        <div class="planet-type-row">
-                            <div class="planet-type-label">Compatible Types</div>
-                            <div>
-                                <span class="planet-badge gas">Gas</span>&nbsp;
-                                <span class="planet-badge storm">Storm</span>
-                            </div>
-                        </div>
-                        <div class="planet-resource">Resource: Ionic Solutions → Electrolytes</div>
-                        <ul class="planet-step-list">
-                            <li><span class="step-icon">E</span> <span>1× <strong>Extractor Control Unit</strong> targeting Ionic Solutions<br>(aim for 6,000+ units/hr sustained)</span></li>
-                            <li><span class="step-icon">B</span> <span>1× <strong>Basic Industry Facility</strong> set to Electrolytes<br>(3,000 Ionic Sol. → 20 Electrolytes per 30 min)</span></li>
-                            <li><span class="step-icon">S</span> <span>1× <strong>Storage Facility</strong> to buffer Electrolytes</span></li>
-                            <li><span class="step-icon">L</span> <span>1× <strong>Launch Pad</strong> — export Electrolytes to Planet 3</span></li>
-                        </ul>
-                    </div>
-                </div>
+                </div><!-- end flow-center -->
 
-                <div class="planet-card">
-                    <div class="planet-card-header">
-                        <div class="planet-card-num">3</div>
-                        <div>
-                            <div class="planet-card-title">Factory Planet</div>
-                            <div class="planet-card-subtitle">P1 Import + P2 Production</div>
-                        </div>
-                    </div>
-                    <div class="planet-card-body">
-                        <div class="planet-type-row">
-                            <div class="planet-type-label">Compatible Types</div>
-                            <div style="font-size:14px; color: #885533; margin-top:4px;">Any planet type — no extraction needed</div>
-                        </div>
-                        <div class="planet-resource">Combines Water + Electrolytes → Coolant</div>
-                        <ul class="planet-step-list">
-                            <li><span class="step-icon">L</span> <span>1× <strong>Launch Pad</strong> — receive Water &amp; Electrolytes<br>from Planets 1 and 2</span></li>
-                            <li><span class="step-icon">A</span> <span>1× <strong>Advanced Industry Facility</strong> set to Coolant<br>(40 Water + 40 Electrolytes → 5 Coolant/hr)</span></li>
-                            <li><span class="step-icon">S</span> <span>1× <strong>Storage Facility</strong> for P1 buffers</span></li>
-                            <li><span class="step-icon">L</span> <span>Export finished <strong>Coolant</strong> via Launch Pad</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            </div><!-- end flow-diagram -->
 
-            <!-- ===== PRODUCTION OUTPUT TABLE ===== -->
+            <!-- ===== SCALING TABLE ===== -->
             <div class="section-header">Output Scaling by AIF Count</div>
-            <div class="math-table-wrapper">
-                <table class="math-table">
+
+            <div class="scale-table-wrap">
+                <table class="scale-table">
                     <thead>
                         <tr>
                             <th>AIFs</th>
                             <th>Coolant / hr</th>
                             <th>Coolant / day</th>
-                            <th>Water needed / hr</th>
+                            <th>Water / hr</th>
                             <th>Electrolytes / hr</th>
-                            <th>Aqueous Liq. / hr</th>
+                            <th>Aq. Liquids / hr</th>
                             <th>Ionic Sol. / hr</th>
-                            <th>BIFs Required</th>
+                            <th>BIFs each side</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="scale-badge">×1</span></td>
-                            <td class="highlight">5</td>
-                            <td class="highlight">120</td>
+                            <td><span class="aif-badge">×1</span></td>
+                            <td class="hi">5</td>
+                            <td class="hi">120</td>
                             <td>40</td>
                             <td>40</td>
                             <td class="dim">6,000</td>
                             <td class="dim">6,000</td>
-                            <td>1 Water BIF + 1 Electrolytes BIF</td>
+                            <td>1</td>
                         </tr>
                         <tr>
-                            <td><span class="scale-badge">×2</span></td>
-                            <td class="highlight">10</td>
-                            <td class="highlight">240</td>
+                            <td><span class="aif-badge">×2</span></td>
+                            <td class="hi">10</td>
+                            <td class="hi">240</td>
                             <td>80</td>
                             <td>80</td>
                             <td class="dim">12,000</td>
                             <td class="dim">12,000</td>
-                            <td>2 Water BIFs + 2 Electrolytes BIFs</td>
+                            <td>2</td>
                         </tr>
                         <tr>
-                            <td><span class="scale-badge">×4</span></td>
-                            <td class="highlight">20</td>
-                            <td class="highlight">480</td>
+                            <td><span class="aif-badge">×4</span></td>
+                            <td class="hi">20</td>
+                            <td class="hi">480</td>
                             <td>160</td>
                             <td>160</td>
                             <td class="dim">24,000</td>
                             <td class="dim">24,000</td>
-                            <td>4 Water BIFs + 4 Electrolytes BIFs</td>
+                            <td>4</td>
                         </tr>
                         <tr>
-                            <td><span class="scale-badge">×6</span></td>
-                            <td class="highlight">30</td>
-                            <td class="highlight">720</td>
+                            <td><span class="aif-badge">×6</span></td>
+                            <td class="hi">30</td>
+                            <td class="hi">720</td>
                             <td>240</td>
                             <td>240</td>
                             <td class="dim">36,000</td>
                             <td class="dim">36,000</td>
-                            <td>6 Water BIFs + 6 Electrolytes BIFs</td>
+                            <td>6</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="info-box">
-                <div class="info-title">Balance Rule</div>
-                <p>
-                    Each AIF requires exactly <strong>1 BIF of Water</strong> and <strong>1 BIF of Electrolytes</strong>.
-                    The BIF cycle (30 min, 20 output) produces exactly 40 P1 per hour, which is the
-                    precise hourly demand of one AIF. Adding more AIFs means adding the same number
-                    of each BIF type to maintain balance.
-                </p>
-            </div>
-
             <!-- ===== TIPS ===== -->
-            <div class="section-header" style="margin-top: 50px;">Tips &amp; Considerations</div>
+            <div class="section-header" style="margin-top:40px;">Tips</div>
+
             <div class="tips-grid">
-                <div class="tip-card">
-                    <div class="tip-card-title">Extractor Cycle Timing</div>
-                    <p>
-                        Shorter extractor cycles (e.g. 1–3 hours) yield <strong>higher extraction rates</strong>
-                        but require more active management. Longer cycles (23–48 hours) are ISK-per-visit
-                        efficient but output less total P0. Match your cycle length to how often you can log in.
-                    </p>
+                <div class="tip">
+                    <div class="tip-title">Balance Rule</div>
+                    <p>Each AIF needs exactly <strong>1 BIF of Water + 1 BIF of Electrolytes</strong>. Each BIF produces 40 P1/hr — the exact demand of one AIF cycle.</p>
                 </div>
-                <div class="tip-card">
-                    <div class="tip-card-title">Buffering P1 Materials</div>
-                    <p>
-                        Always include a <strong>Storage Facility</strong> on Planet 3 to absorb delivery
-                        timing differences between your two supply planets. Shipments rarely arrive
-                        simultaneously, so a buffer prevents the AIF from stalling.
-                    </p>
+                <div class="tip">
+                    <div class="tip-title">Extractor Timing</div>
+                    <p>Shorter extractor cycles yield higher P0 rates but need more attention. Match cycle length to how often you can log in — <strong>23–48 hr cycles</strong> are common for passive setups.</p>
                 </div>
-                <div class="tip-card">
-                    <div class="tip-card-title">Extractor Head Placement</div>
-                    <p>
-                        Position extractor heads to overlap <strong>high-density hotspots</strong> in the
-                        resource overlay. Reposition heads every cycle — the richest deposits deplete
-                        first. Spreading heads across multiple hotspots reduces reposition frequency.
-                    </p>
+                <div class="tip">
+                    <div class="tip-title">Planet Types</div>
+                    <p>Aqueous Liquids and Ionic Solutions are on <strong>different planet types</strong> — a 2-planet setup is not possible. Minimum is <strong>3 planets</strong> (2 extraction + 1 factory).</p>
                 </div>
-                <div class="tip-card">
-                    <div class="tip-card-title">2-Planet Setup (Advanced)</div>
-                    <p>
-                        Experienced pilots sometimes combine extraction and factory work on a single planet
-                        if it supports both resource types. For Coolant this is generally not possible —
-                        <strong>Aqueous Liquids and Ionic Solutions</strong> are found on different planet
-                        types. A 3-planet layout is the standard minimum.
-                    </p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-card-title">Customs Office Tax</div>
-                    <p>
-                        Every export through a Customs Office incurs a tax (POCO or NPC). Factor this into
-                        profitability. Exporting <strong>P1 or P2</strong> (rather than P0) reduces the
-                        number of trips through customs, significantly lowering total tax paid per unit of Coolant.
-                    </p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-card-title">Amarr Fuel Blocks</div>
-                    <p>
-                        Coolant is one of the four PI commodities in <strong>Amarr Fuel Blocks</strong>
-                        (alongside Enriched Uranium, Mechanical Parts &amp; Oxygen). If you manufacture
-                        fuel blocks, consider running PI chains for all four — or buy the others and
-                        produce only Coolant in-house to reduce supply risk.
-                    </p>
+                <div class="tip">
+                    <div class="tip-title">Customs Tax</div>
+                    <p>Export <strong>P1 or higher</strong> rather than P0 to reduce total customs office tax paid per unit of Coolant produced.</p>
                 </div>
             </div>
 
         </div><!-- end main-content -->
 
-        <!-- ===== FOOTER ===== -->
         <div class="page-footer">
-            <div class="footer-left">Infinite Solutions · Planetary Interaction Reference · LX-ZOJ</div>
-            <div class="footer-right"><a href="index.html">← Back to Market &amp; Blueprints</a></div>
+            <div class="page-footer-left">Infinite Solutions · PI Reference · LX-ZOJ</div>
+            <div class="page-footer-right"><a href="index.html">← Market &amp; Blueprints</a></div>
         </div>
 
     </div><!-- end page-content -->
