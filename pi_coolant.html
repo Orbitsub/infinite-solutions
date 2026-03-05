@@ -116,7 +116,7 @@
         /* ===== PRODUCT TITLE BAR ===== */
         .product-bar {
             width: 100%;
-            max-width: 940px;
+            max-width: 1300px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -184,35 +184,17 @@
             color: #ffcc00;
         }
 
-        /* ===== FLOW DIAGRAM CONTAINER ===== */
+        /* ===== FLOW DIAGRAM CONTAINER — HORIZONTAL GRID ===== */
         .flow-diagram {
-            width: 100%;
-            max-width: 940px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* The two parallel branches */
-        .flow-branches {
+            /* P0 | → | BIF | → | P1 | merge | AIF | → | P2 */
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
+            grid-template-columns: 200px 48px 185px 48px 185px 60px 195px 48px 215px;
+            grid-template-rows: auto auto;
+            row-gap: 16px;
+            column-gap: 0;
             width: 100%;
-        }
-
-        .flow-branch {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        /* Centered single-column area */
-        .flow-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 8px;
         }
 
         /* ===== NODE CARDS ===== */
@@ -348,7 +330,6 @@
             background: rgba(45,35,0,0.75);
             border: 2px solid #ffcc00;
             animation: glow-p2 3s ease-in-out infinite;
-            max-width: 460px;
         }
         @keyframes glow-p2 {
             0%,100% { box-shadow: 0 0 16px rgba(255,200,0,0.25); }
@@ -388,38 +369,36 @@
         .node--facility .node-row .lbl { color: #663322; font-size: 11px; }
         .node--facility .node-row .val { color: #ff8844; font-size: 13px; }
 
-        /* ===== VERTICAL CONNECTOR ===== */
-        .v-conn {
+        /* ===== HORIZONTAL ARROW CONNECTOR ===== */
+        .h-arr {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 0;
-            flex-shrink: 0;
         }
 
-        .v-conn-line {
-            width: 2px;
-            height: 16px;
-            background: linear-gradient(to bottom, rgba(220,0,0,0.8), rgba(220,0,0,0.4));
+        .h-arr::before {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, rgba(220,0,0,0.9), rgba(220,0,0,0.5));
         }
 
-        .v-conn-arrow {
+        .h-arr::after {
+            content: '';
             width: 0; height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 10px solid #cc0000;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid #cc0000;
         }
 
-        /* ===== MERGE CONNECTOR (SVG) ===== */
-        .merge-row {
-            width: 100%;
-            height: 56px;
-            position: relative;
+        /* ===== MERGE FUNNEL ===== */
+        .merge-funnel {
+            align-self: stretch;
         }
 
-        .merge-row svg {
+        .merge-funnel svg {
             width: 100%;
             height: 100%;
+            min-height: 80px;
         }
 
         /* ===== SCALING TABLE ===== */
@@ -435,13 +414,13 @@
             border-left: 4px solid #dd0000;
             text-shadow: 0 0 10px rgba(220,0,0,0.5);
             width: 100%;
-            max-width: 940px;
+            max-width: 1300px;
             margin: 48px 0 20px;
         }
 
         .scale-table-wrap {
             width: 100%;
-            max-width: 940px;
+            max-width: 1300px;
             overflow-x: auto;
         }
 
@@ -498,7 +477,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             width: 100%;
-            max-width: 940px;
+            max-width: 1300px;
             margin-top: 20px;
         }
 
@@ -557,8 +536,7 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 720px) {
-            .flow-branches { grid-template-columns: 1fr; gap: 0; }
-            .merge-row { display: none; }
+            .flow-diagram { overflow-x: auto; }
             .main-content { padding: 24px 16px 40px; }
             .product-stats { display: none; }
             .tips-grid { grid-template-columns: 1fr; }
@@ -620,287 +598,153 @@
             </div>
 
             <!-- ===================================================
-                 FLOW DIAGRAM
-                 Two parallel branches (left=Water, right=Electrolytes)
-                 converging into AIF → Coolant output
+                 FLOW DIAGRAM — HORIZONTAL
+                 P0 → BIF → P1 → (merge) → AIF → P2
                  =================================================== -->
             <div class="flow-diagram">
 
-                <!-- ── ROW 1: P0 inputs, side by side ── -->
-                <div class="flow-branches">
-
-                    <!-- LEFT BRANCH: Aqueous Liquids → Water -->
-                    <div class="flow-branch">
-
-                        <div class="node node--p0">
-                            <div class="node-header">
-                                <span class="node-tier-badge">P0</span>
-                                <span class="node-name">Aqueous Liquids</span>
-                            </div>
-                            <div class="node-body">
-                                <div class="node-row">
-                                    <span class="lbl">Source</span>
-                                    <span class="val">Planetary Extraction</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Qty needed / hr</span>
-                                    <span class="val big">6,000</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Volume</span>
-                                    <span class="val">30 m³</span>
-                                </div>
-                                <div class="node-divider"></div>
-                                <div class="node-row">
-                                    <span class="lbl">Planet types</span>
-                                </div>
-                                <div class="planet-badges">
-                                    <span class="pb temp">Temperate</span>
-                                    <span class="pb ice">Ice</span>
-                                    <span class="pb oce">Oceanic</span>
-                                </div>
-                            </div>
+                <!-- ── ROW 1, COL 1: P0 Aqueous Liquids ── -->
+                <div class="node node--p0" style="grid-column:1;grid-row:1;">
+                    <div class="node-header">
+                        <span class="node-tier-badge">P0</span>
+                        <span class="node-name">Aqueous Liquids</span>
+                    </div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Qty / hr</span><span class="val big">6,000</span></div>
+                        <div class="node-row"><span class="lbl">Volume</span><span class="val">30 m³</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">Planets</span></div>
+                        <div class="planet-badges">
+                            <span class="pb temp">Temperate</span>
+                            <span class="pb ice">Ice</span>
+                            <span class="pb oce">Oceanic</span>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="v-conn">
-                            <div class="v-conn-line"></div>
-                            <div class="v-conn-line" style="height:8px;"></div>
+                <!-- ── Arrow col 2, row 1 ── -->
+                <div class="h-arr" style="grid-column:2;grid-row:1;"></div>
+
+                <!-- ── ROW 1, COL 3: BIF → Water ── -->
+                <div class="node node--facility" style="grid-column:3;grid-row:1;">
+                    <div class="node-header"><span class="node-name">Basic Ind. Facility</span></div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Schematic</span><span class="val">Water</span></div>
+                        <div class="node-row"><span class="lbl">Cycle</span><span class="val">30 min</span></div>
+                        <div class="node-row"><span class="lbl">In / cycle</span><span class="val">3,000 Aq. Liq.</span></div>
+                        <div class="node-row"><span class="lbl">Out / cycle</span><span class="val">20 Water</span></div>
+                    </div>
+                </div>
+
+                <!-- ── Arrow col 4, row 1 ── -->
+                <div class="h-arr" style="grid-column:4;grid-row:1;"></div>
+
+                <!-- ── ROW 1, COL 5: P1 Water ── -->
+                <div class="node node--p1" style="grid-column:5;grid-row:1;">
+                    <div class="node-header">
+                        <span class="node-tier-badge">P1</span>
+                        <span class="node-name">Water</span>
+                    </div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Qty / hr</span><span class="val big">40</span></div>
+                        <div class="node-row"><span class="lbl">Volume</span><span class="val">7.6 m³</span></div>
+                        <div class="node-row"><span class="lbl">Per unit</span><span class="val">0.19 m³</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">AIF demand</span><span class="val">40 / cycle</span></div>
+                    </div>
+                </div>
+
+                <!-- ── ROW 2, COL 1: P0 Ionic Solutions ── -->
+                <div class="node node--p0" style="grid-column:1;grid-row:2;">
+                    <div class="node-header">
+                        <span class="node-tier-badge">P0</span>
+                        <span class="node-name">Ionic Solutions</span>
+                    </div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Qty / hr</span><span class="val big">6,000</span></div>
+                        <div class="node-row"><span class="lbl">Volume</span><span class="val">30 m³</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">Planets</span></div>
+                        <div class="planet-badges">
+                            <span class="pb gas">Gas</span>
+                            <span class="pb storm">Storm</span>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="node node--facility">
-                            <div class="node-header">
-                                <span class="node-name">Basic Industry Facility</span>
-                            </div>
-                            <div class="node-body">
-                                <div class="node-row">
-                                    <span class="lbl">Schematic</span>
-                                    <span class="val">Water</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Cycle time</span>
-                                    <span class="val">30 min</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Input / cycle</span>
-                                    <span class="val">3,000 Aqueous Liquids</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Output / cycle</span>
-                                    <span class="val">20 Water</span>
-                                </div>
-                            </div>
-                        </div>
+                <!-- ── Arrow col 2, row 2 ── -->
+                <div class="h-arr" style="grid-column:2;grid-row:2;"></div>
 
-                        <div class="v-conn">
-                            <div class="v-conn-line" style="height:8px;"></div>
-                            <div class="v-conn-arrow"></div>
-                        </div>
+                <!-- ── ROW 2, COL 3: BIF → Electrolytes ── -->
+                <div class="node node--facility" style="grid-column:3;grid-row:2;">
+                    <div class="node-header"><span class="node-name">Basic Ind. Facility</span></div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Schematic</span><span class="val">Electrolytes</span></div>
+                        <div class="node-row"><span class="lbl">Cycle</span><span class="val">30 min</span></div>
+                        <div class="node-row"><span class="lbl">In / cycle</span><span class="val">3,000 Ionic Sol.</span></div>
+                        <div class="node-row"><span class="lbl">Out / cycle</span><span class="val">20 Electrolytes</span></div>
+                    </div>
+                </div>
 
-                        <div class="node node--p1">
-                            <div class="node-header">
-                                <span class="node-tier-badge">P1</span>
-                                <span class="node-name">Water</span>
-                            </div>
-                            <div class="node-body">
-                                <div class="node-row">
-                                    <span class="lbl">Qty produced / hr</span>
-                                    <span class="val big">40</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Volume</span>
-                                    <span class="val">7.6 m³</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Unit volume</span>
-                                    <span class="val">0.19 m³ each</span>
-                                </div>
-                                <div class="node-divider"></div>
-                                <div class="node-row">
-                                    <span class="lbl">Used by AIF</span>
-                                    <span class="val">40 / AIF cycle</span>
-                                </div>
-                            </div>
-                        </div>
+                <!-- ── Arrow col 4, row 2 ── -->
+                <div class="h-arr" style="grid-column:4;grid-row:2;"></div>
 
-                    </div><!-- end left branch -->
+                <!-- ── ROW 2, COL 5: P1 Electrolytes ── -->
+                <div class="node node--p1" style="grid-column:5;grid-row:2;">
+                    <div class="node-header">
+                        <span class="node-tier-badge">P1</span>
+                        <span class="node-name">Electrolytes</span>
+                    </div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Qty / hr</span><span class="val big">40</span></div>
+                        <div class="node-row"><span class="lbl">Volume</span><span class="val">7.6 m³</span></div>
+                        <div class="node-row"><span class="lbl">Per unit</span><span class="val">0.19 m³</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">AIF demand</span><span class="val">40 / cycle</span></div>
+                    </div>
+                </div>
 
-                    <!-- RIGHT BRANCH: Ionic Solutions → Electrolytes -->
-                    <div class="flow-branch">
-
-                        <div class="node node--p0">
-                            <div class="node-header">
-                                <span class="node-tier-badge">P0</span>
-                                <span class="node-name">Ionic Solutions</span>
-                            </div>
-                            <div class="node-body">
-                                <div class="node-row">
-                                    <span class="lbl">Source</span>
-                                    <span class="val">Planetary Extraction</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Qty needed / hr</span>
-                                    <span class="val big">6,000</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Volume</span>
-                                    <span class="val">30 m³</span>
-                                </div>
-                                <div class="node-divider"></div>
-                                <div class="node-row">
-                                    <span class="lbl">Planet types</span>
-                                </div>
-                                <div class="planet-badges">
-                                    <span class="pb gas">Gas</span>
-                                    <span class="pb storm">Storm</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="v-conn">
-                            <div class="v-conn-line"></div>
-                            <div class="v-conn-line" style="height:8px;"></div>
-                        </div>
-
-                        <div class="node node--facility">
-                            <div class="node-header">
-                                <span class="node-name">Basic Industry Facility</span>
-                            </div>
-                            <div class="node-body">
-                                <div class="node-row">
-                                    <span class="lbl">Schematic</span>
-                                    <span class="val">Electrolytes</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Cycle time</span>
-                                    <span class="val">30 min</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Input / cycle</span>
-                                    <span class="val">3,000 Ionic Solutions</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Output / cycle</span>
-                                    <span class="val">20 Electrolytes</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="v-conn">
-                            <div class="v-conn-line" style="height:8px;"></div>
-                            <div class="v-conn-arrow"></div>
-                        </div>
-
-                        <div class="node node--p1">
-                            <div class="node-header">
-                                <span class="node-tier-badge">P1</span>
-                                <span class="node-name">Electrolytes</span>
-                            </div>
-                            <div class="node-body">
-                                <div class="node-row">
-                                    <span class="lbl">Qty produced / hr</span>
-                                    <span class="val big">40</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Volume</span>
-                                    <span class="val">7.6 m³</span>
-                                </div>
-                                <div class="node-row">
-                                    <span class="lbl">Unit volume</span>
-                                    <span class="val">0.19 m³ each</span>
-                                </div>
-                                <div class="node-divider"></div>
-                                <div class="node-row">
-                                    <span class="lbl">Used by AIF</span>
-                                    <span class="val">40 / AIF cycle</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div><!-- end right branch -->
-
-                </div><!-- end flow-branches -->
-
-                <!-- ── MERGE: converging SVG lines ── -->
-                <div class="merge-row">
-                    <svg viewBox="0 0 940 56" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Left branch line down and in -->
-                        <line x1="235" y1="0"  x2="235" y2="20" stroke="rgba(220,0,0,0.6)" stroke-width="2"/>
-                        <line x1="235" y1="20" x2="470" y2="46" stroke="rgba(220,0,0,0.7)" stroke-width="2"/>
-                        <!-- Right branch line down and in -->
-                        <line x1="705" y1="0"  x2="705" y2="20" stroke="rgba(220,0,0,0.6)" stroke-width="2"/>
-                        <line x1="705" y1="20" x2="470" y2="46" stroke="rgba(220,0,0,0.7)" stroke-width="2"/>
-                        <!-- Arrow tip -->
-                        <polygon points="463,46 477,46 470,56" fill="#cc0000"/>
-                        <!-- Label: inputs -->
-                        <rect x="310" y="22" width="320" height="20" rx="3" fill="rgba(220,0,0,0.08)" stroke="rgba(220,0,0,0.2)" stroke-width="1"/>
-                        <text x="470" y="36" text-anchor="middle" font-family="Rajdhani, sans-serif" font-size="12" font-weight="700" fill="#aa3300" letter-spacing="0.5">40 WATER  +  40 ELECTROLYTES  PER CYCLE</text>
+                <!-- ── MERGE FUNNEL (col 6, rows 1-2) ── -->
+                <div class="merge-funnel" style="grid-column:6;grid-row:1/3;">
+                    <svg viewBox="0 0 60 200" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="2"  y1="50"  x2="40" y2="100" stroke="rgba(220,0,0,0.7)" stroke-width="2"/>
+                        <line x1="2"  y1="150" x2="40" y2="100" stroke="rgba(220,0,0,0.7)" stroke-width="2"/>
+                        <polygon points="40,93 40,107 52,100" fill="#cc0000"/>
                     </svg>
                 </div>
 
-                <!-- ── AIF FACILITY NODE (centered) ── -->
-                <div class="flow-center">
-
-                    <div class="node node--facility" style="max-width:460px; width:100%;">
-                        <div class="node-header">
-                            <span class="node-name">Advanced Industry Facility</span>
-                        </div>
-                        <div class="node-body">
-                            <div class="node-row">
-                                <span class="lbl">Schematic</span>
-                                <span class="val">Coolant</span>
-                            </div>
-                            <div class="node-row">
-                                <span class="lbl">Cycle time</span>
-                                <span class="val">60 min</span>
-                            </div>
-                            <div class="node-row">
-                                <span class="lbl">Input / cycle</span>
-                                <span class="val">40 Water  +  40 Electrolytes</span>
-                            </div>
-                            <div class="node-row">
-                                <span class="lbl">Output / cycle</span>
-                                <span class="val">5 Coolant</span>
-                            </div>
-                        </div>
+                <!-- ── AIF (col 7, rows 1-2) ── -->
+                <div class="node node--facility" style="grid-column:7;grid-row:1/3;align-self:center;">
+                    <div class="node-header"><span class="node-name">Adv. Industry Facility</span></div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Schematic</span><span class="val">Coolant</span></div>
+                        <div class="node-row"><span class="lbl">Cycle</span><span class="val">60 min</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">In (Water)</span><span class="val">40 / cycle</span></div>
+                        <div class="node-row"><span class="lbl">In (Elec.)</span><span class="val">40 / cycle</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">Out / cycle</span><span class="val">5 Coolant</span></div>
                     </div>
+                </div>
 
-                    <div class="v-conn">
-                        <div class="v-conn-line" style="height:8px;"></div>
-                        <div class="v-conn-arrow"></div>
+                <!-- ── Arrow col 8, rows 1-2 ── -->
+                <div class="h-arr" style="grid-column:8;grid-row:1/3;align-self:center;"></div>
+
+                <!-- ── P2 Coolant (col 9, rows 1-2) ── -->
+                <div class="node node--p2" style="grid-column:9;grid-row:1/3;align-self:center;">
+                    <div class="node-header">
+                        <span class="node-tier-badge">P2</span>
+                        <span class="node-name">Coolant</span>
                     </div>
-
-                    <!-- ── P2 OUTPUT NODE (centered) ── -->
-                    <div class="node node--p2">
-                        <div class="node-header">
-                            <span class="node-tier-badge">P2</span>
-                            <span class="node-name">Coolant</span>
-                        </div>
-                        <div class="node-body">
-                            <div class="node-row">
-                                <span class="lbl">Output / cycle  (1 hr)</span>
-                                <span class="val big">5 units</span>
-                            </div>
-                            <div class="node-row">
-                                <span class="lbl">Output / day</span>
-                                <span class="val big">120 units</span>
-                            </div>
-                            <div class="node-row">
-                                <span class="lbl">Volume / cycle</span>
-                                <span class="val">3.75 m³</span>
-                            </div>
-                            <div class="node-row">
-                                <span class="lbl">Unit volume</span>
-                                <span class="val">0.75 m³ each</span>
-                            </div>
-                            <div class="node-divider"></div>
-                            <div class="node-row">
-                                <span class="lbl">Used in</span>
-                                <span class="val">Amarr Fuel Blocks · T2 Components</span>
-                            </div>
-                        </div>
+                    <div class="node-body">
+                        <div class="node-row"><span class="lbl">Out / cycle</span><span class="val big">5 units</span></div>
+                        <div class="node-row"><span class="lbl">Out / day</span><span class="val big">120 units</span></div>
+                        <div class="node-row"><span class="lbl">Volume</span><span class="val">3.75 m³ / cycle</span></div>
+                        <div class="node-row"><span class="lbl">Per unit</span><span class="val">0.75 m³</span></div>
+                        <div class="node-divider"></div>
+                        <div class="node-row"><span class="lbl">Used in</span><span class="val">Amarr Fuel Blocks</span></div>
                     </div>
-
-                </div><!-- end flow-center -->
+                </div>
 
             </div><!-- end flow-diagram -->
 
