@@ -52,7 +52,7 @@
             <div class="main-tabs">
                 <button class="main-tab active" onclick="showMainTab('market')">Materials & Resources Market</button>
                 <button class="main-tab" onclick="showMainTab('blueprints')">Blueprint Library</button>
-                <button class="main-tab" onclick="showMainTab('buyback')">Buyback Program</button>
+                <button class="main-tab" onclick="showMainTab('pi')">Planetary Interaction</button>
             </div>
 
             <!-- ========================================
@@ -288,140 +288,171 @@
         </div>
 
         <!-- ========================================
-             BUYBACK TAB CONTENT
+             PLANETARY INTERACTION TAB CONTENT
              ======================================== -->
-        <div id="buyback-tab" class="tab-content">
+        <div id="pi-tab" class="tab-content">
             <div class="content">
 
-                <!-- What We're Buying - Rates -->
-                <div class="buyback-section-header">What We're Buying</div>
+                <div class="section-header">Planetary Interaction — Production Guides</div>
 
-                <div class="rate-grid" id="buybackRateGrid">
-                    <!-- Program Info card -->
-                    <div class="buyback-info-card">
-                        <div class="rate-card-title">Program Details</div>
-                        <div class="buyback-info-text">
-                            Sell your <strong>minerals, ice products, and reaction materials</strong> directly to <strong>Infinite Solutions</strong>.<br><br>
-                            Rates are based on <strong>7-day average Jita buy value</strong> <br> Stable and resistant to market manipulation.<br><br>
-                            Contract to <strong>Rax Hakaari</strong> at the <strong>LX-ZOJ Tatara "T2 Reactions"</strong>.<br><br>
-                            Payouts within <strong>24 hours</strong>.
-                        </div>
-                    </div>
-                    <!-- Category cards rendered dynamically by JS -->
+                <!-- PI intro blurb -->
+                <div style="background:rgba(60,0,0,0.25);border:1px solid rgba(220,0,0,0.3);border-radius:8px;padding:24px 30px;margin-bottom:36px;">
+                    <p style="margin:0;font-size:17px;color:#c0a0a0;line-height:1.7;">
+                        Planetary Interaction (PI) allows pilots to extract raw resources from planets and process them into
+                        commodities used in fuel blocks, T2 manufacturing, and advanced reactions.
+                        The guides below document the full production chains maintained by <strong style="color:#ffaa44;">Infinite Solutions</strong>.
+                    </p>
                 </div>
 
-                <!-- Three-column quote layout -->
-                <div class="buyback-quote-row" id="buybackQuoteRow">
+                <!-- PI chain cards grid -->
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:48px;">
 
-                    <!-- Panel 1: Instant Quote Calculator -->
-                    <div class="quote-panel">
-                        <div class="buyback-section-header">Instant Quote Calculator</div>
-                        <div class="prices-freshness" id="pricesFreshness"></div>
-                        <div class="buyback-input-area">
-                            <div class="buyback-paste-box">
-                                <textarea id="buybackPasteInput" placeholder="Paste your inventory here...
-
-Example:
-Tritanium    1,000,000
-Pyerite      500,000
-Mexallon     250,000
-Heavy Water  50,000
-
-Tip: Copy directly from EVE inventory window"></textarea>
-                                <div class="paste-hint">Ctrl+V to paste from EVE</div>
-                            </div>
-                            <div class="buyback-actions">
-                                <button class="btn-calculate" onclick="calculateBuybackQuote()">Calculate Quote</button>
-                                <button class="btn-clear" onclick="clearBuybackInput()">Clear</button>
-                            </div>
+                    <!-- Coolant card -->
+                    <a href="pi_coolant.html" style="text-decoration:none;" class="pi-chain-card">
+                        <div class="pi-card-tier">P2 — Refined Commodity</div>
+                        <div class="pi-card-icon">❄️</div>
+                        <div class="pi-card-name">Coolant</div>
+                        <div class="pi-card-desc">Water + Electrolytes → Coolant<br>Used in Amarr Fuel Blocks &amp; T2 components.</div>
+                        <div class="pi-card-resources">
+                            <span class="pi-res-badge">Aqueous Liquids</span>
+                            <span class="pi-res-badge">Ionic Solutions</span>
                         </div>
-                        <div class="quote-loaded-banner" id="buybackLoadedBanner" style="display: none;">
-                            <div class="icon">&#128279;</div>
-                            <div class="text">
-                                Quote loaded from shared link - Quote ID: <strong id="buybackLoadedQuoteId">--</strong>
-                            </div>
-                            <div class="recalc-note">Prices recalculated with current Jita rates</div>
-                        </div>
+                        <div class="pi-card-footer">View Full Chain →</div>
+                    </a>
+
+                    <!-- Placeholder: more chains coming -->
+                    <div class="pi-chain-card pi-chain-card--soon">
+                        <div class="pi-card-tier">P2 — Refined Commodity</div>
+                        <div class="pi-card-icon" style="opacity:0.3;">⚙️</div>
+                        <div class="pi-card-name" style="color:#554444;">Mechanical Parts</div>
+                        <div class="pi-card-desc" style="color:#443333;">Reactive Metals + Precious Metals → Mechanical Parts</div>
+                        <div class="pi-card-footer" style="color:#443333;">Coming Soon</div>
                     </div>
 
-                    <!-- Panel 2: Quote Results -->
-                    <div class="quote-panel">
-                        <div class="buyback-section-header">Quote Results</div>
-                        <div class="panel-placeholder" id="resultsPlaceholder">Paste items and click Calculate Quote to see results.</div>
-                        <div id="buybackTableContainer" style="display:none;">
-                            <div class="buyback-table-wrapper">
-                                <table class="buyback-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th style="text-align:right;">Quantity</th>
-                                            <th style="text-align:center;">Rate</th>
-                                            <th style="text-align:right;">Your Payout</th>
-                                            <th style="text-align:center;">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="buybackResultsBody"></tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="pi-chain-card pi-chain-card--soon">
+                        <div class="pi-card-tier">P2 — Refined Commodity</div>
+                        <div class="pi-card-icon" style="opacity:0.3;">☢️</div>
+                        <div class="pi-card-name" style="color:#554444;">Enriched Uranium</div>
+                        <div class="pi-card-desc" style="color:#443333;">Toxic Metals + Precious Metals → Enriched Uranium</div>
+                        <div class="pi-card-footer" style="color:#443333;">Coming Soon</div>
                     </div>
 
-                    <!-- Panel 3: Contract Details -->
-                    <div class="quote-panel">
-                        <div class="buyback-section-header">Contract Details</div>
-                        <div class="panel-placeholder" id="contractPlaceholder">Calculate a quote to see contract details.</div>
-                        <div id="contractDetailsContent" style="display:none;">
-                            <div class="contract-steps">
-                                <div class="contract-step">
-                                    <span class="step-num">1</span>
-                                    <span>Open <strong>Contracts → Create Contract</strong> in EVE Online.</span>
-                                </div>
-                                <div class="contract-step">
-                                    <span class="step-num">2</span>
-                                    <span>Set type to <strong>Item Exchange</strong>, availability to <strong>Private</strong>, and search for <strong style="color:#00ffff;">Rax Hakaari</strong>.</span>
-                                </div>
-                                <div class="contract-step">
-                                    <span class="step-num">3</span>
-                                    <span>Add all <strong>accepted items</strong> from your quote to the contract.</span>
-                                </div>
-                                <div class="contract-step">
-                                    <span class="step-num">4</span>
-                                    <span>In <strong>"I Will Receive"</strong>, enter this amount exactly:</span>
-                                </div>
-                            </div>
-                            <div class="contract-field-box">
-                                <span class="contract-payout-value" id="contractPayoutDisplay">--</span>
-                                <button class="btn-copy-link" id="copyPayoutBtn" onclick="copyContractPayout()">Copy Amount</button>
-                            </div>
-                            <div class="contract-steps">
-                                <div class="contract-step">
-                                    <span class="step-num">5</span>
-                                    <span>In the <strong>Description</strong> box, paste this quote link:</span>
-                                </div>
-                            </div>
-                            <div class="contract-field-box">
-                                <input type="text" class="quote-link-input" id="buybackQuoteLinkInput" readonly onclick="this.select()">
-                                <button class="btn-copy-link" id="buybackCopyLinkBtn" onclick="copyBuybackQuoteLink()">Copy Link</button>
-                            </div>
-                            <div class="contract-meta">
-                                <div>
-                                    <span class="quote-id-label">Quote ID:</span>
-                                    <span class="quote-id-value" id="buybackQuoteId">--</span>
-                                </div>
-                                <div id="buybackQuoteTimestamp"></div>
-                                <div id="contractAcceptedDisplay"></div>
-                            </div>
-                        </div>
+                    <div class="pi-chain-card pi-chain-card--soon">
+                        <div class="pi-card-tier">P2 — Refined Commodity</div>
+                        <div class="pi-card-icon" style="opacity:0.3;">💧</div>
+                        <div class="pi-card-name" style="color:#554444;">Oxygen</div>
+                        <div class="pi-card-desc" style="color:#443333;">Aqueous Liquids + Oxygen Isotopes → Oxygen</div>
+                        <div class="pi-card-footer" style="color:#443333;">Coming Soon</div>
                     </div>
 
-                </div><!-- end buyback-quote-row -->
+                </div>
 
-                <div class="footer" style="text-align:center; margin-top:40px; padding-top:20px; border-top:1px solid rgba(0,217,255,0.1);">
-                    <div style="font-size:16px; color:#4a8aa0;">Contract items to <span style="color:#00d9ff; font-weight:600;">Rax Hakaari</span> at <span style="color:#00d9ff; font-weight:600;">LX-ZOJ Tatara</span> | Payouts within 24 hours</div>
+                <div class="footer" style="text-align:center;margin-top:20px;padding-top:20px;border-top:1px solid rgba(220,0,0,0.2);">
+                    <div style="font-size:15px;color:#885533;text-transform:uppercase;letter-spacing:1px;">PI production in LX-ZOJ &amp; surrounding systems</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        /* ===== PI CHAIN CARDS ===== */
+        .pi-chain-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(40, 5, 0, 0.55);
+            border: 2px solid rgba(220, 0, 0, 0.35);
+            border-radius: 10px;
+            padding: 24px 26px;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .pi-chain-card:not(.pi-chain-card--soon):hover {
+            border-color: #ff1a00;
+            box-shadow: 0 0 22px rgba(255, 26, 0, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .pi-chain-card--soon {
+            cursor: default;
+            opacity: 0.5;
+            border-style: dashed;
+        }
+
+        .pi-card-tier {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(255,200,0,0.1);
+            border: 1px solid rgba(255,200,0,0.3);
+            border-radius: 12px;
+            padding: 3px 10px;
+            align-self: flex-start;
+        }
+
+        .pi-card-icon {
+            font-size: 36px;
+            line-height: 1;
+        }
+
+        .pi-card-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffdd44;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,220,68,0.4);
+        }
+
+        .pi-card-desc {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            color: #c0a0a0;
+            line-height: 1.5;
+        }
+
+        .pi-card-resources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .pi-res-badge {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ff8844;
+            background: rgba(220,68,0,0.15);
+            border: 1px solid rgba(220,68,0,0.4);
+            border-radius: 4px;
+            padding: 3px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pi-card-footer {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid rgba(220,0,0,0.2);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #dd0000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+
+        .pi-chain-card:not(.pi-chain-card--soon):hover .pi-card-footer {
+            color: #ff4422;
+        }
+    </style>
 
     <script>
         // ============================================
@@ -448,7 +479,7 @@ Tip: Copy directly from EVE inventory window"></textarea>
 
         function showMainTab(tabName) {
             // Hide all main tabs
-            document.querySelectorAll('#market-tab, #blueprints-tab, #buyback-tab').forEach(tab => {
+            document.querySelectorAll('#market-tab, #blueprints-tab, #pi-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
 
