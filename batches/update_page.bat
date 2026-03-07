@@ -12,11 +12,11 @@ echo Updating GitHub Pages...
 echo ============================================================================
 echo.
 
-cd /d "E:\Python Project"
+cd /d "F:\infinite-solutions"
 
 REM Regenerate buyback data from database
 echo Regenerating buyback data...
-"C:\Users\chris\AppData\Local\Programs\Python\Python313\python.exe" generate_buyback_data.py
+"C:\Users\chris\AppData\Local\Programs\Python\Python313\python.exe" buyback\generate_buyback_data.py
 echo.
 
 REM Add and commit changes directly on main

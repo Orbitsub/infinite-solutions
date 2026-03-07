@@ -3,7 +3,7 @@
 
 $TaskName = "EVE Blueprint Data Update"
 $TaskDescription = "Daily update of EVE Online blueprint data, research jobs, and web page"
-$ScriptPath = "E:\Python Project\update_blueprints_scheduled.bat"
+$ScriptPath = "F:\infinite-solutions\batches\update_blueprints_scheduled.bat"
 $TaskTime = "03:00AM"  # Run at 3 AM daily
 
 Write-Host "Setting up Windows Task Scheduler task..." -ForegroundColor Cyan

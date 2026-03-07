@@ -21,7 +21,7 @@ from pathlib import Path
 # ============================================================================
 CONFIG = {
     # DATABASE
-    'database_path': r'E:\Python Project\mydatabase.db',
+    'database_path': r'F:\infinite-solutions\mydatabase.db',
     
     # REPROCESSING EFFICIENCY - UPDATE THESE BASED ON YOUR SKILLS!
     'base_reprocess_yield': 0.50,      # Base 50% yield (always this)

@@ -4,7 +4,7 @@ import sqlite3
 import time
 from datetime import datetime
 
-DB_PATH = r'E:\Python Project\mydatabase.db'
+DB_PATH = r'F:\infinite-solutions\mydatabase.db'
 ESI_BASE_URL = 'https://esi.evetech.net/latest'
 
 def get_character_token():

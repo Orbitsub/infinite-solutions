@@ -15,19 +15,19 @@ echo Market Updates Starting: %date% %time%
 echo ============================================================================
 
 REM Change to project directory
-cd /d "E:\Python Project"
+cd /d "F:\infinite-solutions"
 
 REM Ensure logs directory exists
-if not exist "E:\Python Project\logs" mkdir "E:\Python Project\logs"
+if not exist "F:\infinite-solutions\logs" mkdir "F:\infinite-solutions\logs"
 
 REM Run the orchestrator script and log output
-"C:\Users\lsant\AppData\Local\Python\pythoncore-3.14-64\python.exe" "E:\Python Project\scripts\run_market_updates.py" >> "E:\Python Project\logs\scheduler.log" 2>&1
+"C:\Users\chris\AppData\Local\Programs\Python\Python313\python.exe" "F:\infinite-solutions\market\run_market_updates.py" >> "F:\infinite-solutions\logs\scheduler.log" 2>&1
 
 REM Log completion
-echo ============================================================================ >> "E:\Python Project\logs\scheduler.log"
-echo Script completed at %date% %time% >> "E:\Python Project\logs\scheduler.log"
-echo ============================================================================ >> "E:\Python Project\logs\scheduler.log"
-echo. >> "E:\Python Project\logs\scheduler.log"
+echo ============================================================================ >> "F:\infinite-solutions\logs\scheduler.log"
+echo Script completed at %date% %time% >> "F:\infinite-solutions\logs\scheduler.log"
+echo ============================================================================ >> "F:\infinite-solutions\logs\scheduler.log"
+echo. >> "F:\infinite-solutions\logs\scheduler.log"
 
 echo ============================================================================
 echo Market Updates Completed: %date% %time%
