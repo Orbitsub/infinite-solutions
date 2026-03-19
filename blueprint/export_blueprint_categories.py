@@ -9,9 +9,10 @@ import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, PROJECT_DIR)
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'shared'))
 
-from generate_corrected_html import categorize_blueprint, get_subcategory
+from html_generator import categorize_blueprint, get_subcategory
+
 
 DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 OUTPUT_CSV = os.path.join(PROJECT_DIR, 'blueprint_categories.csv')

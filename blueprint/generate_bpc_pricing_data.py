@@ -7,6 +7,12 @@ Formula: per_run = Jita 7-day avg best sell × 1% × quality multiplier
 import sqlite3
 import json
 import os
+import sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, SCRIPT_DIR)  # For calculate_bpc_pricing (same directory)
+
 from calculate_bpc_pricing import (
     get_jita_sell_prices,
     get_blueprint_product_mapping_from_db,
@@ -14,7 +20,7 @@ from calculate_bpc_pricing import (
     calculate_quality_multiplier,
 )
 
-DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mydatabase.db')
+DB_PATH = os.path.join(PROJECT_DIR, 'mydatabase.db')
 
 def get_all_blueprints_with_pricing():
     """Get all blueprints with pricing data."""

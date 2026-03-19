@@ -7,7 +7,7 @@ config/credentials.json. After that, token_manager.py handles
 everything automatically.
 
 Usage:
-    python3 scripts/get_refresh_token.py
+    python3 config/get_refresh_token.py
 
 Steps:
     1. Script reads client_id and scopes from credentials.json

@@ -5,9 +5,10 @@ import sys
 import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, PROJECT_DIR)
+sys.path.insert(0, os.path.join(PROJECT_DIR, 'shared'))
 
-from generate_corrected_html import get_blueprints_with_metadata
+from html_generator import get_blueprints_with_metadata
+
 import json
 
 print("Fetching deduplicated blueprint data from database...")
@@ -32,7 +33,7 @@ else:
     print()
 
 # Write to assets/blueprint_data.js
-output_path = os.path.join(PROJECT_DIR, 'assets', 'blueprint_data.js')
+output_path = os.path.join(PROJECT_DIR, 'assets', 'js', 'blueprint_data.js')
 with open(output_path, 'w', encoding='utf-8') as f:
     f.write('// Auto-generated blueprint data with deduplication\n')
     f.write('// Only best ME/TE version of each blueprint is included\n')

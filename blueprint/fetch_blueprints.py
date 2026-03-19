@@ -13,7 +13,7 @@ from pathlib import Path
 # Add scripts and config directories to path
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = SCRIPT_DIR.parent
-sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+sys.path.insert(0, str(PROJECT_DIR / 'shared'))
 sys.path.insert(0, str(PROJECT_DIR / 'config'))
 
 from token_manager import get_token, CHARACTER_ID

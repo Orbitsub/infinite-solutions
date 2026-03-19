@@ -35,14 +35,14 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = SCRIPT_DIR.parent
-sys.path.insert(0, str(PROJECT_DIR / 'scripts'))
+sys.path.insert(0, str(PROJECT_DIR / 'shared'))
 
 from script_utils import timed_script
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 
 DB_PATH = str(PROJECT_DIR / 'mydatabase.db')
-ITEMS_FILE = PROJECT_DIR / 'scripts' / 'tracked_items.txt'
+ITEMS_FILE = PROJECT_DIR / 'data' / 'tracked_items.txt'
 
 # ─── LOAD TRACKED ITEMS ──────────────────────────────────────────────────────
 
